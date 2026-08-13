@@ -1,28 +1,74 @@
+const team = [
+  {
+    name: "Arshad Ahamed",
+    title: "Regional Director of Media and Brand Strategy",
+    from: "#5c2430",
+    to: "#260f16",
+  },
+  {
+    name: "Edith Chin",
+    title: "Head of Finance",
+    from: "#4a3220",
+    to: "#1c130a",
+  },
+  {
+    name: "Arshpreet Kaur",
+    title: "Group General Counsel",
+    from: "#1f3d38",
+    to: "#0a1815",
+  },
+];
+
 export default function TeamSection() {
   return (
-    <section className="reveal mt-[80px] >md:mt-[100px]">
-      <div className="generic-container">
-        <h2 className="heading-h2-extrabold text-neutral-white-base mb-8 >md:mb-12">
+    <section className="reveal mt-20 md:mt-[100px]">
+      <div className="mx-auto w-full max-w-[1280px] px-5 md:px-10">
+        <h2 className="mb-8 text-4xl font-extrabold text-white md:mb-12 md:text-5xl">
           Meet Our GOGetters
         </h2>
-        <div className="team-card-wrapper flex flex-col >md:flex-row gap-6 >md:gap-8">
-          <div className="relative h-auto w-full >md:w-1/4 px-5 py-8 bg-primary-blue-dark/[0.2] overflow-hidden">
-            <div className="relative flex flex-col justify-center h-full z-10">
-              <div className="mb-6 >md:mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary-blue-light to-primary-blue-dark">
-                <p className="heading-headline">+250</p>
-                <p className="body1-semibold">
-                  team members embracing our #GrowTogether culture
+
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+          {team.map((member) => (
+            <div key={member.name} className="rounded-2xl bg-white p-2">
+              <div
+                className="relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-xl p-4"
+                style={{
+                  background: `linear-gradient(160deg, ${member.from}, ${member.to})`,
+                }}
+              >
+                <svg
+                  className="pointer-events-none absolute left-1/2 top-[38%] h-28 w-28 -translate-x-1/2 -translate-y-1/2 text-white/10"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12Zm0 2.5c-3.5 0-10.5 1.8-10.5 5.4V22h21v-2.1c0-3.6-7-5.4-10.5-5.4Z" />
+                </svg>
+                <p className="relative text-base font-bold leading-tight text-white md:text-lg">
+                  {member.name}
+                </p>
+                <p className="relative text-sm leading-snug text-white/80">
+                  {member.title}
                 </p>
               </div>
-              <a
-                href="https://www.growthops.asia/culture"
-                target="_self"
-                rel=""
-                className="rounded-[40px] bg-transparent hover:bg-neutral-white-base text-white hover:text-primary-pink-base body2-bold border border-neutral-white-base px-6 py-2 w-fit transition ease-out duration-300"
-              >
-                Learn more
-              </a>
             </div>
+          ))}
+
+          <div className="relative flex aspect-[3/4] flex-col justify-center gap-6 overflow-hidden rounded-2xl rounded-br-[56px] bg-gradient-to-br from-[#1a2a5c] to-[#0c1330] p-6">
+            <div>
+              <p className="bg-gradient-to-r from-blue-300 to-blue-500 bg-clip-text text-5xl font-extrabold text-transparent md:text-6xl">
+                +250
+              </p>
+              <p className="mt-3 text-base font-semibold text-blue-200 md:text-lg">
+                team members embracing our #GrowTogether culture
+              </p>
+            </div>
+            <a
+              href="https://www.growthops.asia/culture"
+              target="_self"
+              className="w-fit rounded-full border border-white px-6 py-2 text-sm font-bold text-white transition duration-300 ease-out hover:bg-white hover:text-pink-600"
+            >
+              Learn more
+            </a>
           </div>
         </div>
       </div>

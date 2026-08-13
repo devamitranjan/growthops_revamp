@@ -21,8 +21,8 @@ export default function Home() {
       <CaseStudy />
       <ArticleCards />
       <Testimonials />
-      <GrowthValidation />
-      <TeamSection /> */}
+      <GrowthValidation /> */}
+      <TeamSection />
       <SiteFooter />
     </div>
   );
