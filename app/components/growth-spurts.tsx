@@ -31,10 +31,10 @@ const growthCards = [
 
 export default function GrowthSpurts() {
   return (
-    <section className="reveal mt-[80px] >md:mt-[100px]">
+    <section className="reveal mt-[80px] md:mt-[100px]">
       <div className="generic-container">
-        <div className="flex justify-between items-center mb-8 >md:mb-12">
-          <div className="flex flex-col gap-3 >md:gap-4">
+        <div className="flex justify-between items-center mb-8 md:mb-12">
+          <div className="flex flex-col gap-3 md:gap-4">
             <h2 className="heading-h2-extrabold text-neutral-white-base">
               Growth Spurts
             </h2>
@@ -42,7 +42,7 @@ export default function GrowthSpurts() {
           </div>
           <a className="group" href="https://www.growthops.asia/work" target="_self" rel="">
             <div className="flex items-center gap-5">
-              <p className="md:hidden body1-semibold text-neutral-white-base group-hover:text-primary-pink-base transition duration-300 ease-out">
+              <p className="max-md:hidden body1-semibold text-neutral-white-base group-hover:text-primary-pink-base transition duration-300 ease-out">
                 Show all
               </p>
               <ShowAllArrow />
@@ -58,7 +58,7 @@ export default function GrowthSpurts() {
                 className="swiper-slide relative overflow-hidden cursor-pointer w-[277px]"
               >
                 <div className="opacity-0 absolute w-[120%] h-[120%] top-0 left-0 bg-neutral-black-light/70 backdrop-blur-sm z-20 transition duration-300 ease-out pointer-events-none" />
-                <div className="flex flex-col gap-3 >md:gap-4 justify-center">
+                <div className="flex flex-col gap-3 md:gap-4 justify-center">
                   <div className="relative aspect-[3/5] rounded-[20px] overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-neutral-black-light pointer-events-none" />
                     <img
@@ -67,7 +67,7 @@ export default function GrowthSpurts() {
                       className="h-full w-full object-cover"
                     />
                   </div>
-                  <p className="text-neutral-white-base card__label text-left >md:body1-semibold body3-semibold">
+                  <p className="text-neutral-white-base card__label text-left md:body1-semibold body3-semibold">
                     {card.label}
                   </p>
                   <div className="card__description flex gap-2 items-center">
@@ -88,12 +88,12 @@ export default function GrowthSpurts() {
         className="h-screen w-full fixed transition duration-700 ease-in-out top-0 left-0 _header__overlay_4b1x2_14 opacity-0 pointer-events-none"
         style={{ zIndex: 99 }}
       >
-        <button className="fixed top-[24px] >md:top-[40px] right-0 mr-6 >md:mr-20 flex text-2xl >md:text-4xl justify-center items-center">
+        <button className="fixed top-[24px] md:top-[40px] right-0 mr-6 md:mr-20 flex text-2xl md:text-4xl justify-center items-center">
           <i className="fa-solid fa-xmark" />
         </button>
-        <div className="generic-container h-full >md:w-[90%] flex flex-col gap-6 justify-center items-center">
+        <div className="generic-container h-full md:w-[90%] flex flex-col gap-6 justify-center items-center">
           <video
-            className="w-full aspect-auto >md:aspect-video bg-neutral-black-base"
+            className="w-full aspect-auto md:aspect-video bg-neutral-black-base"
             preload="auto"
             autoPlay
             controls
@@ -101,7 +101,7 @@ export default function GrowthSpurts() {
             <source type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <div className="w-full flex flex-col gap-1 >md:gap-2" />
+          <div className="w-full flex flex-col gap-1 md:gap-2" />
         </div>
       </div>
     </section>

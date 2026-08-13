@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chromium-cli --help)",
+      "Bash(grep -rn \"\\\\\"max-\\\\\"\\\\|max-\\\\${\\\\|maxVariant\\\\|'max-'\" node_modules/tailwindcss/dist/lib.js)",
+      "Bash(node -e \"console.log\\(Object.keys\\(require\\('tailwindcss'\\)\\)\\)\")",
+      "Bash(timeout 120 pnpm build)",
+      "Bash(pnpm build *)",
+      "Bash(curl -s -A \"Mozilla/5.0\" https://www.growthops.asia/ -o /private/tmp/claude-501/-Users-devamitranjan-Coding-growthops-revamp/cc023eb7-2f40-4868-8803-4ea1a418f856/scratchpad/growthops.html --max-time 20)",
+      "Bash(curl -s -A \"Mozilla/5.0\" \"https://www.growthops.asia/hubfs/build_assets/goasia-hubspot-project/877/js_client_assets/assets/TailwindPartial-GZble1uj.css\" -o tailwind-partial.css --max-time 20)",
+      "Bash(grep -oE '[.]?primary-pink-base[^{;,]*[{:][^;}]+' /private/tmp/claude-501/-Users-devamitranjan-Coding-growthops-revamp/cc023eb7-2f40-4868-8803-4ea1a418f856/scratchpad/tailwind-partial.css)",
+      "Bash(grep -oE '\\\\-\\\\-\\(primary|neutral\\)-[a-z]+-[a-z]+: ?#[0-9a-fA-F]{3,6}' /private/tmp/claude-501/-Users-devamitranjan-Coding-growthops-revamp/cc023eb7-2f40-4868-8803-4ea1a418f856/scratchpad/tailwind-partial.css)",
+      "Bash(grep -oE '.\\\\{0,40\\\\}primary-pink-base\\\\\\\\/\\\\\\\\\\\\[0\\\\\\\\.2\\\\\\\\]\\\\{[^}]*\\\\}' /private/tmp/claude-501/-Users-devamitranjan-Coding-growthops-revamp/cc023eb7-2f40-4868-8803-4ea1a418f856/scratchpad/tailwind-partial.css)",
+      "Bash(python3 -)"
+    ]
+  }
+}

@@ -94,15 +94,15 @@ const articles = [
 
 export default function ArticleCards() {
   return (
-    <section className="reveal mt-[80px] >md:mt-[100px]">
+    <section className="reveal mt-[80px] md:mt-[100px]">
       <div className="generic-container">
-        <div className="flex justify-between items-center mb-8 >md:mb-12">
+        <div className="flex justify-between items-center mb-8 md:mb-12">
           <h2 className="heading-h2-extrabold text-neutral-white-base">
             Accelerate Your Learning Curve
           </h2>
           <a className="group" href="https://www.growthops.asia/post" target="_self" rel="">
             <div className="flex items-center gap-5">
-              <p className="md:hidden body1-semibold text-neutral-white-base group-hover:text-primary-pink-base transition duration-300 ease-out">
+              <p className="max-md:hidden body1-semibold text-neutral-white-base group-hover:text-primary-pink-base transition duration-300 ease-out">
                 Show all
               </p>
               <ShowAllArrow />
@@ -111,13 +111,13 @@ export default function ArticleCards() {
         </div>
 
         <div className="relative">
-          <div className="swiper__prev absolute left-[-28px] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden md:hidden transition duration-300 ease-out">
+          <div className="swiper__prev absolute left-[-28px] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden max-md:hidden transition duration-300 ease-out">
             <i className="fa-solid fa-angle-left" />
           </div>
-          <div className="swiper__next absolute right-[-28px] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden md:hidden transition duration-300 ease-out">
+          <div className="swiper__next absolute right-[-28px] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden max-md:hidden transition duration-300 ease-out">
             <i className="fa-solid fa-angle-right" />
           </div>
-          <div className="flex gap-[18px] >md:gap-8 overflow-x-auto">
+          <div className="flex gap-[18px] md:gap-8 overflow-x-auto">
             {articles.map((article) => (
               <a
                 key={article.href}
@@ -128,10 +128,10 @@ export default function ArticleCards() {
               >
                 <div className="group cursor-pointer h-full bg-tansparent hover:bg-gradient-to-r from-primary-pink-extradark to-primary-pink-light transition ease-out duration-300 rounded-xl p-[1.5px]">
                   <div className="h-full bg-neutral-black-light rounded-xl">
-                    <div className="h-full p-4 pb-6 flex flex-col gap-3 >md:gap-4 bg-neutral-white-base/[0.08] group-hover:bg-neutral-white-base/[0.04] rounded-xl transition ease-out duration-300">
-                      <div className="relative max-h-[228px] >md:max-h-[250px] rounded-xl overflow-hidden">
+                    <div className="h-full p-4 pb-6 flex flex-col gap-3 md:gap-4 bg-neutral-white-base/[0.08] group-hover:bg-neutral-white-base/[0.04] rounded-xl transition ease-out duration-300">
+                      <div className="relative max-h-[228px] md:max-h-[250px] rounded-xl overflow-hidden">
                         <div className="absolute bottom-0 left-0 bg-primary-pink-base rounded-tr-lg z-20">
-                          <p className="body3-bold >md:body2-bold px-3">
+                          <p className="body3-bold md:body2-bold px-3">
                             {article.tag}
                           </p>
                         </div>
@@ -142,10 +142,10 @@ export default function ArticleCards() {
                           className="h-full w-full object-cover group-hover:scale-110 transition ease-out duration-300"
                         />
                       </div>
-                      <p className="text-left text-neutral-white-base body3-semibold >md:body1-semibold">
+                      <p className="text-left text-neutral-white-base body3-semibold md:body1-semibold">
                         {article.title}
                       </p>
-                      <p className=">md:body2-regular body3-regular">
+                      <p className="md:body2-regular body3-regular">
                         {article.date}
                       </p>
                     </div>

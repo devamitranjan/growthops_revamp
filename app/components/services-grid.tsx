@@ -41,17 +41,17 @@ const services = [
 
 export default function ServicesGrid() {
   return (
-    <section className="reveal mt-[80px] >md:mt-[100px]">
+    <section className="reveal mt-[80px] md:mt-[100px]">
       <div className="generic-container">
-        <h2 className="heading-h2-extrabold text-neutral-white-base mb-8 >md:mb-12">
+        <h2 className="heading-h2-extrabold text-neutral-white-base mb-8 md:mb-12">
           Our Services
         </h2>
-        <div className="grid grid-cols-2 >md:grid-cols-6 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-5">
           {services.map((service) => (
             <a key={service.href} href={service.href} target="_self" rel="">
               <div className="group cursor-pointer bg-tansparent p-[1.5px] h-full transition ease-out duration-300 rounded-[20px]">
-                <div className="py-3 >md:px-3 flex-col gap-3 >md:gap-4 justify-center bg-neutral-black-light h-full flex items-center border-neutral-white-base border rounded-[30px] transition ease-out duration-300 hover:bg-primary-cyan-extradark">
-                  <div className="relative h-18 w-18 >md:w-[120px] >md:h-[120px] rounded-full overflow-hidden">
+                <div className="py-3 md:px-3 flex-col gap-3 md:gap-4 justify-center bg-neutral-black-light h-full flex items-center border-neutral-white-base border rounded-[30px] transition ease-out duration-300 hover:bg-primary-cyan-extradark">
+                  <div className="relative h-18 w-18 md:w-[120px] md:h-[120px] rounded-full overflow-hidden">
                     <div
                       className={`absolute top-0 left-0 w-full h-full opacity-80 mix-blend-color ${service.overlayColor} z-20`}
                     />

@@ -72,15 +72,15 @@ const logos = [
 
 export default function Testimonials() {
   return (
-    <section className="reveal mt-[80px] >md:mt-[100px]">
+    <section className="reveal mt-[80px] md:mt-[100px]">
       <div>
-        <div className="generic-container mb-8 >md:mb-12">
+        <div className="generic-container mb-8 md:mb-12">
           <h2 className="heading-h2-extrabold text-neutral-white-base">
             In Their Words
           </h2>
         </div>
         <div>
-          <div className="generic-container flex gap-5 mb-8 md:overflow-scroll">
+          <div className="generic-container flex gap-5 mb-8 max-md:overflow-scroll">
             {categories.map((category) => (
               <div
                 key={category.label}
@@ -105,25 +105,25 @@ export default function Testimonials() {
         </div>
 
         <div className="relative">
-          <div className="absolute top-0 left-0 h-full w-[10%] >md:w-1/4 bg-gradient-to-r from-neutral-black-light to-transparent z-20 pointer-events-none" />
-          <div className="absolute top-0 right-0 h-full w-[10%] >md:w-1/4 bg-gradient-to-r from-transparent to-neutral-black-light z-20 pointer-events-none" />
+          <div className="absolute top-0 left-0 h-full w-[10%] md:w-1/4 bg-gradient-to-r from-neutral-black-light to-transparent z-20 pointer-events-none" />
+          <div className="absolute top-0 right-0 h-full w-[10%] md:w-1/4 bg-gradient-to-r from-transparent to-neutral-black-light z-20 pointer-events-none" />
 
           <div className="relative mb-16">
-            <div className="swiper__prev absolute left-[5%] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden md:hidden transition duration-300 ease-out">
+            <div className="swiper__prev absolute left-[5%] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden max-md:hidden transition duration-300 ease-out">
               <i className="fa-solid fa-angle-left" />
             </div>
-            <div className="swiper__next absolute right-[5%] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden md:hidden transition duration-300 ease-out">
+            <div className="swiper__next absolute right-[5%] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden max-md:hidden transition duration-300 ease-out">
               <i className="fa-solid fa-angle-right" />
             </div>
 
-            <div className="flex gap-[18px] >md:gap-[50px] overflow-x-auto md:z-30">
+            <div className="flex gap-[18px] md:gap-[50px] overflow-x-auto max-md:z-30">
               {testimonials.map((item) => (
-                <div key={item.alt} className="w-[85%] >md:w-[45%] shrink-0 md:pl-6">
+                <div key={item.alt} className="w-[85%] md:w-[45%] shrink-0 max-md:pl-6">
                   {item.audioSrc && <audio src={item.audioSrc} />}
-                  <div className="w-full h-full bg-neutral-white-base/[.08] rounded-[20px] px-4 py-6 >md:p-8">
-                    <div className="flex gap-5 >md:gap-6 mb-10 >md:mb-7">
-                      <div className="relative h-full p-[10px] >lg:p-[30px] rounded-full bg-neutral-white-base/[.04] transition duration-300 ease-out">
-                        <div className="w-11 >lg:w-28 aspect-square rounded-full overflow-hidden">
+                  <div className="w-full h-full bg-neutral-white-base/[.08] rounded-[20px] px-4 py-6 md:p-8">
+                    <div className="flex gap-5 md:gap-6 mb-10 md:mb-7">
+                      <div className="relative h-full p-[10px] lg:p-[30px] rounded-full bg-neutral-white-base/[.04] transition duration-300 ease-out">
+                        <div className="w-11 lg:w-28 aspect-square rounded-full overflow-hidden">
                           <img
                             className="w-full h-full object-cover"
                             src={item.imgSrc}
@@ -163,7 +163,7 @@ export default function Testimonials() {
                 {logos.map((logo, i) => (
                   <img
                     key={`${row}-${i}`}
-                    className="inline w-[102px] >md:w-[160px] max-h-[40px] >md:max-h-[62px] object-cover mx-4"
+                    className="inline w-[102px] md:w-[160px] max-h-[40px] md:max-h-[62px] object-cover mx-4"
                     src={logo.src}
                     alt={logo.alt}
                   />

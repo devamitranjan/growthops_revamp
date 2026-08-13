@@ -1,20 +1,287 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
-:root {
-  --background: #070c0f;
-  --foreground: #f5f5f5;
-}
-
+/* -------------------------------------------------------------------------- */
+/* Tailwind CSS v4 Theme Token Definitions                                    */
+/* -------------------------------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* GrowthOps Brand Tokens */
+  --color-primary-pink-base: #ff3366;
+  --color-primary-pink-light: #f14c77;
+  --color-primary-pink-extradark: #c00836;
+  --color-primary-blue-dark: #004cba;
+  --color-primary-blue-extradark: #21365a;
+  --color-primary-cyan-base: #07ddda;
+  --color-primary-cyan-extradark: #19b2a7;
+  --color-primary-orange-light: #f78b28;
+  --color-primary-yellow-extradark: #f78b28;
+  --color-neutral-black-base: #1c1c1c;
+  --color-neutral-black-light: #070c0f;
+  --color-neutral-white-base: #f5f5f5;
+  --color-neutral-grey-base: #999d9f;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
+/* -------------------------------------------------------------------------- */
+/* Base Layer & Shadcn Design Tokens                                          */
+/* -------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+
+  html {
+    color-scheme: light dark;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Scrollbar Customization                                                    */
+/* -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Keyframe Animations                                                        */
+/* -------------------------------------------------------------------------- */
+@keyframes animate-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* GrowthOps Design System Utility Classes                                    */
+/* -------------------------------------------------------------------------- */
+@layer components {
+  /* Typography Scale */
+  .heading-h1-bold {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+  }
+  .heading-h2-bold {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 700;
+  }
+  .heading-h3-bold {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+  }
+  .heading-h4-bold {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+  }
+  .heading-h5-bold {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+  }
+
+  /* Body Typography */
+  .body1-regular {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+  }
+  .body1-semibold {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+  .body2-regular {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
+  .body2-semibold {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+  }
+  .body2-bold {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 700;
+  }
+  .body3-regular {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 400;
+  }
+  .body3-semibold {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+  }
+
+  /* Layout Containers */
+  .generic-container {
+    max-width: 1366px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  /* Brand Gradient Effects */
+  .gradient-text {
+    background: linear-gradient(
+      90deg,
+      #c00836,
+      #f14c77,
+      #fbb250,
+      #5ec9c1,
+      #004cba,
+      #ff3366,
+      #c00836
+    );
+    background-size: 300% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: animate-gradient 8s ease infinite;
+  }
+}
+
+/* Responsive Overrides */
+@media (min-width: 768px) {
+  .heading-h1-bold {
+    font-size: 3.5rem;
+    line-height: 4rem;
+  }
+  .heading-h2-bold {
+    font-size: 2.5rem;
+    line-height: 3rem;
+  }
+  .heading-h3-bold {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+  .heading-h4-bold {
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+  }
+  .heading-h5-bold {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+  .generic-container {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
 }

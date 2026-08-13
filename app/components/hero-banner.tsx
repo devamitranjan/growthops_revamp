@@ -15,12 +15,12 @@ export default function HeroBanner() {
         </video>
       </div>
 
-      <div className="generic-container w-full flex flex-col gap-4 >md:items-center text-neutral-white-base z-20 absolute bottom-0 left-1/2 -translate-x-1/2 pb-12 >md:pb-8 border-b border-neutral-white-base/20">
-        <h1 className="heading-h1-extrabold text-left >md:text-center">
+      <div className="generic-container w-full flex flex-col gap-4 md:items-center text-neutral-white-base z-20 absolute bottom-0 left-1/2 -translate-x-1/2 pb-12 md:pb-8 border-b border-neutral-white-base/20">
+        <h1 className="heading-h1-extrabold text-left md:text-center">
           Grow Unforgettable with GO
         </h1>
         <div className="flex flex-col gap-20 items-center">
-          <div className="text-neutral-white-base text-left >md:text-center gap-1">
+          <div className="text-neutral-white-base text-left md:text-center gap-1">
             <p className="body1-bold">
               Growing Brands, Businesses and Bottom Lines for over 15 years
             </p>
@@ -30,7 +30,7 @@ export default function HeroBanner() {
               strategy, design and technology.
             </p>
           </div>
-          <div className="flex items-center gap-5 md:hidden">
+          <div className="flex items-center gap-5 max-md:hidden">
             <p className="body1-semibold text-neutral-white-base">Explore</p>
             <div className="relative h-10 w-10 flex justify-center items-center text-neutral-white-base">
               <div className="animate-spin-slow absolute top-0 left-0">

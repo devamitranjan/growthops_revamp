@@ -21,13 +21,13 @@ const team = [
 
 export default function TeamSection() {
   return (
-    <section className="reveal mt-20 md:mt-[100px]">
-      <div className="mx-auto w-full max-w-[1280px] px-5 md:px-10">
-        <h2 className="mb-8 text-4xl font-extrabold text-white md:mb-12 md:text-5xl">
+    <section className="reveal mt-20 max-md:mt-[100px]">
+      <div className="mx-auto w-full max-w-[1280px] px-5 max-md:px-10">
+        <h2 className="mb-8 text-4xl font-extrabold text-white max-md:mb-12 max-md:text-5xl">
           Meet Our GOGetters
         </h2>
 
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+        <div className="grid grid-cols-2 gap-4 max-md:grid-cols-4 max-md:gap-6">
           {team.map((member) => (
             <div key={member.name} className="rounded-2xl bg-white p-2">
               <div
@@ -43,7 +43,7 @@ export default function TeamSection() {
                 >
                   <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12Zm0 2.5c-3.5 0-10.5 1.8-10.5 5.4V22h21v-2.1c0-3.6-7-5.4-10.5-5.4Z" />
                 </svg>
-                <p className="relative text-base font-bold leading-tight text-white md:text-lg">
+                <p className="relative text-base font-bold leading-tight text-white max-md:text-lg">
                   {member.name}
                 </p>
                 <p className="relative text-sm leading-snug text-white/80">
@@ -55,10 +55,10 @@ export default function TeamSection() {
 
           <div className="relative flex aspect-[3/4] flex-col justify-center gap-6 overflow-hidden rounded-2xl rounded-br-[56px] bg-gradient-to-br from-[#1a2a5c] to-[#0c1330] p-6">
             <div>
-              <p className="bg-gradient-to-r from-blue-300 to-blue-500 bg-clip-text text-5xl font-extrabold text-transparent md:text-6xl">
+              <p className="bg-gradient-to-r from-blue-300 to-blue-500 bg-clip-text text-5xl font-extrabold text-transparent max-md:text-6xl">
                 +250
               </p>
-              <p className="mt-3 text-base font-semibold text-blue-200 md:text-lg">
+              <p className="mt-3 text-base font-semibold text-blue-200 max-md:text-lg">
                 team members embracing our #GrowTogether culture
               </p>
             </div>
