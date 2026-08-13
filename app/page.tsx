@@ -13,7 +13,7 @@ import SiteFooter from "./components/site-footer";
 export default function Home() {
   return (
     <div className="body-wrapper hs-content-id-153839881997 hs-site-page page">
-      <Header />
+      {/* <Header />
       <HeroBanner />
       <ServicesGrid />
       <GrowthSpurts />
@@ -22,7 +22,7 @@ export default function Home() {
       <ArticleCards />
       <Testimonials />
       <GrowthValidation />
-      <TeamSection />
+      <TeamSection /> */}
       <SiteFooter />
     </div>
   );

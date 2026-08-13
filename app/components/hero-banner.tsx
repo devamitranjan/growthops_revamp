@@ -9,7 +9,7 @@ export default function HeroBanner() {
           loop
           playsInline
           poster="/placeholder.svg"
-          className="h-screen w-screen object-cover"
+          className="h-screen w-full object-cover"
         >
           Your browser does not support the video tag.
         </video>
