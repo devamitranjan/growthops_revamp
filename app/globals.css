@@ -191,42 +191,10 @@
     line-height: 1.5rem;
     font-weight: 700;
   }
-
-  /* Body Typography */
-  .body1-regular {
-    font-size: 1rem;
-    line-height: 1.5rem;
-    font-weight: 400;
-  }
-  .body1-semibold {
-    font-size: 1rem;
-    line-height: 1.5rem;
-    font-weight: 600;
-  }
-  .body2-regular {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    font-weight: 400;
-  }
-  .body2-semibold {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    font-weight: 600;
-  }
-  .body2-bold {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    font-weight: 700;
-  }
-  .body3-regular {
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 400;
-  }
-  .body3-semibold {
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 600;
+  .heading-h2-extrabold {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 800;
   }
 
   /* Layout Containers */
@@ -258,6 +226,47 @@
   }
 }
 
+/* -------------------------------------------------------------------------- */
+/* Body Typography Utilities                                                  */
+/* Declared via @utility (not @layer components) so responsive variants like  */
+/* md: actually generate CSS — plain classes don't participate in variants.   */
+/* -------------------------------------------------------------------------- */
+@utility body1-regular {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+}
+@utility body1-semibold {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+}
+@utility body2-regular {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+}
+@utility body2-semibold {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+@utility body2-bold {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+}
+@utility body3-regular {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 400;
+}
+@utility body3-semibold {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+}
+
 /* Responsive Overrides */
 @media (min-width: 768px) {
   .heading-h1-bold {
@@ -280,6 +289,12 @@
     font-size: 1.5rem;
     line-height: 2rem;
   }
+
+  .heading-h2-extrabold {
+    font-size: 2.5rem;
+    line-height: 3rem;
+  }
+
   .generic-container {
     padding-left: 5rem;
     padding-right: 5rem;

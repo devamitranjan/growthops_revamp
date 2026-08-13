@@ -100,7 +100,7 @@ export default function ArticleCards() {
           <h2 className="heading-h2-extrabold text-neutral-white-base">
             Accelerate Your Learning Curve
           </h2>
-          <a className="group" href="https://www.growthops.asia/post" target="_self" rel="">
+          <a className="group outline-none" href="https://www.growthops.asia/post" target="_self" rel="">
             <div className="flex items-center gap-5">
               <p className="max-md:hidden body1-semibold text-neutral-white-base group-hover:text-primary-pink-base transition duration-300 ease-out">
                 Show all

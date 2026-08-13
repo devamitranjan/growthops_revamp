@@ -8,7 +8,7 @@ export default function GrowthValidation() {
           <h2 className="heading-h2-extrabold text-neutral-white-base">
             Growth Validation
           </h2>
-          <a href="https://www.growthops.asia/awards" target="_self" rel="" className="group">
+          <a href="https://www.growthops.asia/awards" target="_self" rel="" className="group outline-none">
             <div className="flex items-center gap-5">
               <p className="max-md:hidden body1-semibold text-neutral-white-base group-hover:text-primary-pink-base transition duration-300 ease-out">
                 Show all

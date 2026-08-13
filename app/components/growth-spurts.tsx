@@ -1,28 +1,27 @@
+import Image from "next/image";
 import ShowAllArrow from "./icons/show-all-arrow";
 
 const growthCards = [
   {
-    imgSrc:
-      "/placeholder.svg",
+    imgSrc: "/bersama-grab.webp",
     alt: "Going from Mengapa to Mantap Bersama Grab",
     label: "Going from Mengapa to Mantap Bersama Grab",
     description: "Malaysia Effie and Kancil winner",
   },
   {
-    imgSrc: "/placeholder.svg",
+    imgSrc: "/unifi-business.webp",
     alt: "Unifi Business: Unibizity",
     label: "Unifi Business: Unibizity",
     description: "345% increase in brand engagement",
   },
   {
-    imgSrc: "/placeholder.svg",
+    imgSrc: "/malaysia-airlines.webp",
     alt: "Malaysia Airlines: Windows of Hospitality",
     label: "Malaysia Airlines: Windows of Hospitality",
     description: "Multi-country roll out",
   },
   {
-    imgSrc:
-      "/placeholder.svg",
+    imgSrc: "/digital-ecosystem.webp",
     alt: "U Mobile: Digital Ecosystem Refresh",
     label: "U Mobile: Digital Ecosystem Refresh",
     description: "55% increase in conversion rate",
@@ -40,7 +39,12 @@ export default function GrowthSpurts() {
             </h2>
             <p className="body1-regular text-neutral-white-base" />
           </div>
-          <a className="group" href="https://www.growthops.asia/work" target="_self" rel="">
+          <a
+            className="group outline-none"
+            href="https://www.growthops.asia/work"
+            target="_self"
+            rel=""
+          >
             <div className="flex items-center gap-5">
               <p className="max-md:hidden body1-semibold text-neutral-white-base group-hover:text-primary-pink-base transition duration-300 ease-out">
                 Show all
@@ -51,20 +55,25 @@ export default function GrowthSpurts() {
         </div>
 
         <div className="relative">
-          <div className="flex justify-between gap-5">
-            {growthCards.map((card) => (
+          <div className="flex justify-between gap-5 group/gallery">
+            {growthCards.map((card, index) => (
               <div
                 key={card.label}
-                className="swiper-slide relative overflow-hidden cursor-pointer w-[277px]"
+                className={`swiper-slide relative overflow-hidden cursor-pointer w-[277px] transition duration-500 ease-out ${
+                  index === 0 ? "opacity-100" : "opacity-50"
+                } group-has-[:hover]/gallery:opacity-40 group-has-[:hover]/gallery:blur-[2px] hover:!opacity-100 hover:!blur-none`}
               >
-                <div className="opacity-0 absolute w-[120%] h-[120%] top-0 left-0 bg-neutral-black-light/70 backdrop-blur-sm z-20 transition duration-300 ease-out pointer-events-none" />
+                <div className="opacity-0 absolute inset-0 w-full h-full bg-neutral-black-light/70 backdrop-blur-sm z-20 transition duration-300 ease-out pointer-events-none" />
                 <div className="flex flex-col gap-3 md:gap-4 justify-center">
                   <div className="relative aspect-[3/5] rounded-[20px] overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-neutral-black-light pointer-events-none" />
-                    <img
+                    <Image
                       src={card.imgSrc}
                       alt={card.alt}
-                      className="h-full w-full object-cover"
+                      fill
+                      sizes="277px"
+                      className="object-cover"
+                      priority
                     />
                   </div>
                   <p className="text-neutral-white-base card__label text-left md:body1-semibold body3-semibold">

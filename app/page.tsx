@@ -15,14 +15,14 @@ export default function Home() {
     <div className="body-wrapper hs-content-id-153839881997 hs-site-page page">
       {/* <Header />
       <HeroBanner />
-      <ServicesGrid />
+      <ServicesGrid /> */}
       <GrowthSpurts />
-      <UnrivaledGrowth />
+      {/* <UnrivaledGrowth /> 
       <CaseStudy />
       <ArticleCards />
       <Testimonials />
       <GrowthValidation /> */}
-      <TeamSection />
+      {/* <TeamSection /> */}
       <SiteFooter />
     </div>
   );

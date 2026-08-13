@@ -86,7 +86,7 @@ export default function SiteFooter() {
                 <p className="body1-regular md:body1-regular text-neutral-white-base">
                   Explore More
                 </p>
-                <div className="flex flex-col gap-3 body1-semibold >md:body1-semibold text-neutral-white-base">
+                <div className="flex flex-col gap-3 body1-semibold md:body1-semibold text-neutral-white-base">
                   {exploreLinks.map((link) => (
                     <a
                       key={link.label}
