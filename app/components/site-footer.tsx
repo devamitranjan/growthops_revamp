@@ -1,3 +1,5 @@
+import React from 'react';
+
 const socialLinks = [
   {
     href: "https://ph.linkedin.com/company/growthops-asia",
@@ -23,35 +25,41 @@ const socialLinks = [
 
 export default function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-[#F5F5F5]/20 text-[#F5F5F5]">
-      <div className="mx-auto flex max-w-6xl flex-col gap-[72px] px-6 pb-10 pt-16">
-        <div className="flex flex-col items-center justify-center gap-8">
-          <div className="flex flex-col items-center gap-1 text-center">
-            <h2 className="text-3xl font-bold sm:text-4xl">
+    // Added w-full here to ensure the footer spans the entire viewport
+    <footer className="w-full mt-24 text-[#F5F5F5]">
+      {/* Changed max-w-5xl back to max-w-6xl for a wider layout that matches the image */}
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-[72px] px-6 pb-10 pt-16">
+        
+        {/* Top Header Section */}
+        <div className="flex flex-col items-center justify-center gap-8 text-center">
+          <div className="flex flex-col items-center gap-1">
+            <h2 className="text-4xl font-bold sm:text-5xl">
               We&apos;re ready to help you
             </h2>
-            <h2 className="bg-gradient-to-r from-pink-500 to-fuchsia-500 bg-clip-text text-3xl font-bold text-transparent sm:text-4xl">
-              Grow Unforgettable
-            </h2>
+            <h2 className="inline-block bg-[linear-gradient(90deg,#c00836,#f14c77,#fbb250,#5ec9c1,#004cba,#f36,#c00836)] bg-[length:200%_auto] bg-clip-text text-4xl font-bold text-transparent sm:text-5xl animate-gradient-move">
+  Grow Unforgettable
+</h2>
           </div>
           <a
             href="https://www.growthops.asia/contact"
             target="_self"
-            rel=""
-            className="rounded-full bg-pink-600 px-10 py-3 font-semibold text-white transition duration-300 ease-out hover:bg-pink-700"
+            className="rounded-full bg-[#FA3C6F] px-10 py-3 font-semibold text-white transition duration-300 ease-out hover:bg-[#d82f5b]"
           >
             Let&apos;s chat
           </a>
         </div>
 
-        <div>
-          <div className="flex flex-col gap-10 rounded-[20px] bg-[#F5F5F5]/10 px-6 pt-8 pb-10 md:flex-row md:px-16 md:py-10">
-            <div className="flex flex-col gap-6 md:basis-3/5">
-              <div className="flex flex-col gap-4">
-                <p className="text-sm text-[#F5F5F5] md:text-base">
+        {/* Footer Card Container */}
+        <div className="flex w-full flex-col gap-10">
+          <div className="flex w-full flex-col gap-12 rounded-[20px] bg-[#222528] px-8 py-10 md:flex-row md:px-16 md:py-14 shadow-lg">
+            
+            {/* Left Column: Links and Socials */}
+            <div className="flex flex-col justify-between gap-12 md:basis-1/2">
+              <div className="flex flex-col gap-5">
+                <p className="text-sm font-medium text-[#F5F5F5] md:text-base">
                   Explore More
                 </p>
-                <div className="flex flex-col gap-3 text-sm font-semibold text-[#F5F5F5] md:text-base">
+                <div className="flex flex-col gap-4 text-sm font-bold text-[#F5F5F5] md:text-base">
                   <a
                     href="https://www.opus.com/"
                     target="_blank"
@@ -63,7 +71,6 @@ export default function SiteFooter() {
                   <a
                     href="https://www.growthops.asia/newsroom"
                     target="_self"
-                    rel=""
                     className="w-fit transition duration-300 ease-out hover:text-pink-500"
                   >
                     Newsroom
@@ -78,7 +85,9 @@ export default function SiteFooter() {
                   </a>
                 </div>
               </div>
-              <div className="flex gap-8">
+
+              {/* Social Icons */}
+              <div className="flex gap-6">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
@@ -86,9 +95,9 @@ export default function SiteFooter() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="flex h-10 w-10 items-center justify-center rounded-full text-[#F5F5F5] transition duration-300 ease-out hover:bg-[#F5F5F5]/10"
+                    className="flex h-10 w-10 items-center justify-center rounded-full text-[#F5F5F5] transition duration-300 ease-out hover:bg-white/10"
                   >
-                    <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+                    <svg viewBox="0 0 24 24" className="h-[22px] w-[22px] fill-current">
                       <path d={social.path} />
                     </svg>
                   </a>
@@ -96,29 +105,46 @@ export default function SiteFooter() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-4 md:grow">
-              <p className="text-sm text-[#F5F5F5] md:text-base">
+            {/* Right Column: Newsletter Form */}
+            <div className="flex flex-col gap-6 md:basis-1/2 md:pl-10">
+              <p className="text-sm font-medium text-[#F5F5F5] md:text-base">
                 Sign up to our newsletter
               </p>
-              <div>
-                <p className="mb-2 text-sm font-semibold text-[#999D9F] md:text-base">
-                  Email
-                </p>
-                <div id="footerHubspotForm" />
-              </div>
+              
+              <form className="flex w-full flex-col gap-4 max-w-sm">
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="emailInput" className="text-sm text-[#999D9F] md:text-base">
+                    Email
+                  </label>
+                  <input
+                    id="emailInput"
+                    type="email"
+                    placeholder="Enter your email*"
+                    required
+                    className="w-full rounded-lg border border-gray-600 bg-black px-4 py-3 text-sm text-[#F5F5F5] placeholder-[#999D9F] outline-none transition duration-300 focus:border-pink-500 focus:ring-1 focus:ring-pink-500"
+                  />
+                </div>
+                
+                <button
+                  type="submit"
+                  className="mt-2 w-fit rounded-full border border-white px-8 py-2.5 text-sm font-semibold text-white transition duration-300 ease-out hover:bg-white hover:text-pink-500"
+                >
+                  Submit
+                </button>
+              </form>
             </div>
           </div>
 
-          <div className="mt-6 flex flex-col-reverse gap-4 md:flex-row md:items-center md:justify-between md:gap-10">
-            <p className="text-center text-xs uppercase text-[#F5F5F5] opacity-50">
+          {/* Bottom Copyright and Privacy Policy */}
+          <div className="flex flex-col-reverse items-center justify-between gap-4 md:flex-row">
+            <p className="text-center text-xs uppercase text-[#999D9F]">
               © Copyright GrowthOps. All rights reserved.
             </p>
-            <div className="flex flex-col items-center gap-4 text-xs font-semibold text-[#F5F5F5] md:flex-row md:gap-10">
+            <div className="flex items-center text-xs font-bold text-[#F5F5F5]">
               <a
                 href="https://www.growthops.asia/privacy-policy"
                 target="_self"
-                rel=""
-                className="flex items-center gap-1 transition duration-300 ease-out hover:text-pink-500"
+                className="flex items-center gap-1.5 transition duration-300 ease-out hover:text-pink-500"
               >
                 <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
                   <path d="M14 3v2h3.586l-9.293 9.293 1.414 1.414L19 6.414V10h2V3h-7zM5 5h6V3H5C3.897 3 3 3.897 3 5v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2v-6h-2v6H5V5z" />
@@ -128,6 +154,7 @@ export default function SiteFooter() {
             </div>
           </div>
         </div>
+        
       </div>
     </footer>
   );
