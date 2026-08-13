@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# url_convert.py output
+/downloads
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
