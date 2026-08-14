@@ -1,10 +1,13 @@
+"use client";
+
+import React, { useRef } from "react";
+import Image from "next/image";
 import ShowAllArrow from "./icons/show-all-arrow";
 
 const articles = [
   {
     href: "https://www.growthops.asia/signals-in-the-noise-winning-in-malaysia-mature-telco-market",
-    imgSrc:
-      "/placeholder.svg",
+    imgSrc: "/AccelerateLearningCurve/malaysia-telco-fv2.webp",
     alt: "Signals in the Noise: Winning in Malaysia’s Mature Telco Market",
     tag: "Whitepaper",
     title: "Signals in the Noise: Winning in Malaysia’s Mature Telco Market",
@@ -13,7 +16,7 @@ const articles = [
   {
     href: "https://www.growthops.asia/asean-consumer-telco-landscape-2024",
     imgSrc:
-      "/placeholder.svg",
+      "/AccelerateLearningCurve/the-asean-b2c-telco-experience-by-goa-&-rakuten insight.webp",
     alt: "The ASEAN Consumers Telco Experience",
     tag: "Whitepaper",
     title: "The ASEAN Consumers Telco Experience",
@@ -21,8 +24,7 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/asean-b2b-consumer-telco-landscape-2024",
-    imgSrc:
-      "/placeholder.svg",
+    imgSrc: "/AccelerateLearningCurve/asean-telcos-by Goa-b2b.webp",
     alt: "The ASEAN SME Telco Experience",
     tag: "Whitepaper",
     title: "The ASEAN SME Telco Experience",
@@ -31,8 +33,8 @@ const articles = [
   {
     href: "https://www.growthops.asia/asean-fsi-landscape-2024",
     imgSrc:
-      "/placeholder.svg",
-    alt: "A Perspective on ASEAN Banks Digital Transformation: Efforts and Opportunities",
+      "/AccelerateLearningCurve/perspective-on-asean-banks-digital-t-e-o.webp",
+    alt: "A Perspective on ASEAN Banks Digital Transformation",
     tag: "Whitepaper",
     title:
       "A Perspective on ASEAN Banks Digital Transformation: Efforts and Opportunities",
@@ -40,8 +42,7 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/banking-to-asean-individuals-2024",
-    imgSrc:
-      "/placeholder.svg",
+    imgSrc: "/AccelerateLearningCurve/banking-to-asean-individuals-by-goa.webp",
     alt: "Banking to ASEAN Individuals",
     tag: "Whitepaper",
     title: "Banking to ASEAN Individuals",
@@ -49,7 +50,7 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/banking-to-asean-smes-2024",
-    imgSrc: "/placeholder.svg",
+    imgSrc: "/AccelerateLearningCurve/wp.webp",
     alt: "Banking to ASEAN SMEs by GrowthOps Asia",
     tag: "Whitepaper",
     title: "Banking to ASEAN SMEs",
@@ -57,16 +58,15 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/post/2024-marketing-trends-how-technology-is-transforming-creativity",
-    imgSrc: "/placeholder.svg",
-    alt: "2024 Marketing Trends: How Technology Is Transforming Creativity",
+    imgSrc: "/AccelerateLearningCurve/marketing-trends.webp",
+    alt: "2024 Marketing Trends",
     tag: "Perspective",
     title: "2024 Marketing Trends: How Technology Is Transforming Creativity",
     date: "December 2023",
   },
   {
     href: "https://www.growthops.asia/post/how-ministries-can-create-compelling-social-media-content-to-engage-singaporeans-0",
-    imgSrc:
-      "/placeholder.svg",
+    imgSrc: "/AccelerateLearningCurve/2024 Marketing Trends.webp",
     alt: "How generative AI is impacting the creative industry",
     tag: "Insight",
     title: "How generative AI is impacting the creative industry",
@@ -74,8 +74,8 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/post/how-ministries-can-create-compelling-social-media-content-to-engage-singaporeans",
-    imgSrc: "/placeholder.svg",
-    alt: "How Ministries Can Create Compelling Social Media Content to Engage Singaporeans",
+    imgSrc: "/AccelerateLearningCurve/digital-mat.webp",
+    alt: "How Ministries Can Create Compelling Social Media Content",
     tag: "Insight",
     title:
       "How Ministries Can Create Compelling Social Media Content to Engage Singaporeans",
@@ -83,8 +83,8 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/post/time-to-reimagine-talent-retention-marketing-agencies-need-to-rethink-adapt-and-evolve",
-    imgSrc: "/placeholder.svg",
-    alt: "Time to Reimagine Talent Retention: Marketing Agencies Need to Rethink, Adapt and Evolve",
+    imgSrc: "/AccelerateLearningCurve/digital-maturity.webp",
+    alt: "Time to Reimagine Talent Retention",
     tag: "Perspective",
     title:
       "Time to Reimagine Talent Retention: Marketing Agencies Need to Rethink, Adapt and Evolve",
@@ -93,14 +93,32 @@ const articles = [
 ];
 
 export default function ArticleCards() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // 2. Add the type "left" | "right" to the direction parameter
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = 300; // Scroll by roughly one card width
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <section className="reveal mt-[80px] md:mt-[100px]">
-      <div className="generic-container">
-        <div className="flex justify-between items-center mb-8 md:mb-12">
-          <h2 className="heading-h2-extrabold text-neutral-white-base">
+      <div className="mx-auto w-full max-w-[1366px] px-5 md:px-20">
+        <div className="mb-8 flex items-center justify-between md:mb-12">
+          <h2 className="heading-h2-bold text-4xl font-extrabold text-white md:text-5xl">
             Accelerate Your Learning Curve
           </h2>
-          <a className="group outline-none" href="https://www.growthops.asia/post" target="_self" rel="">
+          <a
+            className="group outline-none"
+            href="https://www.growthops.asia/post"
+            target="_self"
+            rel=""
+          >
             <div className="flex items-center gap-5">
               <p className="max-md:hidden body1-semibold text-neutral-white-base group-hover:text-primary-pink-base transition duration-300 ease-out">
                 Show all
@@ -111,41 +129,58 @@ export default function ArticleCards() {
         </div>
 
         <div className="relative">
-          <div className="swiper__prev absolute left-[-28px] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden max-md:hidden transition duration-300 ease-out">
+          {/* 4. Added onClick handlers to buttons and centered them vertically */}
+          <button
+            onClick={() => scroll("left")}
+            className="absolute left-[-40px] top-1/2 z-20 -translate-y-1/2 cursor-pointer text-2xl text-white opacity-60 transition duration-300 ease-out hover:opacity-100 max-md:hidden"
+            aria-label="Scroll left"
+          >
             <i className="fa-solid fa-angle-left" />
-          </div>
-          <div className="swiper__next absolute right-[-28px] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden max-md:hidden transition duration-300 ease-out">
+          </button>
+
+          <button
+            onClick={() => scroll("right")}
+            className="absolute right-[-40px] top-1/2 z-20 -translate-y-1/2 cursor-pointer text-2xl text-white opacity-60 transition duration-300 ease-out hover:opacity-100 max-md:hidden"
+            aria-label="Scroll right"
+          >
             <i className="fa-solid fa-angle-right" />
-          </div>
-          <div className="flex gap-[18px] md:gap-8 overflow-x-auto">
+          </button>
+
+          {/* 5. Added ref and CSS classes to hide the scrollbar */}
+          <div
+            ref={scrollRef}
+            className="flex gap-[18px] overflow-x-auto scroll-smooth md:gap-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          >
             {articles.map((article) => (
               <a
                 key={article.href}
                 href={article.href}
                 target="_self"
-                rel=""
-                className="w-64 shrink-0"
+                className="w-72 shrink-0 md:w-80" // Slightly widened cards to match your UI image proportions
               >
-                <div className="group cursor-pointer h-full bg-tansparent hover:bg-gradient-to-r from-primary-pink-extradark to-primary-pink-light transition ease-out duration-300 rounded-xl p-[1.5px]">
-                  <div className="h-full bg-neutral-black-light rounded-xl">
-                    <div className="h-full p-4 pb-6 flex flex-col gap-3 md:gap-4 bg-neutral-white-base/[0.08] group-hover:bg-neutral-white-base/[0.04] rounded-xl transition ease-out duration-300">
-                      <div className="relative max-h-[228px] md:max-h-[250px] rounded-xl overflow-hidden">
-                        <div className="absolute bottom-0 left-0 bg-primary-pink-base rounded-tr-lg z-20">
-                          <p className="body3-bold md:body2-bold px-3">
+                <div className="group h-full cursor-pointer rounded-xl bg-transparent p-[1.5px] transition duration-300 ease-out hover:bg-gradient-to-r hover:from-pink-600 hover:to-pink-400">
+                  <div className="h-full rounded-xl bg-[#111315]">
+                    <div className="flex h-full flex-col gap-3 rounded-xl bg-white/[0.04] p-4 pb-6 transition duration-300 ease-out group-hover:bg-white/[0.08] md:gap-4">
+                      <div className="relative h-[228px] overflow-hidden rounded-xl md:h-[250px]">
+                        <div className="absolute bottom-0 left-0 z-20 rounded-tr-lg bg-[#FA3C6F]">
+                          <p className="px-3 py-1 text-xs font-bold text-white md:text-sm">
                             {article.tag}
                           </p>
                         </div>
-                        <img
-                          loading="lazy"
+                        {/* 6. Upgraded to Next.js Image Component */}
+                        <Image
                           src={article.imgSrc}
                           alt={article.alt}
-                          className="h-full w-full object-cover group-hover:scale-110 transition ease-out duration-300"
+                          fill
+                          className="object-cover transition duration-300 ease-out group-hover:scale-110"
+                          sizes="(max-width: 768px) 100vw, 300px"
                         />
                       </div>
-                      <p className="text-left text-neutral-white-base body3-semibold md:body1-semibold">
+
+                      <p className="text-left text-base font-semibold text-white md:text-lg">
                         {article.title}
                       </p>
-                      <p className="md:body2-regular body3-regular">
+                      <p className="text-xs text-white/70 md:text-sm">
                         {article.date}
                       </p>
                     </div>
