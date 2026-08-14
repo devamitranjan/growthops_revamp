@@ -26,7 +26,7 @@ export default function GrowthValidation() {
                 target="_self"
                 rel=""
               >
-                <div className="group relative h-full rounded-lg p-2 flex flex-col justify-end bg-cover bg-center overflow-hidden bg-[url('/GrowthValidation/sea-customer-engagement-agency.webp')]">
+                <div className="group relative h-full rounded-lg p-2 flex flex-col justify-end bg-cover bg-center overflow-hidden bg-[url('/growth-validation/sea-customer-engagement.webp')]">
                   <div className="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-40 bg-gradient-to-r from-primary-pink-extradark to-primary-pink-light transition ease-out duration-300 z-10" />
                   <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-neutral-black-light/80" />
                 </div>
@@ -35,7 +35,7 @@ export default function GrowthValidation() {
           </div>
           <div className="relative md:w-3/5 max-md:h-1/2">
             <Image
-              src="/GrowthValidation/comp.webp"
+              src="/growth-validation/comp.webp"
               alt="Customer Engagement Agency of the Year by Campaign Asia"
               fill
               priority

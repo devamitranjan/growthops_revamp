@@ -8,7 +8,7 @@ import { ScrollArrowButton } from "../../shared/components/scroll-arrow-button";
 const articles = [
   {
     href: "https://www.growthops.asia/signals-in-the-noise-winning-in-malaysia-mature-telco-market",
-    imgSrc: "/AccelerateLearningCurve/malaysia-telco-fv2.webp",
+    imgSrc: "/accelerate-learning-curve/malaysia-telco-fv2.webp",
     alt: "Signals in the Noise: Winning in Malaysia’s Mature Telco Market",
     tag: "Whitepaper",
     title: "Signals in the Noise: Winning in Malaysia’s Mature Telco Market",
@@ -17,7 +17,7 @@ const articles = [
   {
     href: "https://www.growthops.asia/asean-consumer-telco-landscape-2024",
     imgSrc:
-      "/AccelerateLearningCurve/the-asean-b2c-telco-experience-by-goa-&-rakuten insight.webp",
+      "/accelerate-learning-curve/asean-b2c-telco.webp",
     alt: "The ASEAN Consumers Telco Experience",
     tag: "Whitepaper",
     title: "The ASEAN Consumers Telco Experience",
@@ -25,7 +25,7 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/asean-b2b-consumer-telco-landscape-2024",
-    imgSrc: "/AccelerateLearningCurve/asean-telcos-by Goa-b2b.webp",
+    imgSrc: "/accelerate-learning-curve/asean-telco-b2b.webp",
     alt: "The ASEAN SME Telco Experience",
     tag: "Whitepaper",
     title: "The ASEAN SME Telco Experience",
@@ -34,7 +34,7 @@ const articles = [
   {
     href: "https://www.growthops.asia/asean-fsi-landscape-2024",
     imgSrc:
-      "/AccelerateLearningCurve/perspective-on-asean-banks-digital-t-e-o.webp",
+      "/accelerate-learning-curve/asean-banks-digital.webp",
     alt: "A Perspective on ASEAN Banks Digital Transformation",
     tag: "Whitepaper",
     title:
@@ -43,7 +43,7 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/banking-to-asean-individuals-2024",
-    imgSrc: "/AccelerateLearningCurve/banking-to-asean-individuals-by-goa.webp",
+    imgSrc: "/accelerate-learning-curve/asean-banking-individuals.webp",
     alt: "Banking to ASEAN Individuals",
     tag: "Whitepaper",
     title: "Banking to ASEAN Individuals",
@@ -51,7 +51,7 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/banking-to-asean-smes-2024",
-    imgSrc: "/AccelerateLearningCurve/wp.webp",
+    imgSrc: "/accelerate-learning-curve/wp.webp",
     alt: "Banking to ASEAN SMEs by GrowthOps Asia",
     tag: "Whitepaper",
     title: "Banking to ASEAN SMEs",
@@ -59,7 +59,7 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/post/2024-marketing-trends-how-technology-is-transforming-creativity",
-    imgSrc: "/AccelerateLearningCurve/marketing-trends2024.webp",
+    imgSrc: "/accelerate-learning-curve/marketing-trends2024.webp",
     alt: "2024 Marketing Trends",
     tag: "Perspective",
     title: "2024 Marketing Trends: How Technology Is Transforming Creativity",
@@ -67,7 +67,7 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/post/how-ministries-can-create-compelling-social-media-content-to-engage-singaporeans-0",
-    imgSrc: "/AccelerateLearningCurve/marketing-trends.webp",
+    imgSrc: "/accelerate-learning-curve/marketing-trends.webp",
     alt: "How generative AI is impacting the creative industry",
     tag: "Insight",
     title: "How generative AI is impacting the creative industry",
@@ -75,7 +75,7 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/post/how-ministries-can-create-compelling-social-media-content-to-engage-singaporeans",
-    imgSrc: "/AccelerateLearningCurve/digital-mat.webp",
+    imgSrc: "/accelerate-learning-curve/digital-mat.webp",
     alt: "How Ministries Can Create Compelling Social Media Content",
     tag: "Insight",
     title:
@@ -84,7 +84,7 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/post/time-to-reimagine-talent-retention-marketing-agencies-need-to-rethink-adapt-and-evolve",
-    imgSrc: "/AccelerateLearningCurve/digital-maturity.webp",
+    imgSrc: "/accelerate-learning-curve/digital-maturity.webp",
     alt: "Time to Reimagine Talent Retention",
     tag: "Perspective",
     title:
