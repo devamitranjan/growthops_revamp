@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useHorizontalScroll } from "../shared/hooks/use-horizontal-scroll";
-import { ShowAllLink } from "../shared/components/show-all-links";
+import { useHorizontalScroll } from "../../shared/hooks/use-horizontal-scroll";
+import { SectionHeader } from "../../shared/components/section-header";
+import { ScrollArrowButton } from "../../shared/components/scroll-arrow-button";
 
 const articles = [
   {
@@ -99,33 +100,25 @@ export default function ArticleCards() {
   return (
     <section className="reveal mt-[80px] md:mt-[100px]">
       <div className="mx-auto w-full max-w-[1366px] px-5 md:px-20">
-        <div className="mb-8 flex items-center justify-between md:mb-12">
-          <h2 className="heading-h2-bold max-w-[300px] text-4xl font-extrabold leading-[1.05] text-white max-md:text-[22px] md:max-w-none md:text-5xl">
-            Accelerate Your Learning Curve
-          </h2>
-
-          <ShowAllLink link="https://www.growthops.asia/post" />
-        </div>
+        <SectionHeader
+          title="Accelerate Your Learning Curve"
+          titleClassName="heading-h2-bold max-w-[300px] text-4xl font-extrabold leading-[1.05] text-white max-md:text-[22px] md:max-w-none md:text-5xl"
+          link="https://www.growthops.asia/post"
+        />
 
         <div className="relative">
           {canScrollLeft && (
-            <button
+            <ScrollArrowButton
+              direction="left"
               onClick={() => scroll("left")}
-              className="absolute left-[-40px] top-1/2 z-20 -translate-y-1/2 cursor-pointer text-2xl text-white opacity-60 transition duration-300 ease-out hover:opacity-100 max-md:hidden"
-              aria-label="Scroll left"
-            >
-              <i className="fa-solid fa-angle-left" />
-            </button>
+            />
           )}
 
           {canScrollRight && (
-            <button
+            <ScrollArrowButton
+              direction="right"
               onClick={() => scroll("right")}
-              className="absolute right-[-40px] top-1/2 z-20 -translate-y-1/2 cursor-pointer text-2xl text-white opacity-60 transition duration-300 ease-out hover:opacity-100 max-md:hidden"
-              aria-label="Scroll right"
-            >
-              <i className="fa-solid fa-angle-right" />
-            </button>
+            />
           )}
 
           {/* CARDS */}
@@ -158,6 +151,7 @@ export default function ArticleCards() {
                           src={article.imgSrc}
                           alt={article.alt}
                           fill
+                          priority
                           className="object-cover transition duration-300 ease-out group-hover:scale-110"
                           sizes="(max-width: 768px) 100vw, 300px"
                         />

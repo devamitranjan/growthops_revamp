@@ -21,8 +21,7 @@ const teamBatches = [
     },
     {
       name: "Chris Greenough",
-      title:
-        "General Manager, Malaysia and Regional Head of Creative Strategy",
+      title: "General Manager, Malaysia and Regional Head of Creative Strategy",
       from: "#1f3d38",
       to: "#0a1815",
       image: "/goGetters_Img/chris.webp",
@@ -74,23 +73,16 @@ export default function TeamSection() {
   return (
     <section className="reveal mt-20 max-md:mt-[100px]">
       <div className="mx-auto w-full max-w-[1280px] px-5 max-md:px-10">
-
-
         <h2 className="heading-h2-bold mb-8 text-white max-md:mb-8">
           Meet Our GOGetters
         </h2>
 
-
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-
           {[0, 1, 2].map((columnIndex) => {
             const staticBg = teamBatches[0][columnIndex];
 
             return (
-              <div
-                key={columnIndex}
-                className="bg-white p-2"
-              >
+              <div key={columnIndex} className="bg-white p-2">
                 <div
                   className="
                     relative
@@ -113,7 +105,6 @@ export default function TeamSection() {
                     background: `linear-gradient(160deg, ${staticBg.from}, ${staticBg.to})`,
                   }}
                 >
-
                   {continuousBatches.map((batch, batchIndex) => {
                     const member = batch[columnIndex];
 
@@ -134,9 +125,7 @@ export default function TeamSection() {
                     }
 
                     const delay =
-                      isCurrent || isPrev
-                        ? `${columnIndex * 150}ms`
-                        : "0ms";
+                      isCurrent || isPrev ? `${columnIndex * 150}ms` : "0ms";
 
                     return (
                       <div
@@ -161,7 +150,6 @@ export default function TeamSection() {
                           transitionDelay: delay,
                         }}
                       >
-
                         <div
                           className="
                             absolute
@@ -245,7 +233,6 @@ export default function TeamSection() {
                             {member.title}
                           </p>
                         </div>
-
                       </div>
                     );
                   })}
@@ -282,8 +269,6 @@ export default function TeamSection() {
               "
             >
               <div>
-
-        
                 <p
                   className="
                     bg-gradient-to-r
@@ -302,7 +287,6 @@ export default function TeamSection() {
                   +250
                 </p>
 
-      
                 <p
                   className="
                     body2-semibold
@@ -320,7 +304,6 @@ export default function TeamSection() {
                 >
                   team members embracing our #GrowTogether culture
                 </p>
-
               </div>
 
               <a
@@ -349,10 +332,8 @@ export default function TeamSection() {
               >
                 Learn more
               </a>
-
             </div>
           </div>
-
         </div>
       </div>
     </section>

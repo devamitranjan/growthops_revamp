@@ -1,4 +1,4 @@
-import ArrowCircleIcon from "../../components/icons/arrow-circle-icon";
+import ArrowCircleIcon from "../../assets/arrow-circle-icon";
 
 interface IShowAllLinkProps extends React.HTMLAttributes<HTMLDivElement> {
   link: string;

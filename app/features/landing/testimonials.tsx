@@ -1,17 +1,21 @@
+"use client";
+
+import Image from "next/image";
+import { ToggleGroup } from "radix-ui";
+
 const categories = [
-  { label: "Finance", active: true },
-  { label: "Insurance", active: false },
-  { label: "Telco", active: false },
-  { label: "Travel", active: false },
-  { label: "Superapp", active: false },
-  { label: "More", active: false },
+  "Finance",
+  "Insurance",
+  "Telco",
+  "Travel",
+  "Superapp",
+  "More",
 ];
 
 const testimonials = [
   {
     audioSrc: "",
-    imgSrc:
-      "/placeholder.svg",
+    imgSrc: "/placeholder.svg",
     alt: "Mizuho",
     quote:
       "From strategy to execution, GrowthOps went beyond and exceeded our expectations.",
@@ -20,15 +24,13 @@ const testimonials = [
   },
   {
     audioSrc: "",
-    imgSrc:
-      "/placeholder.svg",
+    imgSrc: "/placeholder.svg",
     alt: "Leading Regional Bank",
     quote: "GrowthOps have helped us profitably acquire customers.",
     position: "Business & Innovation ",
   },
   {
-    audioSrc:
-      "",
+    audioSrc: "",
     imgSrc: "/placeholder.svg",
     alt: "company logo",
     quote:
@@ -80,28 +82,23 @@ export default function Testimonials() {
           </h2>
         </div>
         <div>
-          <div className="generic-container flex gap-5 mb-8 max-md:overflow-scroll">
+          <ToggleGroup.Root
+            type="single"
+            defaultValue="Finance"
+            className="generic-container flex gap-5 mb-8 max-md:overflow-scroll"
+          >
             {categories.map((category) => (
-              <div
-                key={category.label}
-                className={
-                  category.active
-                    ? "border-primary-cyan-extradark bg-primary-cyan-extradark group py-2 px-6 border rounded-[30px] transition duration-300 ease-out cursor-pointer"
-                    : "border-neutral-white-base bg-transparent hover:bg-neutral-white-base/[.08] group py-2 px-6 border rounded-[30px] transition duration-300 ease-out cursor-pointer"
-                }
+              <ToggleGroup.Item
+                key={category}
+                value={category}
+                className="group py-2 px-6 border rounded-[30px] transition duration-300 ease-out cursor-pointer border-neutral-white-base bg-transparent hover:bg-neutral-white-base/[.08] data-[state=on]:border-primary-cyan-extradark data-[state=on]:bg-primary-cyan-extradark"
               >
-                <p
-                  className={
-                    category.active
-                      ? "body2-bold text-nuetral-white-base transition duration-300 ease-out"
-                      : "body2-regular text-nuetral-white-base transition duration-300 ease-out"
-                  }
-                >
-                  {category.label}
+                <p className="body2-regular text-nuetral-white-base transition duration-300 ease-out group-data-[state=on]:body2-bold">
+                  {category}
                 </p>
-              </div>
+              </ToggleGroup.Item>
             ))}
-          </div>
+          </ToggleGroup.Root>
         </div>
 
         <div className="relative">
@@ -118,16 +115,21 @@ export default function Testimonials() {
 
             <div className="flex gap-[18px] md:gap-[50px] overflow-x-auto max-md:z-30">
               {testimonials.map((item) => (
-                <div key={item.alt} className="w-[85%] md:w-[45%] shrink-0 max-md:pl-6">
+                <div
+                  key={item.alt}
+                  className="w-[85%] md:w-[45%] shrink-0 max-md:pl-6"
+                >
                   {item.audioSrc && <audio src={item.audioSrc} />}
                   <div className="w-full h-full bg-neutral-white-base/[.08] rounded-[20px] px-4 py-6 md:p-8">
                     <div className="flex gap-5 md:gap-6 mb-10 md:mb-7">
                       <div className="relative h-full p-[10px] lg:p-[30px] rounded-full bg-neutral-white-base/[.04] transition duration-300 ease-out">
-                        <div className="w-11 lg:w-28 aspect-square rounded-full overflow-hidden">
-                          <img
-                            className="w-full h-full object-cover"
+                        <div className="relative w-11 lg:w-28 aspect-square rounded-full overflow-hidden">
+                          <Image
                             src={item.imgSrc}
                             alt={item.alt}
+                            fill
+                            sizes="(min-width: 1024px) 112px, 44px"
+                            className="object-cover"
                           />
                         </div>
                       </div>
@@ -159,14 +161,23 @@ export default function Testimonials() {
 
           <div className="logo-slider-wrapper relative w-full whitespace-nowrap overflow-hidden">
             {[0, 1].map((row) => (
-              <div key={row} className="logo-slider inline-block h-full w-max animate-logo-slide">
+              <div
+                key={row}
+                className="logo-slider inline-block h-full w-max animate-logo-slide"
+              >
                 {logos.map((logo, i) => (
-                  <img
+                  <div
                     key={`${row}-${i}`}
-                    className="inline w-[102px] md:w-[160px] max-h-[40px] md:max-h-[62px] object-cover mx-4"
-                    src={logo.src}
-                    alt={logo.alt}
-                  />
+                    className="relative inline-block align-middle w-[102px] md:w-[160px] h-[40px] md:h-[62px] mx-4"
+                  >
+                    <Image
+                      src={logo.src}
+                      alt={logo.alt}
+                      fill
+                      sizes="(min-width: 768px) 160px, 102px"
+                      className="object-cover"
+                    />
+                  </div>
                 ))}
               </div>
             ))}

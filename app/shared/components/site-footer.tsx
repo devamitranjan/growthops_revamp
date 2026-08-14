@@ -1,14 +1,6 @@
 "use client";
 
-declare global {
-  interface Window {
-    hbspt?: {
-      forms: {
-        create: (options: Record<string, string>) => void;
-      };
-    };
-  }
-}
+import { Form } from "radix-ui";
 
 const exploreLinks = [
   {
@@ -78,7 +70,7 @@ export default function SiteFooter() {
         </div>
 
         <div>
-          <div className="flex pt-8 px-6 pb-10 md:px-16 md:py-10 rounded-[20px] bg-neutral-white-base/10 flex max-md:flex-col gap-16 md:gap-8">
+          <div className="flex pt-8 px-6 pb-10 md:px-16 md:py-10 rounded-[20px] bg-[#1F2326] flex max-md:flex-col gap-16 md:gap-8">
             <div className="flex flex-col gap-6 md:basis-3/5">
               <div className="flex flex-col gap-4">
                 <p className="body1-regular md:body1-regular text-neutral-white-base">
@@ -120,38 +112,46 @@ export default function SiteFooter() {
                 Sign up to our newsletter
               </p>
               <div>
-                <form className="flex w-full flex-col gap-4 max-w-sm">
-                  <div className="flex flex-col gap-2">
-                    <label
-                      htmlFor="emailInput"
-                      className="text-sm text-[#999D9F] md:text-base"
-                    >
-                      <p className="body1-semibold md:body1-semibold text-neutral-grey-base mb-2">
+                <Form.Root
+                  action=""
+                  className="flex w-full flex-col gap-4 max-w-md"
+                >
+                  <Form.Field name="email" className="flex flex-col gap-2">
+                    <Form.Label className="text-sm text-[#999D9F] md:text-base">
+                      <p className="body1-semibold md:body1-semibold text-neutral-grey-base">
                         Email
                       </p>
-                    </label>
-                    <input
-                      id="emailInput"
+                    </Form.Label>
+                    <Form.Control
                       type="email"
                       placeholder="Enter your email*"
                       required
-                      className="w-full rounded-lg border border-gray-600 bg-black px-4 py-3.5 text-sm text-[#F5F5F5] placeholder-[#999D9F] outline-none transition duration-300 focus:border-pink-500 focus:ring-1 focus:ring-pink-500"
+                      className="w-full rounded-[9px] border border-[rgba(245,245,245,0.5)] bg-[#010101] px-5 py-3 text-base text-[#F5F5F5] placeholder-[#999D9F] outline-none transition duration-300 focus:border-pink-500 focus:ring-1 focus:ring-pink-500"
                     />
-                  </div>
+                    <Form.Message
+                      match="valueMissing"
+                      className="text-xs text-primary-pink-base"
+                    >
+                      Please enter your email
+                    </Form.Message>
+                    <Form.Message
+                      match="typeMismatch"
+                      className="text-xs text-primary-pink-base"
+                    >
+                      Please provide a valid email
+                    </Form.Message>
+                  </Form.Field>
 
-                  <button
-                    type="submit"
-                    className="mt-2 w-fit rounded-full border border-white px-6 py-2 text-sm font-semibold text-white transition duration-300 ease-out hover:bg-white hover:text-pink-500"
-                  >
+                  <Form.Submit className="mt-2 w-fit rounded-full border border-white px-6 py-2 text-sm font-semibold text-white transition duration-300 ease-out hover:bg-white hover:text-pink-500">
                     Submit
-                  </button>
-                </form>
+                  </Form.Submit>
+                </Form.Root>
               </div>
             </div>
           </div>
 
           <div className="flex flex-col-reverse md:flex-row md:justify-between max-md:gap-10 mt-6">
-            <p className="uppercase body3-regular text-neutral-white-base opacity-50 text-center">
+            <p className="uppercase body3-regular text-neutral-white-base opacity-65 text-center">
               © Copyright GrowthOps. All rights reserved.
             </p>
             <div className="flex flex-col md:flex-row gap-8 md:gap-10 items-center body3-semibold text-neutral-white-base">

@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import cx from "clsx";
+import { SectionHeader } from "../../shared/components/section-header";
 
 interface ServiceItem {
   href: string;
@@ -52,11 +53,12 @@ export default function ServicesGrid() {
   return (
     <section className="reveal mt-[80px] md:mt-[100px]">
       <div className="generic-container">
-        <h2 className="heading-h2-bold mb-8 text-white max-md:mb-12">
-          Our Services
-        </h2>
+        <SectionHeader
+          title="Our Services"
+          titleClassName="heading-h2-bold text-white"
+          className="mb-8 flex items-center justify-between max-md:mb-12"
+        />
 
-       
         <div className="grid grid-cols-2 gap-5 md:grid-cols-6">
           {services.map((service) => (
             <a
@@ -65,9 +67,7 @@ export default function ServicesGrid() {
               target="_self"
               className="block min-w-0"
             >
-      
               <div className="group h-full w-full cursor-pointer rounded-[20px] bg-transparent p-[1.5px] transition duration-300 ease-out">
-    
                 <div
                   className="
                     relative
@@ -96,7 +96,6 @@ export default function ServicesGrid() {
                     md:py-3
                   "
                 >
-          
                   <div
                     className="
                       relative

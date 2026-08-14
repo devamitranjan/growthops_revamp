@@ -29,7 +29,7 @@ export default function UnrivaledGrowth() {
       <div className="scroll-animation-bg absolute top-0 left-0 h-full w-full">
         <div className="h-full w-full bg-gradient-to-r from-primary-pink-extradark to-primary-pink-light" />
       </div>
-      <div className="scroll-animation-title heading-h2-extrabold bg-neutral-white-base bg-clip-text text-transparent md:w-full max-md:h-1/2 md:pl-32 flex justify-center max-md:items-end text-center _gradient_1t585_1">
+      <div className="scroll-animation-title heading-h2-extrabold bg-neutral-white-base bg-clip-text text-transparent md:w-full max-md:h-1/2 md:pl-32 flex justify-center max-md:items-end text-center">
         <h2>Unrivaled Growth</h2>
       </div>
       <ul className="rolling-text-wrapper relative h-full w-9/12 md:w-full md:mr-32 invisible overflow-hidden z-10">
