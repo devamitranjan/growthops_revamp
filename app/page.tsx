@@ -1,28 +1,22 @@
-import Header from "./components/header";
-import HeroBanner from "./components/hero-banner";
-import ServicesGrid from "./components/services-grid";
-import GrowthSpurts from "./components/growth-spurts";
-import UnrivaledGrowth from "./components/unrivaled-growth";
-import CaseStudy from "./components/case-study";
-import ArticleCards from "./components/article-cards";
-import Testimonials from "./components/testimonials";
-import GrowthValidation from "./components/growth-validation";
-import TeamSection from "./components/team-section";
-import SiteFooter from "./components/site-footer";
+import {
+  GrowthSpurts,
+  ServicesGrid,
+  ArticleCards,
+  GrowthValidation,
+  TeamSection,
+} from "./features";
+import SiteFooter from "./shared/components/site-footer";
 
+// Header, HeroBanner, UnrivaledGrowth, CaseStudy, and Testimonials live in
+// app/features/landing but are intentionally excluded from this page for now.
 export default function Home() {
   return (
     <div className="body-wrapper hs-content-id-153839881997 hs-site-page page">
-      {/* <Header />
-      <HeroBanner />
-      <ServicesGrid /> */}
       <GrowthSpurts />
-      {/* <UnrivaledGrowth /> 
-      <CaseStudy />
+      <ServicesGrid />
       <ArticleCards />
-      <Testimonials />
-      <GrowthValidation /> */}
-      {/* <TeamSection /> */}
+      <GrowthValidation />
+      <TeamSection />
       <SiteFooter />
     </div>
   );
