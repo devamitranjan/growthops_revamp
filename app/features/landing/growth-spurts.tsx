@@ -7,25 +7,25 @@ import { VideoDialogPortal } from "../../shared/components/video-dialog-portal";
 
 const growthCards = [
   {
-    imgSrc: "/bersama-grab.webp",
+    imgSrc: "/growth-spurts/bersama-grab.webp",
     alt: "Going from Mengapa to Mantap Bersama Grab",
     label: "Going from Mengapa to Mantap Bersama Grab",
     description: "Malaysia Effie and Kancil winner",
   },
   {
-    imgSrc: "/unifi-business.webp",
+    imgSrc: "/growth-spurts/unifi-business.webp",
     alt: "Unifi Business: Unibizity",
     label: "Unifi Business: Unibizity",
     description: "345% increase in brand engagement",
   },
   {
-    imgSrc: "/malaysia-airlines.webp",
+    imgSrc: "/growth-spurts/malaysia-airlines.webp",
     alt: "Malaysia Airlines: Windows of Hospitality",
     label: "Malaysia Airlines: Windows of Hospitality",
     description: "Multi-country roll out",
   },
   {
-    imgSrc: "/digital-ecosystem.webp",
+    imgSrc: "/growth-spurts/digital-ecosystem.webp",
     alt: "U Mobile: Digital Ecosystem Refresh",
     label: "U Mobile: Digital Ecosystem Refresh",
     description: "55% increase in conversion rate",
