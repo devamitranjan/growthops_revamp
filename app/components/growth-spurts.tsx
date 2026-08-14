@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ShowAllArrow from "./icons/show-all-arrow";
+import { ShowAllLink } from "../shared/components/show-all-links";
 
 const growthCards = [
   {
@@ -39,19 +39,7 @@ export default function GrowthSpurts() {
             </h2>
             <p className="body1-regular text-neutral-white-base" />
           </div>
-          <a
-            className="group outline-none"
-            href="https://www.growthops.asia/work"
-            target="_self"
-            rel=""
-          >
-            <div className="flex items-center gap-5">
-              <p className="max-md:hidden body1-semibold text-neutral-white-base group-hover:text-primary-pink-base transition duration-300 ease-out">
-                Show all
-              </p>
-              <ShowAllArrow />
-            </div>
-          </a>
+          <ShowAllLink link="https://www.growthops.asia/work" />
         </div>
 
         <div className="relative">

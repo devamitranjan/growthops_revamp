@@ -1,4 +1,5 @@
-import ShowAllArrow from "./icons/show-all-arrow";
+import Image from "next/image";
+import { ShowAllLink } from "../shared/components/show-all-links";
 
 export default function GrowthValidation() {
   return (
@@ -8,14 +9,7 @@ export default function GrowthValidation() {
           <h2 className="heading-h2-bold text-white text-4xl md:text-5xl font-extrabold">
             Growth Validation
           </h2>
-          <a href="https://www.growthops.asia/awards" target="_self" rel="" className="group outline-none">
-            <div className="flex items-center gap-5">
-              <p className="max-md:hidden body1-semibold text-neutral-white-base group-hover:text-primary-pink-base transition duration-300 ease-out">
-                Show all
-              </p>
-              <ShowAllArrow />
-            </div>
-          </a>
+          <ShowAllLink link="https://www.growthops.asia/awards" />
         </div>
 
         <div className="relative flex max-md:flex-col h-[415px] w-full bg-gradient-to-b md:bg-gradient-to-r from-primary-blue-extradark via-primary-blue-dark to-primary-cyan-base rounded-[40px] overflow-hidden">
@@ -36,7 +30,8 @@ export default function GrowthValidation() {
                 <div
                   className="group relative h-full rounded-lg p-2 flex flex-col justify-end bg-cover bg-center overflow-hidden"
                   style={{
-                    backgroundImage: "url('/GrowthValidation/sea-customer-engagement-agency.webp')",
+                    backgroundImage:
+                      "url('/GrowthValidation/sea-customer-engagement-agency.webp')",
                   }}
                 >
                   <div className="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-40 bg-gradient-to-r from-primary-pink-extradark to-primary-pink-light transition ease-out duration-300 z-10" />
@@ -46,10 +41,12 @@ export default function GrowthValidation() {
             </div>
           </div>
           <div className="relative md:w-3/5 max-md:h-1/2">
-            <img
+            <Image
               src="/GrowthValidation/comp.webp"
               alt="Customer Engagement Agency of the Year by Campaign Asia"
-              className="absolute bottom-0 object-cover w-full"
+              fill
+              sizes="(max-width: 768px) 100vw, 60vw"
+              className="object-cover"
             />
           </div>
         </div>

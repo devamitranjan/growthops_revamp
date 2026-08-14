@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import ShowAllArrow from "./icons/show-all-arrow";
+import { useHorizontalScroll } from "../shared/hooks/use-horizontal-scroll";
+import { ShowAllLink } from "../shared/components/show-all-links";
 
 const articles = [
   {
@@ -93,48 +93,8 @@ const articles = [
 ];
 
 export default function ArticleCards() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-
-  const updateScrollButtons = () => {
-    if (!scrollRef.current) return;
-
-    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-
-    setCanScrollLeft(scrollLeft > 0);
-
-    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
-  };
-
-  const scroll = (direction: "left" | "right") => {
-    if (!scrollRef.current) return;
-
-    const scrollAmount = 300;
-
-    scrollRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
-  };
-
-  useEffect(() => {
-    const container = scrollRef.current;
-
-    if (!container) return;
-
-    updateScrollButtons();
-
-    container.addEventListener("scroll", updateScrollButtons);
-
-    window.addEventListener("resize", updateScrollButtons);
-
-    return () => {
-      container.removeEventListener("scroll", updateScrollButtons);
-      window.removeEventListener("resize", updateScrollButtons);
-    };
-  }, []);
+  const { scrollRef, canScrollLeft, canScrollRight, scroll } =
+    useHorizontalScroll<HTMLDivElement>();
 
   return (
     <section className="reveal mt-[80px] md:mt-[100px]">
@@ -144,20 +104,7 @@ export default function ArticleCards() {
             Accelerate Your Learning Curve
           </h2>
 
-          <a
-            className="group outline-none"
-            href="https://www.growthops.asia/post"
-            target="_self"
-            rel=""
-          >
-            <span className="hidden text-base font-semibold text-white transition duration-300 ease-out group-hover:text-pink-500 md:block">
-              Show all
-            </span>
-
-            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition duration-300 group-hover:border-pink-500 group-hover:text-pink-500">
-              <ShowAllArrow />
-            </div>
-          </a>
+          <ShowAllLink link="https://www.growthops.asia/post" />
         </div>
 
         <div className="relative">

@@ -23,9 +23,9 @@ export default function Home() {
       <Testimonials />
       <GrowthValidation /> */}
       <ServicesGrid />
-      <CaseStudy />
+      {/* <CaseStudy /> */}
       <ArticleCards />
-      <Testimonials />
+      {/* <Testimonials /> */}
       <GrowthValidation />
       <TeamSection />
       <SiteFooter />
