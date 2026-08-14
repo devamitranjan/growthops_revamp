@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import cx from "clsx";
-// 1. Added a TypeScript Interface for strict typing
+
 interface ServiceItem {
   href: string;
   imgSrc: string;
@@ -56,29 +56,73 @@ export default function ServicesGrid() {
           Our Services
         </h2>
 
-        {/* Grid handles responsiveness perfectly */}
+       
         <div className="grid grid-cols-2 gap-5 md:grid-cols-6">
           {services.map((service) => (
-            <a key={service.href} href={service.href} target="_self">
-              {/* Fixed typo: bg-transparent */}
-              <div className="group h-full cursor-pointer rounded-[20px] bg-transparent p-[1.5px] transition duration-300 ease-out">
-                <div className="flex h-full flex-col items-center justify-center gap-3 rounded-[30px] border border-neutral-white-base bg-neutral-black-light py-3 transition duration-300 ease-out hover:bg-primary-cyan-extradark md:gap-4 md:px-3">
-                  {/* Fixed arbitrary values for mobile sizing (h-[72px]) so it definitely renders */}
-                  <div className="relative h-[72px] w-[72px] overflow-hidden rounded-full md:h-[120px] md:w-[120px]">
+            <a
+              key={service.href}
+              href={service.href}
+              target="_self"
+              className="block min-w-0"
+            >
+      
+              <div className="group h-full w-full cursor-pointer rounded-[20px] bg-transparent p-[1.5px] transition duration-300 ease-out">
+    
+                <div
+                  className="
+                    relative
+                    flex
+                    h-[180px]
+                    w-full
+                    flex-col
+                    items-center
+                    justify-center
+                    gap-3
+                    overflow-hidden
+                    rounded-[30px]
+                    border
+                    border-neutral-white-base
+                    bg-neutral-black-light
+                    px-2
+                    py-4
+                    transition
+                    duration-300
+                    ease-out
+                    hover:bg-primary-cyan-extradark
+
+                    md:h-full
+                    md:gap-4
+                    md:px-3
+                    md:py-3
+                  "
+                >
+          
+                  <div
+                    className="
+                      relative
+                      h-[125px]
+                      w-[125px]
+                      max-w-full
+                      shrink-0
+                      overflow-hidden
+                      rounded-full
+
+                      md:h-[120px]
+                      md:w-[120px]
+                    "
+                  >
                     <div
                       className={cx(
-                        "absolute left-0 top-0 z-20 h-full w-full opacity-80 mix-blend-color",
+                        "absolute inset-0 z-20 h-full w-full opacity-80 mix-blend-color",
                         service.overlayColor,
                       )}
                     />
-
-                    {/* Upgraded to Next.js Image component */}
                     <Image
                       src={service.imgSrc}
                       alt={service.alt}
                       fill
                       className="object-cover transition duration-300 ease-out group-hover:scale-110"
-                      sizes="(max-width: 768px) 72px, 120px"
+                      sizes="(max-width: 768px) 125px, 120px"
                     />
                   </div>
                 </div>

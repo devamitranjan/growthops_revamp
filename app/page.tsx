@@ -22,7 +22,12 @@ export default function Home() {
       <ArticleCards />
       <Testimonials />
       <GrowthValidation /> */}
-      {/* <TeamSection /> */}
+      <ServicesGrid />
+      <CaseStudy />
+      <ArticleCards />
+      <Testimonials />
+      <GrowthValidation />
+      <TeamSection />
       <SiteFooter />
     </div>
   );

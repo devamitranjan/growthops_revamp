@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import ShowAllArrow from "./icons/show-all-arrow";
 
@@ -58,7 +58,7 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/post/2024-marketing-trends-how-technology-is-transforming-creativity",
-    imgSrc: "/AccelerateLearningCurve/marketing-trends.webp",
+    imgSrc: "/AccelerateLearningCurve/marketing-trends2024.webp",
     alt: "2024 Marketing Trends",
     tag: "Perspective",
     title: "2024 Marketing Trends: How Technology Is Transforming Creativity",
@@ -66,7 +66,7 @@ const articles = [
   },
   {
     href: "https://www.growthops.asia/post/how-ministries-can-create-compelling-social-media-content-to-engage-singaporeans-0",
-    imgSrc: "/AccelerateLearningCurve/2024 Marketing Trends.webp",
+    imgSrc: "/AccelerateLearningCurve/marketing-trends.webp",
     alt: "How generative AI is impacting the creative industry",
     tag: "Insight",
     title: "How generative AI is impacting the creative industry",
@@ -95,58 +95,93 @@ const articles = [
 export default function ArticleCards() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // 2. Add the type "left" | "right" to the direction parameter
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = 300; // Scroll by roughly one card width
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const updateScrollButtons = () => {
+    if (!scrollRef.current) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+
+    setCanScrollLeft(scrollLeft > 0);
+
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
   };
+
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+
+    const scrollAmount = 300;
+
+    scrollRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const container = scrollRef.current;
+
+    if (!container) return;
+
+    updateScrollButtons();
+
+    container.addEventListener("scroll", updateScrollButtons);
+
+    window.addEventListener("resize", updateScrollButtons);
+
+    return () => {
+      container.removeEventListener("scroll", updateScrollButtons);
+      window.removeEventListener("resize", updateScrollButtons);
+    };
+  }, []);
 
   return (
     <section className="reveal mt-[80px] md:mt-[100px]">
       <div className="mx-auto w-full max-w-[1366px] px-5 md:px-20">
         <div className="mb-8 flex items-center justify-between md:mb-12">
-          <h2 className="heading-h2-bold text-4xl font-extrabold text-white md:text-5xl">
+          <h2 className="heading-h2-bold max-w-[300px] text-4xl font-extrabold leading-[1.05] text-white max-md:text-[22px] md:max-w-none md:text-5xl">
             Accelerate Your Learning Curve
           </h2>
+
           <a
             className="group outline-none"
             href="https://www.growthops.asia/post"
             target="_self"
             rel=""
           >
-            <div className="flex items-center gap-5">
-              <p className="max-md:hidden body1-semibold text-neutral-white-base group-hover:text-primary-pink-base transition duration-300 ease-out">
-                Show all
-              </p>
+            <span className="hidden text-base font-semibold text-white transition duration-300 ease-out group-hover:text-pink-500 md:block">
+              Show all
+            </span>
+
+            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition duration-300 group-hover:border-pink-500 group-hover:text-pink-500">
               <ShowAllArrow />
             </div>
           </a>
         </div>
 
         <div className="relative">
-          {/* 4. Added onClick handlers to buttons and centered them vertically */}
-          <button
-            onClick={() => scroll("left")}
-            className="absolute left-[-40px] top-1/2 z-20 -translate-y-1/2 cursor-pointer text-2xl text-white opacity-60 transition duration-300 ease-out hover:opacity-100 max-md:hidden"
-            aria-label="Scroll left"
-          >
-            <i className="fa-solid fa-angle-left" />
-          </button>
+          {canScrollLeft && (
+            <button
+              onClick={() => scroll("left")}
+              className="absolute left-[-40px] top-1/2 z-20 -translate-y-1/2 cursor-pointer text-2xl text-white opacity-60 transition duration-300 ease-out hover:opacity-100 max-md:hidden"
+              aria-label="Scroll left"
+            >
+              <i className="fa-solid fa-angle-left" />
+            </button>
+          )}
 
-          <button
-            onClick={() => scroll("right")}
-            className="absolute right-[-40px] top-1/2 z-20 -translate-y-1/2 cursor-pointer text-2xl text-white opacity-60 transition duration-300 ease-out hover:opacity-100 max-md:hidden"
-            aria-label="Scroll right"
-          >
-            <i className="fa-solid fa-angle-right" />
-          </button>
+          {canScrollRight && (
+            <button
+              onClick={() => scroll("right")}
+              className="absolute right-[-40px] top-1/2 z-20 -translate-y-1/2 cursor-pointer text-2xl text-white opacity-60 transition duration-300 ease-out hover:opacity-100 max-md:hidden"
+              aria-label="Scroll right"
+            >
+              <i className="fa-solid fa-angle-right" />
+            </button>
+          )}
 
-          {/* 5. Added ref and CSS classes to hide the scrollbar */}
+          {/* CARDS */}
           <div
             ref={scrollRef}
             className="flex gap-[18px] overflow-x-auto scroll-smooth md:gap-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
@@ -156,18 +191,22 @@ export default function ArticleCards() {
                 key={article.href}
                 href={article.href}
                 target="_self"
-                className="w-72 shrink-0 md:w-80" // Slightly widened cards to match your UI image proportions
+                className="w-60 shrink-0 md:w-[272px]"
               >
+                {/* OUTER CARD */}
                 <div className="group h-full cursor-pointer rounded-xl bg-transparent p-[1.5px] transition duration-300 ease-out hover:bg-gradient-to-r hover:from-pink-600 hover:to-pink-400">
+                  {/* INNER CARD */}
                   <div className="h-full rounded-xl bg-[#111315]">
-                    <div className="flex h-full flex-col gap-3 rounded-xl bg-white/[0.04] p-4 pb-6 transition duration-300 ease-out group-hover:bg-white/[0.08] md:gap-4">
-                      <div className="relative h-[228px] overflow-hidden rounded-xl md:h-[250px]">
+                    <div className="flex h-full flex-col gap-2 rounded-xl bg-white/[0.04] p-2.5 pb-4 transition duration-300 ease-out group-hover:bg-white/[0.08] md:gap-1">
+                      {/* IMAGE */}
+                      <div className="relative h-[240px] overflow-hidden rounded-xl md:h-[260px]">
+                        {/* TAG */}
                         <div className="absolute bottom-0 left-0 z-20 rounded-tr-lg bg-[#FA3C6F]">
                           <p className="px-3 py-1 text-xs font-bold text-white md:text-sm">
                             {article.tag}
                           </p>
                         </div>
-                        {/* 6. Upgraded to Next.js Image Component */}
+
                         <Image
                           src={article.imgSrc}
                           alt={article.alt}
@@ -177,9 +216,12 @@ export default function ArticleCards() {
                         />
                       </div>
 
+                      {/* TITLE */}
                       <p className="text-left text-base font-semibold text-white md:text-lg">
                         {article.title}
                       </p>
+
+                      {/* DATE */}
                       <p className="text-xs text-white/70 md:text-sm">
                         {article.date}
                       </p>
