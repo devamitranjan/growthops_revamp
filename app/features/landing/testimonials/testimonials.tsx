@@ -72,9 +72,9 @@ export default function Testimonials() {
               className="overflow-hidden max-md:overflow-x-auto max-md:touch-pan-x max-md:snap-x max-md:snap-mandatory max-md:pb-2 max-md:[scrollbar-width:none] max-md:[-ms-overflow-style:none] max-md:[&::-webkit-scrollbar]:hidden max-md:z-30 px-[5%] md:px-[calc(50vw-360px)]"
             >
               <div className="flex gap-[18px] md:gap-[40px]">
-                {testimonials.map((testimonial) => (
+                {testimonials.map((testimonial, index) => (
                   <TestimonialCard
-                    key={testimonial.alt}
+                    key={`${testimonial.alt}-${index}`}
                     testimonial={testimonial}
                   />
                 ))}
