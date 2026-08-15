@@ -160,6 +160,12 @@
   }
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* -------------------------------------------------------------------------- */
 /* GrowthOps Design System Utility Classes                                    */
 /* -------------------------------------------------------------------------- */
@@ -169,6 +175,11 @@
     font-size: 2rem;
     line-height: 2.5rem;
     font-weight: 700;
+  }
+  .heading-h1-extrabold {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    font-weight: 800;
   }
   .heading-h2-bold {
     font-size: 1.5rem;
@@ -228,6 +239,10 @@
     --tw-text-opacity: 1;
     color: rgb(245 245 245 / var(--tw-text-opacity, 1));
   }
+
+  .animate-spin-slow {
+    animation: spin 4s linear infinite;
+  }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -244,6 +259,11 @@
   font-size: 1rem;
   line-height: 1.5rem;
   font-weight: 600;
+}
+@utility body1-bold {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 700;
 }
 @utility body2-regular {
   font-size: 0.875rem;
@@ -274,6 +294,10 @@
 /* Responsive Overrides */
 @media (min-width: 768px) {
   .heading-h1-bold {
+    font-size: 3.5rem;
+    line-height: 4rem;
+  }
+  .heading-h1-extrabold {
     font-size: 3.5rem;
     line-height: 4rem;
   }

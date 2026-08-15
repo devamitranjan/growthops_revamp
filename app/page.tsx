@@ -5,6 +5,7 @@ import {
   TeamSection,
   UnrivaledGrowth,
   Testimonials,
+  HeroBanner,
 } from "./features";
 import GrowthSpurts from "./features/landing/growth-spruts/growth-spurts";
 import SiteFooter from "./shared/components/site-footer";
@@ -14,6 +15,7 @@ import SiteFooter from "./shared/components/site-footer";
 export default function Home() {
   return (
     <div className="body-wrapper hs-content-id-153839881997 hs-site-page page">
+      <HeroBanner />
       <ServicesGrid />
       <GrowthSpurts />
       <UnrivaledGrowth />
