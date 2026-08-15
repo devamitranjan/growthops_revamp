@@ -1,10 +1,12 @@
 import {
-  GrowthSpurts,
   ServicesGrid,
   ArticleCards,
   GrowthValidation,
   TeamSection,
+  // UnrivaledGrowth,
+  Testimonials,
 } from "./features";
+import GrowthSpurts from "./features/landing/growth-spruts/growth-spurts";
 import SiteFooter from "./shared/components/site-footer";
 
 // Header, HeroBanner, UnrivaledGrowth, CaseStudy, and Testimonials live in
@@ -14,7 +16,9 @@ export default function Home() {
     <div className="body-wrapper hs-content-id-153839881997 hs-site-page page">
       <ServicesGrid />
       <GrowthSpurts />
+      {/* <UnrivaledGrowth /> */}
       <ArticleCards />
+      <Testimonials />
       <GrowthValidation />
       <TeamSection />
       <SiteFooter />

@@ -2,13 +2,8 @@
 
 import Image from "next/image";
 import { Dialog, VisuallyHidden } from "radix-ui";
-
-const navLinks = [
-  { label: "Solutions", href: null },
-  { label: "Insights", href: "https://www.growthops.asia/post" },
-  { label: "Culture", href: "https://www.growthops.asia/culture" },
-  { label: "Contact", href: "https://www.growthops.asia/contact" },
-];
+import { NavLink } from "./nav-link";
+import { navLinks } from "./header.data";
 
 export default function Header() {
   return (
@@ -51,22 +46,9 @@ export default function Header() {
             </VisuallyHidden.Root>
             <div className="generic-container relative h-full flex pt-[10vh] md:justify-center">
               <div className="md:pr-[56px] md:pt-[10vh] transition duration-300 ease-in-out delay-100 flex flex-col gap-12 md:gap-16 opacity-0 translate-y-10 group-data-[state=open]:opacity-100 group-data-[state=open]:translate-y-0">
-                {navLinks.map((link) =>
-                  link.href ? (
-                    <a key={link.label} href={link.href} target="_self" rel="">
-                      <p className="text-white heading-h1-bold transition ease-out duration-300 hover:text-primary-pink-base cursor-pointer">
-                        {link.label}
-                      </p>
-                    </a>
-                  ) : (
-                    <p
-                      key={link.label}
-                      className="text-white heading-h1-bold transition ease-out duration-300 hover:text-primary-pink-base cursor-pointer"
-                    >
-                      {link.label}
-                    </p>
-                  )
-                )}
+                {navLinks.map((link) => (
+                  <NavLink key={link.label} link={link} />
+                ))}
               </div>
               <div className="md:w-2/5 transition duration-300 ease-in-out flex flex-col gap-12 md:gap-8 md:px-[56px] overflow-y-auto border-l border-neutral-white-base opacity-0 pointer-events-none" />
               <div className="md:w-1/3 transition duration-300 ease-in-out flex flex-col gap-12 md:gap-8 md:px-[56px] overflow-y-auto border-l border-neutral-white-base opacity-0 pointer-events-none" />
