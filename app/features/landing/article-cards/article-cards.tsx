@@ -1,20 +1,22 @@
 "use client";
 
-import { useHorizontalCarousel } from "../../../shared/hooks/use-horizontal-carousel";
+import useEmblaCarousel from "embla-carousel-react";
+import { useCarouselButtons } from "../../../shared/hooks/use-carousel-buttons";
+import { useCarouselActive } from "../../../shared/hooks/use-carousel-active";
 import { SectionHeader } from "../../../shared/components/section-header";
 import { ScrollArrowButton } from "../../../shared/components/scroll-arrow-button";
 import { ArticleCard } from "./article-card";
 import { articles } from "./article-cards.data";
 
 export default function ArticleCards() {
-  const {
-    scrollRef,
-    registerItem,
-    canScrollLeft,
-    canScrollRight,
-    scroll,
-    activeIndex,
-  } = useHorizontalCarousel<HTMLDivElement>({ trackActiveItem: true });
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "center",
+    containScroll: "trimSnaps",
+    skipSnaps: false,
+  });
+  const activeIndex = useCarouselActive(emblaApi);
+  const { canScrollPrev, canScrollNext, scrollPrev, scrollNext } =
+    useCarouselButtons(emblaApi);
 
   return (
     <section className="reveal mt-[80px] md:mt-[100px]">
@@ -27,30 +29,25 @@ export default function ArticleCards() {
       </div>
 
       <div className="relative mx-auto w-full max-w-[1366px] md:px-20">
-        {canScrollLeft && (
-          <ScrollArrowButton direction="left" onClick={() => scroll("left")} />
+        {canScrollPrev && (
+          <ScrollArrowButton direction="left" onClick={scrollPrev} />
         )}
 
-        {canScrollRight && (
-          <ScrollArrowButton
-            direction="right"
-            onClick={() => scroll("right")}
-          />
+        {canScrollNext && (
+          <ScrollArrowButton direction="right" onClick={scrollNext} />
         )}
 
         {/* CARDS */}
-        <div
-          ref={scrollRef}
-          className="flex gap-[18px] overflow-x-auto scroll-smooth snap-x snap-mandatory pl-5 pr-5 md:gap-8 md:pl-0 md:pr-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-        >
-          {articles.map((article, index) => (
-            <ArticleCard
-              key={article.href}
-              article={article}
-              isActive={index === activeIndex}
-              cardRef={registerItem(index)}
-            />
-          ))}
+        <div ref={emblaRef} className="overflow-hidden">
+          <div className="flex gap-[18px] pl-5 pr-5 md:gap-8 md:pl-0 md:pr-0">
+            {articles.map((article, index) => (
+              <ArticleCard
+                key={article.href}
+                article={article}
+                isActive={index === activeIndex}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

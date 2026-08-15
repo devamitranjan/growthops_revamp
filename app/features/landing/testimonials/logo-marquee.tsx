@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import Marquee from "react-fast-marquee";
 import { LogoData } from "./testimonials.types";
 
 interface LogoMarqueeProps {
@@ -7,28 +10,29 @@ interface LogoMarqueeProps {
 
 export function LogoMarquee({ logos }: LogoMarqueeProps) {
   return (
-    <div className="logo-slider-wrapper relative w-full whitespace-nowrap overflow-hidden">
-      {[0, 1].map((row) => (
-        <div
-          key={row}
-          className="logo-slider inline-block h-full w-max animate-logo-slide"
-        >
-          {logos.map((logo, i) => (
-            <div
-              key={`${row}-${i}`}
-              className="relative inline-block align-middle w-[102px] md:w-[160px] h-[40px] md:h-[62px] mx-4"
-            >
-              <Image
-                src={logo.src}
-                alt={logo.alt}
-                fill
-                sizes="(min-width: 768px) 160px, 102px"
-                className="object-cover"
-              />
-            </div>
-          ))}
-        </div>
-      ))}
+    <div className="relative w-full overflow-hidden">
+      <Marquee
+        gradient={false}
+        speed={75}
+        pauseOnHover
+        direction="left"
+        className="[&_.rfm-marquee]:items-center [&_.rfm-marquee]:gap-4"
+      >
+        {logos.map((logo, index) => (
+          <div
+            key={`${logo.alt}-${index}`}
+            className="relative mx-4 inline-block h-[40px] w-[102px] align-middle md:h-[62px] md:w-[160px]"
+          >
+            <Image
+              src={logo.src}
+              alt={logo.alt}
+              fill
+              sizes="(min-width: 768px) 160px, 102px"
+              className="object-cover"
+            />
+          </div>
+        ))}
+      </Marquee>
     </div>
   );
 }

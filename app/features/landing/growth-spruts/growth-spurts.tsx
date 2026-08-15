@@ -2,15 +2,23 @@
 
 import cx from "clsx";
 import { useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import { SectionHeader } from "../../../shared/components/section-header";
 import { VideoDialog } from "../../../shared/components/video-dialog-portal";
 import { GrowthCard } from "./growth-card";
 import { growthCards } from "./growth-spurts.data";
-import { useHorizontalCarousel } from "../../../shared/hooks/use-horizontal-carousel";
+import { useCarouselActive } from "../../../shared/hooks/use-carousel-active";
 
 export default function GrowthSpurts() {
-  const { scrollRef, itemRefs, registerItem, activeIndex } =
-    useHorizontalCarousel<HTMLDivElement>({ trackActiveItem: true });
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "center",
+    containScroll: "trimSnaps",
+    skipSnaps: false,
+    breakpoints: {
+      "(min-width: 768px)": { active: false },
+    },
+  });
+  const activeIndex = useCarouselActive(emblaApi);
 
   const [selectedCard, setSelectedCard] = useState<
     (typeof growthCards)[number] | null
@@ -31,7 +39,7 @@ export default function GrowthSpurts() {
 
     const index = growthCards.findIndex((card) => card.id === selectedCard.id);
 
-    itemRefs.current[index]?.focus();
+    emblaApi?.slideNodes()[index]?.focus();
   };
 
   return (
@@ -46,21 +54,19 @@ export default function GrowthSpurts() {
 
         <div className="relative">
           <div
-            ref={scrollRef}
-            className={cx(
-              "flex gap-5 overflow-x-auto snap-x snap-mandatory",
-              "md:justify-between md:overflow-visible md:snap-none",
-            )}
+            ref={emblaRef}
+            className="overflow-hidden md:overflow-visible"
           >
-            {growthCards.map((card, index) => (
-              <GrowthCard
-                key={card.id}
-                card={card}
-                isActive={index === activeIndex}
-                cardRef={registerItem(index)}
-                onClick={() => setSelectedCard(card)}
-              />
-            ))}
+            <div className={cx("flex gap-5", "md:justify-between")}>
+              {growthCards.map((card, index) => (
+                <GrowthCard
+                  key={card.id}
+                  card={card}
+                  isActive={index === activeIndex}
+                  onClick={() => setSelectedCard(card)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

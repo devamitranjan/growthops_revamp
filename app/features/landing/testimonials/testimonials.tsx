@@ -2,11 +2,21 @@
 
 import { ToggleGroup } from "radix-ui";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import useEmblaCarousel from "embla-carousel-react";
+import { useCarouselButtons } from "@/app/shared/hooks/use-carousel-buttons";
 import { TestimonialCard } from "./testimonial-card";
 import { LogoMarquee } from "./logo-marquee";
 import { categories, testimonials, logos } from "./testimonials.data";
 
 export default function Testimonials() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "center",
+    containScroll: "trimSnaps",
+    skipSnaps: false,
+  });
+  const { canScrollPrev, canScrollNext, scrollPrev, scrollNext } =
+    useCarouselButtons(emblaApi);
+
   return (
     <section className="reveal mt-[80px] md:mt-[100px]">
       <div>
@@ -40,20 +50,35 @@ export default function Testimonials() {
           <div className="absolute top-0 right-0 h-full w-[10%] md:w-1/4 bg-gradient-to-r from-transparent to-neutral-black-light z-20 pointer-events-none" />
 
           <div className="relative mb-16">
-            <div className="swiper__prev absolute left-[5%] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden max-md:hidden transition duration-300 ease-out">
+            <button
+              onClick={scrollPrev}
+              disabled={!canScrollPrev}
+              className="swiper__prev absolute left-[5%] top-1/2 -translate-y-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer disabled:hidden max-md:hidden transition duration-300 ease-out"
+              aria-label="Scroll testimonials left"
+            >
               <FaAngleLeft />
-            </div>
-            <div className="swiper__next absolute right-[5%] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden max-md:hidden transition duration-300 ease-out">
+            </button>
+            <button
+              onClick={scrollNext}
+              disabled={!canScrollNext}
+              className="swiper__next absolute right-[5%] top-1/2 -translate-y-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer disabled:hidden max-md:hidden transition duration-300 ease-out"
+              aria-label="Scroll testimonials right"
+            >
               <FaAngleRight />
-            </div>
+            </button>
 
-            <div className="flex gap-[18px] md:gap-[50px] overflow-x-auto max-md:z-30">
-              {testimonials.map((testimonial) => (
-                <TestimonialCard
-                  key={testimonial.alt}
-                  testimonial={testimonial}
-                />
-              ))}
+            <div
+              ref={emblaRef}
+              className="overflow-hidden max-md:overflow-x-auto max-md:touch-pan-x max-md:snap-x max-md:snap-mandatory max-md:pb-2 max-md:[scrollbar-width:none] max-md:[-ms-overflow-style:none] max-md:[&::-webkit-scrollbar]:hidden max-md:z-30 px-[5%] md:px-[calc(50vw-360px)]"
+            >
+              <div className="flex gap-[18px] md:gap-[40px]">
+                {testimonials.map((testimonial) => (
+                  <TestimonialCard
+                    key={testimonial.alt}
+                    testimonial={testimonial}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 

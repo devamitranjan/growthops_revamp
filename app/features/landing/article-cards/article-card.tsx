@@ -7,17 +7,15 @@ import { ArticleData } from "./article-cards.types";
 interface ArticleCardProps {
   article: ArticleData;
   isActive: boolean;
-  cardRef?: (element: HTMLAnchorElement | null) => void;
 }
 
-export function ArticleCard({ article, isActive, cardRef }: ArticleCardProps) {
+export function ArticleCard({ article, isActive }: ArticleCardProps) {
   return (
     <a
-      ref={cardRef}
       href={article.href}
       target="_self"
       className={cx(
-        "w-80 shrink-0 snap-center transition duration-500 ease-out md:w-[272px]",
+        "w-80 shrink-0 transition duration-500 ease-out md:w-[272px]",
         isActive
           ? "max-md:scale-100 max-md:opacity-100 max-md:blur-none"
           : "max-md:scale-90 max-md:opacity-50 max-md:blur-[1px]",

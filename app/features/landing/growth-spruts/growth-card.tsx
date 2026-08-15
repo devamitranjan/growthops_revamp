@@ -9,22 +9,15 @@ interface GrowthCardProps {
   card: GrowthCardData;
   isActive: boolean;
   onClick: () => void;
-  cardRef?: (element: HTMLElement | null) => void;
 }
 
-export function GrowthCard({
-  card,
-  isActive,
-  onClick,
-  cardRef,
-}: GrowthCardProps) {
+export function GrowthCard({ card, isActive, onClick }: GrowthCardProps) {
   return (
     <button
-      ref={cardRef}
       type="button"
       onClick={onClick}
       className={cx(
-        "relative shrink-0 overflow-hidden cursor-pointer text-left snap-center",
+        "relative shrink-0 overflow-hidden cursor-pointer text-left",
         "transition duration-500 ease-out",
         "max-md:w-[78%] md:w-[277px]",
         isActive
