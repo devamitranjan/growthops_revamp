@@ -16,7 +16,7 @@ export function LogoMarquee({ logos }: LogoMarqueeProps) {
         speed={75}
         pauseOnHover
         direction="left"
-        className="[&_.rfm-marquee]:items-center [&_.rfm-marquee]:gap-4"
+        className="[&_.rfm-marquee]:items-center"
       >
         {logos.map((logo, index) => (
           <div
