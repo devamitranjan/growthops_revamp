@@ -7,7 +7,7 @@ import checkFile from "eslint-plugin-check-file";
 const KEBAB_CASE_MAX_3_WORDS = "+([a-z0-9])?(-+([a-z0-9]))?(-+([a-z0-9]))";
 
 const assetGlobs = [
-  "public/**/*.{webp,png,jpg,jpeg,gif,svg,ico}",
+  "public/**/*.{webp,png,jpg,jpeg,gif,svg,ico,mp3}",
   "app/**/*.css",
 ];
 

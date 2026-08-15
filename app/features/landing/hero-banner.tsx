@@ -7,12 +7,14 @@ export default function HeroBanner() {
         <div className="absolute top-0 w-full h-full z-10 bg-gradient-to-t from-neutral-black-base to-transparent to-70%" />
         <video
           preload="auto"
+          autoPlay
           muted
           loop
           playsInline
-          poster="/placeholder.svg"
+          poster="/hero-banner/hero-poster.webp"
           className="h-screen w-full object-cover"
         >
+          <source src="/hero-banner/hero.webm" type="video/webm" />
           Your browser does not support the video tag.
         </video>
       </div>
