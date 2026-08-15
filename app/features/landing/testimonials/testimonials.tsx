@@ -29,7 +29,7 @@ export default function Testimonials() {
           <ToggleGroup.Root
             type="single"
             defaultValue="Finance"
-            className="generic-container flex gap-5 mb-8 max-md:overflow-scroll"
+            className="generic-container flex gap-5 mb-8 max-md:overflow-x-auto max-md:[scrollbar-width:none] max-md:[-ms-overflow-style:none] max-md:[&::-webkit-scrollbar]:hidden"
           >
             {categories.map((category) => (
               <ToggleGroup.Item
