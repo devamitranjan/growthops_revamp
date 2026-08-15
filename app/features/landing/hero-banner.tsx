@@ -1,3 +1,5 @@
+import { FaAngleDown } from "react-icons/fa6";
+
 export default function HeroBanner() {
   return (
     <div className="relative">
@@ -79,7 +81,7 @@ export default function HeroBanner() {
                   />
                 </svg>
               </div>
-              <i className="fa-solid fa-angle-down" />
+              <FaAngleDown />
             </div>
           </div>
         </div>

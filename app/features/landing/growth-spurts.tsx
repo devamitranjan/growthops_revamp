@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Dialog } from "radix-ui";
+import { FaCircleCheck } from "react-icons/fa6";
 import { SectionHeader } from "../../shared/components/section-header";
 import { VideoDialogPortal } from "../../shared/components/video-dialog-portal";
 
@@ -68,7 +69,7 @@ export default function GrowthSpurts() {
                       {card.label}
                     </p>
                     <div className="card__description flex gap-2 items-center">
-                      <i className="fa-solid fa-circle-check text-sm text-primary-pink-base" />
+                      <FaCircleCheck className="text-sm text-primary-pink-base" />
                       <p className="text-neutral-white-base body3-regular">
                         {card.description}
                       </p>

@@ -1,6 +1,13 @@
 "use client";
 
 import { Form } from "radix-ui";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+  FaUpRightFromSquare,
+  FaYoutube,
+} from "react-icons/fa6";
 
 const exploreLinks = [
   {
@@ -26,22 +33,22 @@ const exploreLinks = [
 const socials = [
   {
     href: "https://ph.linkedin.com/company/growthops-asia",
-    icon: "fa-brands fa-linkedin-in",
+    Icon: FaLinkedinIn,
     label: "LinkedIn",
   },
   {
     href: "https://www.facebook.com/growthopsasia",
-    icon: "fa-brands fa-facebook-f",
+    Icon: FaFacebookF,
     label: "Facebook",
   },
   {
     href: "https://www.instagram.com/growthopsasia/",
-    icon: "fa-brands fa-instagram",
+    Icon: FaInstagram,
     label: "Instagram",
   },
   {
     href: "https://www.youtube.com/@growthopsasia",
-    icon: "fa-brands fa-youtube",
+    Icon: FaYoutube,
     label: "YouTube",
   },
 ];
@@ -101,7 +108,7 @@ export default function SiteFooter() {
                     aria-label={social.label}
                     className="h-10 w-10 flex justify-center items-center rounded-full text-xl text-white transition ease-out duration-300 hover:bg-neutral-white-base/10"
                   >
-                    <i className={social.icon} />
+                    <social.Icon />
                   </a>
                 ))}
               </div>
@@ -161,7 +168,7 @@ export default function SiteFooter() {
                 rel=""
                 className="transition ease-out duration-300 hover:text-primary-pink-base hover:border-b hover:border-primary-pink-base"
               >
-                <i className="fa-solid fa-up-right-from-square mr-1" />
+                <FaUpRightFromSquare className="mr-1 inline" />
                 Privacy Policy
               </a>
             </div>

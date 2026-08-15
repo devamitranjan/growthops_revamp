@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { ToggleGroup } from "radix-ui";
+import { FaAngleLeft, FaAngleRight, FaPlay } from "react-icons/fa6";
 
 const categories = [
   "Finance",
@@ -107,10 +108,10 @@ export default function Testimonials() {
 
           <div className="relative mb-16">
             <div className="swiper__prev absolute left-[5%] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden max-md:hidden transition duration-300 ease-out">
-              <i className="fa-solid fa-angle-left" />
+              <FaAngleLeft />
             </div>
             <div className="swiper__next absolute right-[5%] top-1/2 text-neutral-white-base text-2xl opacity-60 hover:opacity-100 z-20 cursor-pointer aria-disabled:hidden max-md:hidden transition duration-300 ease-out">
-              <i className="fa-solid fa-angle-right" />
+              <FaAngleRight />
             </div>
 
             <div className="flex gap-[18px] md:gap-[50px] overflow-x-auto max-md:z-30">
@@ -144,7 +145,7 @@ export default function Testimonials() {
                     </div>
                     <div className="flex gap-2 items-center">
                       <div className="cursor-pointer text-xs text-neutral-white-base">
-                        <i className="fa-solid fa-play" />
+                        <FaPlay />
                       </div>
                       <p className="body3-regular text-neutral-white-base opacity-80">
                         00:00

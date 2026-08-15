@@ -1,3 +1,5 @@
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+
 interface ScrollArrowButtonProps {
   direction: "left" | "right";
   onClick: () => void;
@@ -5,13 +7,13 @@ interface ScrollArrowButtonProps {
 
 const directionConfig = {
   left: {
-    position: "left-[-40px]",
-    icon: "fa-angle-left",
+    position: "left-[-30px]",
+    Icon: FaAngleLeft,
     label: "Scroll left",
   },
   right: {
-    position: "right-[-40px]",
-    icon: "fa-angle-right",
+    position: "right-[-20px]",
+    Icon: FaAngleRight,
     label: "Scroll right",
   },
 } as const;
@@ -20,7 +22,7 @@ export function ScrollArrowButton({
   direction,
   onClick,
 }: ScrollArrowButtonProps) {
-  const { position, icon, label } = directionConfig[direction];
+  const { position, Icon, label } = directionConfig[direction];
 
   return (
     <button
@@ -28,7 +30,7 @@ export function ScrollArrowButton({
       className={`absolute ${position} top-1/2 z-20 -translate-y-1/2 cursor-pointer text-2xl text-white opacity-60 transition duration-300 ease-out hover:opacity-100 max-md:hidden`}
       aria-label={label}
     >
-      <i className={`fa-solid ${icon}`} />
+      <Icon />
     </button>
   );
 }

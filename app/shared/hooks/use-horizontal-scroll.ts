@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
-import { eventBus } from "../utils/event-bus";
 
 export function useHorizontalScroll<T extends HTMLElement = HTMLDivElement>(
   scrollAmount = 300,
@@ -40,12 +39,14 @@ export function useHorizontalScroll<T extends HTMLElement = HTMLDivElement>(
 
     updateScrollButtons();
 
-    eventBus.on("growth-ops-horizontal-scroll", updateScrollButtons);
-    eventBus.on("growth-ops-horizontal-resize", updateScrollButtons);
+    container.addEventListener("scroll", updateScrollButtons, {
+      passive: true,
+    });
+    window.addEventListener("resize", updateScrollButtons);
 
     return () => {
-      eventBus.off("growth-ops-horizontal-scroll", updateScrollButtons);
-      eventBus.off("growth-ops-horizontal-resize", updateScrollButtons);
+      container.removeEventListener("scroll", updateScrollButtons);
+      window.removeEventListener("resize", updateScrollButtons);
     };
   }, [updateScrollButtons]);
 

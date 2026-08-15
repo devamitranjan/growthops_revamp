@@ -1,3 +1,4 @@
+import { FaAngleRight } from "react-icons/fa6";
 import ArrowCircleIcon from "../../assets/arrow-circle-icon";
 
 interface IShowAllLinkProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -15,7 +16,7 @@ export const ShowAllLink: React.FC<IShowAllLinkProps> = ({ link }) => {
           <div className="absolute top-0 left-0 rounded-full group-hover:bg-primary-pink-base group-hover:scale-95 transition duration-300 ease-out">
             <ArrowCircleIcon />
           </div>
-          <i className="fa-solid fa-angle-right z-10" />
+          <FaAngleRight className="z-10" />
         </div>
       </div>
     </a>

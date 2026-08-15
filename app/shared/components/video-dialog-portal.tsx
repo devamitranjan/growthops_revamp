@@ -1,6 +1,7 @@
 "use client";
 
 import { Dialog, VisuallyHidden } from "radix-ui";
+import { FaXmark } from "react-icons/fa6";
 
 interface VideoDialogPortalProps {
   title: string;
@@ -21,7 +22,7 @@ export function VideoDialogPortal({
           <Dialog.Title>{title}</Dialog.Title>
         </VisuallyHidden.Root>
         <Dialog.Close className="fixed top-[24px] md:top-[40px] right-0 mr-6 md:mr-20 flex text-2xl md:text-4xl justify-center items-center text-neutral-white-base">
-          <i className="fa-solid fa-xmark" />
+          <FaXmark />
         </Dialog.Close>
         <div className="generic-container h-full md:w-[90%] flex flex-col gap-6 justify-center items-center">
           <video

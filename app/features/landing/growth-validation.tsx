@@ -39,6 +39,7 @@ export default function GrowthValidation() {
               alt="Customer Engagement Agency of the Year by Campaign Asia"
               fill
               priority
+              unoptimized
               sizes="(max-width: 768px) 100vw, 60vw"
               className="object-cover"
             />

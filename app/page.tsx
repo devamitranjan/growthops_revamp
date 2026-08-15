@@ -12,8 +12,8 @@ import SiteFooter from "./shared/components/site-footer";
 export default function Home() {
   return (
     <div className="body-wrapper hs-content-id-153839881997 hs-site-page page">
-      <GrowthSpurts />
       <ServicesGrid />
+      <GrowthSpurts />
       <ArticleCards />
       <GrowthValidation />
       <TeamSection />
