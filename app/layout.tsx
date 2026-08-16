@@ -55,7 +55,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`dark ${montserrat.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+      {/* Must stay a plain block box: GSAP's pin-spacing cannot grow the
+          document through a flex-column body, which silently kills every pin. */}
+      <body className="min-h-full" suppressHydrationWarning>
         {children}
       </body>
     </html>

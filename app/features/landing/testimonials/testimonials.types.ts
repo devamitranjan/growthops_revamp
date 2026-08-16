@@ -1,4 +1,5 @@
 export interface TestimonialData {
+  category: string;
   audioSrc: string;
   imgSrc: string;
   alt: string;

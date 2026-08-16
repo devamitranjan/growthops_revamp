@@ -21,6 +21,5 @@ export const stats: GrowthStat[] = [
   {
     stat: "96%",
     description: "faster campaign launches with platform development services",
-    cta: true,
   },
 ];

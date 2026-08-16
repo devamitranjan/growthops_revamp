@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { ToggleGroup } from "radix-ui";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import useEmblaCarousel from "embla-carousel-react";
@@ -9,13 +10,20 @@ import { LogoMarquee } from "./logo-marquee";
 import { categories, testimonials, logos } from "./testimonials.data";
 
 export default function Testimonials() {
+  const [selectedCategory, setSelectedCategory] = useState("Finance");
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
     containScroll: "trimSnaps",
     skipSnaps: false,
   });
+
   const { canScrollPrev, canScrollNext, scrollPrev, scrollNext } =
     useCarouselButtons(emblaApi);
+
+  const filteredTestimonials = testimonials.filter(
+    (testimonial) => testimonial.category === selectedCategory,
+  );
 
   return (
     <section className="reveal mt-[80px] md:mt-[100px]">
@@ -25,10 +33,16 @@ export default function Testimonials() {
             In Their Words
           </h2>
         </div>
+
         <div>
           <ToggleGroup.Root
             type="single"
-            defaultValue="Finance"
+            value={selectedCategory}
+            onValueChange={(value) => {
+              if (value) {
+                setSelectedCategory(value);
+              }
+            }}
             className="generic-container flex gap-5 mb-8 max-md:overflow-x-auto max-md:[scrollbar-width:none] max-md:[-ms-overflow-style:none] max-md:[&::-webkit-scrollbar]:hidden"
           >
             {categories.map((category) => (
@@ -58,6 +72,7 @@ export default function Testimonials() {
             >
               <FaAngleLeft />
             </button>
+
             <button
               onClick={scrollNext}
               disabled={!canScrollNext}
@@ -72,7 +87,7 @@ export default function Testimonials() {
               className="overflow-hidden max-md:overflow-x-auto max-md:touch-pan-x max-md:snap-x max-md:snap-mandatory max-md:pb-2 max-md:[scrollbar-width:none] max-md:[-ms-overflow-style:none] max-md:[&::-webkit-scrollbar]:hidden max-md:z-30 px-[5%] md:px-[calc(50vw-360px)]"
             >
               <div className="flex gap-[18px] md:gap-[40px]">
-                {testimonials.map((testimonial, index) => (
+                {filteredTestimonials.map((testimonial, index) => (
                   <TestimonialCard
                     key={`${testimonial.alt}-${index}`}
                     testimonial={testimonial}
@@ -88,3 +103,4 @@ export default function Testimonials() {
     </section>
   );
 }
+

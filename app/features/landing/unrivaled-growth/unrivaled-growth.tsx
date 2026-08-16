@@ -1,227 +1,202 @@
 "use client";
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
 
-const statsData = [
-  {
-    id: 1,
-    value: "817%",
-    label: "increase in organic traffic with SEO services",
-  },
-  {
-    id: 2,
-    value: "100%",
-    label: "increase in conversion with paid media services",
-  },
-  {
-    id: 3,
-    value: "180%",
-    label: "improvement in brand sentiment with creative services",
-  },
-  {
-    id: 4,
-    value: "71%",
-    label: "reduction in Cost Per Lead with performance marketing services",
-  },
-  {
-    id: 5,
-    isFinal: true,
-    value: "96%",
-    label: "faster campaign launches with platform development services",
-  },
-];
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
-export default function UnrivaledGrowthSection() {
-  const containerRef = useRef(null);
+import { GrowthStatItem } from "./growth-stat-item";
+import { stats } from "./unrivaled-growth.data";
 
-  // Track overall scroll progress inside the 400vh container
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-  // Header diagonal trajectory (Center -> Left Dock) during initial 0% - 15% scroll
-  const headerX = useTransform(scrollYProgress, [0, 0.15], ["20vw", "0vw"]);
-  const headerY = useTransform(scrollYProgress, [0, 0.15], ["-15vh", "0vh"]);
-  const headerScale = useTransform(scrollYProgress, [0, 0.15], [1.3, 1]);
+const FADED = "rgba(245, 245, 245, 0.2)";
+const SOLID = "rgba(245, 245, 245, 1)";
+const GONE = "rgba(245, 245, 245, 0)";
 
-  // Metrics crossfade one at a time: each item's exit window is the same
-  // scroll range as the next item's enter window, so for a moment both are
-  // dimly visible together, then the new one settles ("docks") at full opacity.
-  const slide1Opacity = useTransform(
-    scrollYProgress,
-    [0.15, 0.19, 0.28, 0.32],
-    [0, 1, 1, 0],
+const MOBILE_BREAKPOINT = 768;
+const RED_PANEL_SHRINK_SCALE = 0.9125;
+const RED_PANEL_BORDER_RADIUS = 50;
+
+/** Fraction of the viewport width the heading's left edge docks at. */
+const HEADING_DOCK_LEFT = 0.1;
+
+export default function UnrivaledGrowth() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
+  const gradientHeadingRef = useRef<HTMLHeadingElement>(null);
+  const solidHeadingRef = useRef<HTMLHeadingElement>(null);
+  const statRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
+
+  useGSAP(
+    () => {
+      const isMobile = () => window.innerWidth < MOBILE_BREAKPOINT;
+
+      // The heading sits at the middle of row 1, i.e. 25vh into the section.
+      // The section's vertical middle is 50vh in, so it travels down 25vh and
+      // left far enough to dock its left edge 10% in from the viewport edge.
+      // On mobile there is no room to move sideways, so it drops straight
+      // down instead and the stats stack underneath it.
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          // starts the moment the section's second half begins to load...
+          start: "center bottom",
+          // ...and finishes once the section is entirely on screen.
+          end: "bottom bottom",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+        defaults: { ease: "none" },
+      });
+
+      tl.to(
+        headingRef.current,
+        {
+          x: () => {
+            if (isMobile()) return 0;
+            const width = headingRef.current?.offsetWidth ?? 0;
+            return (
+              window.innerWidth * HEADING_DOCK_LEFT -
+              (window.innerWidth - width) / 2
+            );
+          },
+          y: () => window.innerHeight * 0.25,
+        },
+        0,
+      )
+        .fromTo(
+          backgroundRef.current,
+          { opacity: 0, top: "80px" },
+          { opacity: 1, top: 0 },
+          0,
+        )
+        .fromTo(solidHeadingRef.current, { autoAlpha: 0 }, { autoAlpha: 1 }, 0);
+
+      // Stats enter from the middle of the section's second half, dock on the
+      // heading's line, then leave through the middle of the first half.
+      const enterY = () => window.innerHeight * 0.125;
+      const exitY = () => -window.innerHeight * 0.125;
+
+      const cards = statRefs.current.filter(Boolean) as HTMLLIElement[];
+      gsap.set(cards, { y: enterY, color: GONE });
+      gsap.set(ctaRef.current, { y: enterY, autoAlpha: 0 });
+
+      const statsTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          // picks up exactly where the heading's tween finished
+          start: "bottom bottom",
+          // cards.length beats for the stats, one for the CTA, and half a
+          // beat of hold so the docked CTA rests before the next section
+          end: () => "+=" + window.innerHeight * (cards.length + 1.5) * 0.6,
+          pin: true,
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+        defaults: { ease: "none" },
+      });
+
+      cards.forEach((card, i) => {
+        statsTl.fromTo(
+          card,
+          { y: enterY, color: FADED },
+          {
+            y: 0,
+            color: SOLID,
+            duration: 1,
+            // Without this every fromTo paints its "from" state the moment
+            // it's created, stacking all five cards on top of each other.
+            immediateRender: i === 0,
+          },
+          i,
+        );
+        // Each card clears out as the next one arrives — except the last,
+        // which stays docked.
+        if (i < cards.length - 1) {
+          statsTl.to(card, { y: exitY, color: GONE, duration: 1 }, i + 1);
+        }
+      });
+
+      // Once the last stat has settled, the CTA rises into place under it.
+      statsTl.fromTo(
+        ctaRef.current,
+        { y: enterY, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 1, immediateRender: false },
+        cards.length,
+      );
+
+      // After the CTA has docked, the red background collapses inward while the
+      // page background becomes visible around the shrinking panel.
+      gsap.set(backgroundRef.current, {
+        borderRadius: 0,
+        transformOrigin: "center center",
+      });
+      statsTl.to(
+        backgroundRef.current,
+        {
+          scale: RED_PANEL_SHRINK_SCALE,
+          borderRadius: RED_PANEL_BORDER_RADIUS,
+          duration: 1.2,
+          ease: "none",
+        },
+        cards.length + 1.2,
+      );
+    },
+    { scope: sectionRef },
   );
-  const slide1Y = useTransform(
-    scrollYProgress,
-    [0.15, 0.19, 0.28, 0.32],
-    [28, 0, 0, -28],
-  );
-
-  const slide2Opacity = useTransform(
-    scrollYProgress,
-    [0.28, 0.32, 0.41, 0.45],
-    [0, 1, 1, 0],
-  );
-  const slide2Y = useTransform(
-    scrollYProgress,
-    [0.28, 0.32, 0.41, 0.45],
-    [28, 0, 0, -28],
-  );
-
-  const slide3Opacity = useTransform(
-    scrollYProgress,
-    [0.41, 0.45, 0.54, 0.58],
-    [0, 1, 1, 0],
-  );
-  const slide3Y = useTransform(
-    scrollYProgress,
-    [0.41, 0.45, 0.54, 0.58],
-    [28, 0, 0, -28],
-  );
-
-  const slide4Opacity = useTransform(
-    scrollYProgress,
-    [0.54, 0.58, 0.67, 0.71],
-    [0, 1, 1, 0],
-  );
-  const slide4Y = useTransform(
-    scrollYProgress,
-    [0.54, 0.58, 0.67, 0.71],
-    [28, 0, 0, -28],
-  );
-
-  const slide5Opacity = useTransform(
-    scrollYProgress,
-    [0.67, 0.71, 1.0],
-    [0, 1, 1],
-  );
-  const slide5Y = useTransform(scrollYProgress, [0.67, 0.71, 1.0], [28, 0, 0]);
-
-  // "View more results" docks below the last metric only once it has been
-  // settled for a while — a clean gap after 0.71 so the two never overlap.
-  // The hold segment must reach all the way to 1.0 (not stop at 0.88):
-  // scroll-linked transforms here compile to native scroll-timeline
-  // animations, and a range that ends before the scroll domain's end
-  // reverts to its base value once scrolled past — which made the button
-  // flash in and then fade back out.
-  const buttonOpacity = useTransform(
-    scrollYProgress,
-    [0.8, 0.88, 1.0],
-    [0, 1, 1],
-  );
-  const buttonY = useTransform(scrollYProgress, [0.8, 0.88, 1.0], [24, 0, 0]);
-
-  // Red panel is already full-bleed; it fades in once, then stays fully opaque
-  // (explicit flat keyframes through 1.0 so it can never dim again mid-scroll)
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.15, 1], [0, 1, 1]);
-
-  // Once "View more results" has docked, the panel shrinks inward into a
-  // rounded card (stays fully opaque — only its edges pull in, revealing
-  // black behind it)
-  const bgInset = useTransform(scrollYProgress, [0.62, 1.0], ["0px", "5.25%"]);
-  const bgRadius = useTransform(scrollYProgress, [0.62, 1.0], ["0px", "40px"]);
-  // Heading gradient fades out as metrics appear (from 0.15 to 0.28)
-  const headingGradientOpacity = useTransform(
-    scrollYProgress,
-    [0.15, 0.28, 1],
-    [1, 0, 0],
-  );
-  const headingWhiteOpacity = useTransform(
-    scrollYProgress,
-    [0.15, 0.28, 1],
-    [0, 1, 1],
-  );
-
-  const slideMotionStyles = [
-    { opacity: slide1Opacity, y: slide1Y },
-    { opacity: slide2Opacity, y: slide2Y },
-    { opacity: slide3Opacity, y: slide3Y },
-    { opacity: slide4Opacity, y: slide4Y },
-    { opacity: slide5Opacity, y: slide5Y },
-  ];
 
   return (
-    <div ref={containerRef} className="relative h-[400vh] text-white">
-      {/* Pinned Sticky Viewport */}
-      <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Red Panel Background */}
-        <motion.div
-          style={{
-            opacity: bgOpacity,
-            inset: bgInset,
-            borderRadius: bgRadius,
-          }}
-          className="absolute z-0 bg-[#C4003E]"
-        />
+    <section
+      ref={sectionRef}
+      className="relative min-h-screen overflow-hidden bg-background"
+    >
+      <div
+        ref={backgroundRef}
+        className="absolute inset-x-0 bottom-0 top-0 z-0 overflow-hidden rounded-[0px] bg-gradient-to-r from-primary-pink-extradark to-primary-pink-light"
+      />
 
-        {/* Content (constrained to the site's max-width container) */}
-        <div className="generic-container relative z-10 flex h-full items-center justify-between px-12 md:px-24">
-          {/* Animated Diagonal Heading */}
-          <div className="relative">
-            <motion.h2
-              style={{
-                x: headerX,
-                y: headerY,
-                scale: headerScale,
-                opacity: headingGradientOpacity,
-              }}
-              className="heading-h1-bold text-center gradient-text"
+      <div className="relative z-10 grid min-h-screen grid-rows-2 text-white">
+        <div className="flex items-center justify-center">
+          <div ref={headingRef} className="relative z-20">
+            <h2
+              ref={gradientHeadingRef}
+              className="heading-h2-bold gradient-text z-10 text-center"
             >
               Unrivaled Growth
-            </motion.h2>
-            <motion.h2
-              style={{
-                x: headerX,
-                y: headerY,
-                scale: headerScale,
-                opacity: headingWhiteOpacity,
-              }}
-              className="heading-h1-bold text-center text-white absolute inset-0"
+            </h2>
+            <h2
+              ref={solidHeadingRef}
+              className="heading-h2-bold absolute inset-0 z-20 text-center text-white"
             >
               Unrivaled Growth
-            </motion.h2>
-          </div>
-
-          {/* Content Container for Metrics */}
-          <div className="relative w-full max-w-lg h-72 flex flex-col justify-center">
-            {statsData.map((metric, index) => (
-              <motion.div
-                key={metric.id}
-                style={{
-                  opacity: slideMotionStyles[index].opacity,
-                  y: slideMotionStyles[index].y,
-                }}
-                className="absolute inset-0 flex flex-col justify-center pointer-events-none"
-              >
-                <div className="relative">
-                  <div className="flex items-center space-x-6">
-                    <span className="text-5xl md:text-6xl font-extrabold tracking-tight min-w-[160px]">
-                      {metric.value}
-                    </span>
-                    <p className="text-sm md:text-base font-medium opacity-90 leading-snug max-w-xs">
-                      {metric.label}
-                    </p>
-                  </div>
-
-                  {/* Final Metric Action Button — docks below once 96% has settled */}
-                  {metric.isFinal && (
-                    <motion.div
-                      style={{ opacity: buttonOpacity, y: buttonY }}
-                      className="absolute left-0 top-full mt-8 pointer-events-auto"
-                    >
-                      <button className="px-6 py-2.5 border border-white rounded-full text-xs font-semibold tracking-wide hover:bg-white hover:text-[#C4003E] transition-all duration-300">
-                        View more results
-                      </button>
-                    </motion.div>
-                  )}
-                </div>
-              </motion.div>
-            ))}
+            </h2>
           </div>
         </div>
+        <div />
+
+        <ul className="pointer-events-none absolute inset-0 z-10">
+          {stats.map((item, i) => (
+            <GrowthStatItem
+              key={item.stat}
+              item={item}
+              ref={(el) => {
+                statRefs.current[i] = el;
+              }}
+            />
+          ))}
+        </ul>
+
+        <a
+          ref={ctaRef}
+          href="https://www.growthops.asia/work"
+          className="body2-bold absolute z-10 rounded-[40px] border border-neutral-white-base bg-transparent px-10 py-3 text-white transition-colors duration-300 ease-out hover:bg-neutral-white-base hover:text-primary-pink-base max-md:top-[calc(50%+224px)] max-md:left-1/2 max-md:w-max max-md:-translate-x-1/2 md:top-[calc(50%+80px)] md:left-1/2"
+        >
+          View more results
+        </a>
       </div>
-    </div>
+    </section>
   );
 }

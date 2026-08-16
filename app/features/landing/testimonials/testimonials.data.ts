@@ -11,8 +11,9 @@ export const categories = [
 
 export const testimonials: TestimonialData[] = [
   {
+    category: "Finance",
     audioSrc: "/testimonials/audio/mizuho.mp3",
-    imgSrc: "/placeholder.svg",
+    imgSrc: "/testimonials/image/mizuho-goa.webp",
     alt: "Mizuho",
     quote:
       "From strategy to execution, GrowthOps went beyond and exceeded our expectations.",
@@ -20,15 +21,17 @@ export const testimonials: TestimonialData[] = [
       "Director, Systems Planning ＆ Development Section, Mizuho Bank, Ltd. ",
   },
   {
-    audioSrc: "",
-    imgSrc: "/placeholder.svg",
+    category: "Finance",
+    audioSrc: "/testimonials/audio/leading-regional-bank.mp3",
+    imgSrc: "/testimonials/image/glient-testimonials-goa.webp",
     alt: "Leading Regional Bank",
     quote: "GrowthOps have helped us profitably acquire customers.",
     position: "Business & Innovation ",
   },
   {
-    audioSrc: "",
-    imgSrc: "/placeholder.svg",
+    category: "Finance",
+    audioSrc: "/testimonials/audio/cimb.mp3",
+    imgSrc: "/testimonials/image/cimb-goa.webp",
     alt: "company logo",
     quote:
       "The key to success was due to collaborative efforts and fast implementation of GrowthOps and our teams.",
@@ -37,96 +40,103 @@ export const testimonials: TestimonialData[] = [
 
   // Insurance
   {
-    audioSrc: "",
-    imgSrc: "/placeholder.svg",
+    category: "Insurance",
+    audioSrc: "/testimonials/audio/aia.mp3",
+    imgSrc: "/testimonials/image/aia-goa.webp",
     alt: "company logo",
     quote:
       "GrowthOps is a trustworthy partner that I would recommend to any company.",
-    position: "Associate Director, Digitalization, Innovation and Enterprise Architecture",
+    position:
+      "Associate Director, Digitalization, Innovation and Enterprise Architecture",
   },
 
   // Telco
   {
-    audioSrc: "",
-    imgSrc: "/placeholder.svg",
+    category: "Telco",
+    audioSrc: "/testimonials/audio/umobile.mp3",
+    imgSrc: "/testimonials/image/u-mobile-goa.webp",
     alt: "company logo",
     quote:
       "GrowthOps have shown to have the right capabilities to take our platform to the next level.",
     position: "Chief Digital Officer",
   },
   {
-    audioSrc: "",
-    imgSrc: "/placeholder.svg",
+    category: "Telco",
+    audioSrc: "/testimonials/audio/tm.mp3",
+    imgSrc: "/testimonials/image/tm.webp",
     alt: "company logo",
     quote:
       "GrowthOps can target a single creative concept with two perspectives.",
     position: "Vice President, Brand & Marketing",
   },
 
-  //Travel
+  // Travel
   {
-    audioSrc: "",
-    imgSrc: "/placeholder.svg",
+    category: "Travel",
+    audioSrc: "/testimonials/audio/mas.mp3",
+    imgSrc: "/testimonials/image/malaysia-airlines-goa.webp",
     alt: "company logo",
     quote:
       "GrowthOps has brought the right maturity in design, technology, and analytics capabilities to take our platform to the next level.",
     position: "Group Chief Digital and Technology Officer",
   },
 
-  //Superapp
+  // Superapp
   {
-    audioSrc: "",
-    imgSrc: "/placeholder.svg",
+    category: "Superapp",
+    audioSrc: "/testimonials/audio/grab.mp3",
+    imgSrc: "/testimonials/image/grab-goa.webp",
     alt: "company logo",
-    quote:
-      "GrowthOps have gone above and beyond.",
+    quote: "GrowthOps have gone above and beyond.",
     position: "Content Head",
   },
 
-  //More
+  // More
   {
-    audioSrc: "",
-    imgSrc: "/placeholder.svg",
+    category: "More",
+    audioSrc: "/testimonials/audio/esplanade.mp3",
+    imgSrc: "/testimonials/image/esplanade-goa.webp",
     alt: "company logo",
     quote:
       "GrowthOps has shown that the team is capable of providing one of the highest standards in project management and strategy.",
     position: "Head of Digital",
   },
   {
-    audioSrc: "",
-    imgSrc: "/placeholder.svg",
+    category: "More",
+    audioSrc: "/testimonials/audio/sangeetha-umakanthan-rspo.mp3",
+    imgSrc: "/testimonials/image/rspo-goa.webp",
     alt: "company logo",
     quote:
       "We are leveraging the agency’s digital marketing capabilities to showcase the depth of progress that RSPO Members are driving in the quest to make palm oil sustainable.",
     position: "Deputy Director of Communications",
   },
   {
-    audioSrc: "",
-    imgSrc: "/placeholder.svg",
+    category: "More",
+    audioSrc: "/testimonials/audio/seow-lee-shell.mp3",
+    imgSrc: "/testimonials/image/shell-goa.webp",
     alt: "company logo",
     quote:
       "This new campaign [created by GrowthOps] aims to go beyond our product benefits and connect with Malaysians.",
     position: "GM, Shell Mobility Malaysia",
   },
   {
-    audioSrc: "",
-    imgSrc: "/placeholder.svg",
+    category: "More",
+    audioSrc: "/testimonials/audio/crown.mp3",
+    imgSrc: "/testimonials/image/crown.webp",
     alt: "company logo",
     quote:
       "GrowthOps has been a key partner to Crown’s digital growth in the Asia market.",
     position: "Digital Marketing Manager",
   },
   {
-    audioSrc: "",
-    imgSrc: "/placeholder.svg",
+    category: "More",
+    audioSrc: "/testimonials/audio/pink-collar.mp3",
+    imgSrc: "/testimonials/image/pinkcollar-goa.webp",
     alt: "company logo",
     quote:
       "We chose to partner with GrowthOps in implementing Salesforce as we want to make sure that we are able to maximize its features.",
     position: "Chief Executive Officer",
   },
-  
-    
-
 ];
 
 export const logos: LogoData[] = [
