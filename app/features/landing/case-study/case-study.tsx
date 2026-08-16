@@ -1,63 +1,40 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import { VideoDialog } from "../../../shared/components/video-dialog-portal";
 import { CaseStudySlide } from "./case-study-slide";
 import { caseStudySlides } from "./case-study.data";
 
 const SLIDE_DURATION = 6000;
-const DESKTOP_VISIBLE_CARDS = 4;
 
 export default function CaseStudy() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [visibleStartIndex, setVisibleStartIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
 
-  const mobileCarouselRef = useRef<HTMLDivElement | null>(null);
-  const mobileCardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const mobileScrollTimeoutRef = useRef<ReturnType<
-    typeof setTimeout
-  > | null>(null);
   const isProgrammaticScrollRef = useRef(false);
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "start",
+    containScroll: "trimSnaps",
+    watchDrag: () => !window.matchMedia("(min-width: 768px)").matches,
+  });
 
   const totalSlides = caseStudySlides.length;
   const activeSlide = caseStudySlides[activeIndex];
 
-  const maxDesktopStartIndex = Math.max(
-    totalSlides - DESKTOP_VISIBLE_CARDS,
-    0,
-  );
-
-  const goToSlide = useCallback(
-    (index: number) => {
-      if (index < 0 || index >= totalSlides) {
-        return;
-      }
-
-      setActiveIndex(index);
-      setProgress(0);
-
-      if (index === 0) {
-        setVisibleStartIndex(0);
-        return;
-      }
-
-      setVisibleStartIndex(
-        Math.min(index, maxDesktopStartIndex),
-      );
-    },
-    [maxDesktopStartIndex, totalSlides],
-  );
+  const goToSlide = useCallback((index: number) => {
+    setActiveIndex(index);
+    setProgress(0);
+  }, []);
 
   const goToNextSlide = useCallback(() => {
-    const nextIndex =
-      activeIndex === totalSlides - 1
-        ? 0
-        : activeIndex + 1;
-
-    goToSlide(nextIndex);
-  }, [activeIndex, goToSlide, totalSlides]);
+    setActiveIndex((current) =>
+      current === totalSlides - 1 ? 0 : current + 1,
+    );
+    setProgress(0);
+  }, [totalSlides]);
 
   useEffect(() => {
     const startTime = performance.now();
@@ -78,115 +55,46 @@ export default function CaseStudy() {
         return;
       }
 
-      animationFrameId =
-        requestAnimationFrame(updateProgress);
+      animationFrameId = requestAnimationFrame(updateProgress);
     };
 
-    animationFrameId =
-      requestAnimationFrame(updateProgress);
+    animationFrameId = requestAnimationFrame(updateProgress);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
   }, [activeIndex, goToNextSlide]);
 
-
   useEffect(() => {
-    const container = mobileCarouselRef.current;
-
-    if (!container) {
+    if (!emblaApi) {
       return;
     }
-
-    const activeCard =
-      mobileCardRefs.current[activeIndex];
-
-    if (!activeCard) {
-      return;
-    }
-
-    const containerLeft =
-      container.getBoundingClientRect().left;
-
-    const cardLeft =
-      activeCard.getBoundingClientRect().left;
-
-    const targetScrollLeft =
-      container.scrollLeft +
-      (cardLeft - containerLeft);
 
     isProgrammaticScrollRef.current = true;
+    emblaApi.scrollTo(activeIndex);
+  }, [emblaApi, activeIndex]);
 
-    container.scrollTo({
-      left: targetScrollLeft,
-      behavior: "smooth",
-    });
-
-    const timeout = setTimeout(() => {
-      isProgrammaticScrollRef.current = false;
-    }, 500);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [activeIndex]);
-
-  const handleMobileScroll = useCallback(() => {
-    if (isProgrammaticScrollRef.current) {
+  useEffect(() => {
+    if (!emblaApi) {
       return;
     }
 
-    if (mobileScrollTimeoutRef.current) {
-      clearTimeout(mobileScrollTimeoutRef.current);
-    }
-
-    mobileScrollTimeoutRef.current = setTimeout(() => {
-      const container = mobileCarouselRef.current;
-
-      if (!container) {
+    const handleSelect = () => {
+      if (isProgrammaticScrollRef.current) {
+        isProgrammaticScrollRef.current = false;
         return;
       }
 
-      const containerLeft =
-        container.getBoundingClientRect().left;
-
-      let closestIndex = activeIndex;
-      let closestDistance = Infinity;
-
-      mobileCardRefs.current.forEach(
-        (card, index) => {
-          if (!card) {
-            return;
-          }
-
-          const cardLeft =
-            card.getBoundingClientRect().left;
-
-          const distance = Math.abs(
-            cardLeft - containerLeft,
-          );
-
-          if (distance < closestDistance) {
-            closestDistance = distance;
-            closestIndex = index;
-          }
-        },
-      );
-
-      if (closestIndex !== activeIndex) {
-        setActiveIndex(closestIndex);
-        setProgress(0);
-      }
-    }, 100);
-  }, [activeIndex]);
-
-  useEffect(() => {
-    return () => {
-      if (mobileScrollTimeoutRef.current) {
-        clearTimeout(mobileScrollTimeoutRef.current);
-      }
+      setActiveIndex(emblaApi.selectedScrollSnap());
+      setProgress(0);
     };
-  }, []);
+
+    emblaApi.on("select", handleSelect);
+
+    return () => {
+      emblaApi.off("select", handleSelect);
+    };
+  }, [emblaApi]);
 
   const handleCardClick = (index: number) => {
     goToSlide(index);
@@ -200,24 +108,9 @@ export default function CaseStudy() {
     setIsVideoOpen(true);
   };
 
-  if (!activeSlide || totalSlides === 0) {
+  if (!activeSlide) {
     return null;
   }
-
-  const desktopSlides = Array.from(
-    {
-      length: Math.min(
-        DESKTOP_VISIBLE_CARDS,
-        totalSlides,
-      ),
-    },
-    (_, offset) => {
-      const index =
-        visibleStartIndex + offset;
-
-      return caseStudySlides[index];
-    },
-  );
 
   return (
     <section className="reveal case-study-wrapper">
@@ -269,76 +162,20 @@ export default function CaseStudy() {
 
         <div className="absolute bottom-0 left-0 z-20 w-full">
           <div className="generic-container">
-            {/* Mobile carousel */}
-            <div
-              ref={mobileCarouselRef}
-              onScroll={handleMobileScroll}
-              className={[
-                "flex gap-4 overflow-x-auto",
-                "snap-x snap-mandatory",
-                "scroll-smooth",
-                "md:hidden",
-                "[scrollbar-width:none]",
-                "[-ms-overflow-style:none]",
-                "[&::-webkit-scrollbar]:hidden",
-              ].join(" ")}
-            >
-              {caseStudySlides.map(
-                (slide, index) => (
-                  <div
-                    key={slide.id}
-                    ref={(element) => {
-                      mobileCardRefs.current[index] =
-                        element;
-                    }}
-                    className="w-[78%] shrink-0 snap-start"
-                  >
-                    <CaseStudySlide
-                      slide={slide}
-                      isActive={
-                        index === activeIndex
-                      }
-                      progress={
-                        index === activeIndex
-                          ? progress
-                          : 0
-                      }
-                      onClick={() =>
-                        handleCardClick(index)
-                      }
-                    />
-                  </div>
-                ),
-              )}
-            </div>
-
-            {/* Desktop carousel */}
-            <div className="hidden md:grid md:grid-cols-4 md:gap-8">
-              {desktopSlides.map((slide) => {
-                if (!slide) {
-                  return null;
-                }
-
-                const slideIndex =
-                  caseStudySlides.findIndex(
-                    (item) =>
-                      item.id === slide.id,
-                  );
-
-                return (
+            <div ref={emblaRef} className="overflow-hidden">
+              <div className="flex gap-4 md:gap-8">
+                {caseStudySlides.map((slide, index) => (
                   <CaseStudySlide
                     key={slide.id}
                     slide={slide}
-                    isActive={
-                      slideIndex === activeIndex
+                    isActive={index === activeIndex}
+                    progress={
+                      index === activeIndex ? progress : 0
                     }
-                    progress={progress}
-                    onClick={() =>
-                      handleCardClick(slideIndex)
-                    }
+                    onClick={() => handleCardClick(index)}
                   />
-                );
-              })}
+                ))}
+              </div>
             </div>
           </div>
         </div>

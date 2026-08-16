@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 import { CaseStudySlideData } from "./case-study.types";
 
 interface CaseStudySlideProps {
@@ -19,8 +21,9 @@ export function CaseStudySlide({
       onClick={onClick}
       aria-label={`View ${slide.label}`}
       aria-current={isActive ? "true" : undefined}
-      className={[
-        "group relative flex aspect-video w-full",
+      className={clsx(
+        "group relative flex aspect-video",
+        "w-[78%] md:w-[calc(25%-24px)]",
         "shrink-0 cursor-pointer flex-col justify-end",
         "overflow-hidden rounded-xl p-4 text-left",
         "bg-cover bg-center shadow-lg",
@@ -28,13 +31,13 @@ export function CaseStudySlide({
         "focus:outline-none focus-visible:ring-2",
         "focus-visible:ring-primary-pink-light",
         isActive ? "scale-[1.02]" : "scale-100",
-      ].join(" ")}
+      )}
       style={{
         backgroundImage: `url("${slide.bg}")`,
       }}
     >
       <div
-        className={[
+        className={clsx(
           "absolute inset-0",
           "bg-gradient-to-r",
           "from-primary-pink-extradark",
@@ -43,7 +46,7 @@ export function CaseStudySlide({
           isActive
             ? "opacity-30"
             : "opacity-0 group-hover:opacity-40",
-        ].join(" ")}
+        )}
       />
 
       <div className="absolute inset-0 bg-gradient-to-t from-neutral-black-base/80 via-transparent to-transparent" />
