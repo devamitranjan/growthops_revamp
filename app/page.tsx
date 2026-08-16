@@ -1,6 +1,7 @@
 import {
   ServicesGrid,
   ArticleCards,
+  CaseStudy,
   GrowthValidation,
   TeamSection,
   UnrivaledGrowth,
@@ -19,6 +20,7 @@ export default function Home() {
       <ServicesGrid />
       <GrowthSpurts />
       <UnrivaledGrowth />
+      <CaseStudy />
       <ArticleCards />
       <Testimonials />
       <GrowthValidation />
