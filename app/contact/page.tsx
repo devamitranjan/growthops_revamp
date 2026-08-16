@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Header from "../features/landing/header";
 import ContactForm from "../features/contact/contact-form";
 import SiteFooter from "../shared/components/site-footer";
+
+const Testimonials = dynamic(() => import("../features/landing/testimonials"), {
+  loading: () => <div className="min-h-[600px] bg-background" />,
+  ssr: true,
+});
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -17,6 +23,7 @@ export default function ContactPage() {
     <div className="body-wrapper hs-site-page page">
       <Header />
       <ContactForm />
+      <Testimonials />
       <SiteFooter />
     </div>
   );
