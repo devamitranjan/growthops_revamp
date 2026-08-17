@@ -17,7 +17,7 @@ export function GrowthCard({ card, isActive, onClick }: GrowthCardProps) {
       type="button"
       onClick={onClick}
       className={cx(
-        "relative shrink-0 overflow-hidden cursor-pointer text-left",
+        "relative flex flex-col shrink-0 overflow-hidden cursor-pointer text-left",
         "transition duration-500 ease-out",
         "max-md:w-[78%] md:w-[277px]",
         isActive
