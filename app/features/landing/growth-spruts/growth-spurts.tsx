@@ -57,7 +57,7 @@ export default function GrowthSpurts() {
             ref={emblaRef}
             className="overflow-hidden md:overflow-visible"
           >
-            <div className={cx("flex gap-5", "md:justify-between")}>
+            <div className={cx("group/cards flex gap-5", "md:justify-between")}>
               {growthCards.map((card, index) => (
                 <GrowthCard
                   key={card.id}

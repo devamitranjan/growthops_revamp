@@ -23,6 +23,8 @@ export function GrowthCard({ card, isActive, onClick }: GrowthCardProps) {
         isActive
           ? "max-md:scale-100 max-md:opacity-100 max-md:blur-none"
           : "max-md:scale-90 max-md:opacity-50 max-md:blur-[1px]",
+        "md:group-has-[button:hover]/cards:opacity-40 md:group-has-[button:hover]/cards:blur-[3px]",
+        "md:hover:opacity-100! md:hover:blur-none!",
       )}
     >
       <div className="flex flex-col gap-3 md:gap-4">
