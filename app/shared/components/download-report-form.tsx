@@ -61,7 +61,7 @@ export const defaultFields: DownloadFormField[] = [
 ];
 
 const inputClasses =
-  "w-full rounded-[9px] bg-[#010101] px-5 py-2.5 body1-regular text-neutral-white-base placeholder-neutral-grey-base outline-none transition duration-300 focus:ring-2 focus:ring-primary-pink-base";
+  "w-full rounded-[9px] bg-[#010101] px-5 py-3 body1-regular text-neutral-white-base placeholder-neutral-grey-base outline-none transition duration-300 focus:ring-2 focus:ring-primary-pink-base";
 
 const labelClasses = "body1-regular text-neutral-white-base";
 
@@ -86,12 +86,12 @@ export default function DownloadReportForm({
     <>
       <section className={className}>
         <div className="generic-container flex flex-col gap-6 md:gap-8">
-          <h2 className="text-[2rem] leading-10 font-extrabold text-neutral-white-base md:text-[3rem] md:leading-[3.5rem]">
+          <h2 className="text-[1.5rem] leading-10 font-extrabold text-neutral-white-base md:text-[3rem] md:leading-[3.5rem]">
             {title}
           </h2>
 
           <Form.Root
-            className="flex w-full flex-col gap-2 md:px-11"
+            className="mx-auto flex w-full max-w-[800px] flex-col gap-0.5 md:px-11"
             onSubmit={(event) => {
               // No backend yet: keep the entered values on screen instead of
               // letting the browser do a full-page GET submit.
@@ -113,7 +113,7 @@ export default function DownloadReportForm({
               <Form.Field
                 key={field.name}
                 name={field.name}
-                className="flex flex-col gap-1.5"
+                className="flex flex-col gap-1"
               >
                 <Form.Label className={labelClasses}>
                   {field.label}*
