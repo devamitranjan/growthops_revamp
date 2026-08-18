@@ -20,7 +20,7 @@ export const growthCards: GrowthCardData[] = [
   {
     id: "malaysia-airlines",
     imageSrc: "/growth-spurts/malaysia-airlines.webp",
-    videoSrc: "/growth-spurts/video/malaysia-airlines.webm",
+    videoSrc: "/growth-spurts/video/malaysia-arlines.webm",
     alt: "Malaysia Airlines: Windows of Hospitality",
     label: "Malaysia Airlines: Windows of Hospitality",
     description: "Multi-country roll out",
