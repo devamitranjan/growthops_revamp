@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import Header from "./features/landing/header";
 import SiteFooter from "./shared/components/site-footer";
+import DownloadReportForm from "./shared/components/download-report-form";
 
 // Lazy load all sections with loading fallbacks
 const HeroBanner = dynamic(() => import("./features/landing/hero-banner"), {
@@ -62,6 +63,7 @@ export default function Home() {
     <div className="body-wrapper hs-content-id-153839881997 hs-site-page page">
       <Header />
       <HeroBanner />
+      <DownloadReportForm />
       <ServicesGrid />
       <GrowthSpurts />
       <UnrivaledGrowth />
