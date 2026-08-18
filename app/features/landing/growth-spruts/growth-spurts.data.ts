@@ -4,7 +4,7 @@ export const growthCards: GrowthCardData[] = [
   {
     id: "bersama-grab",
     imageSrc: "/growth-spurts/bersama-grab.webp",
-    videoSrc: "/growth-spurts/bersama-grab.mp4",
+    videoSrc: "/growth-spurts/video/bersama-grab.webm",
     alt: "Going from Mengapa to Mantap Bersama Grab",
     label: "Going from Mengapa to Mantap Bersama Grab",
     description: "Malaysia Effie and Kancil winner",
@@ -12,7 +12,7 @@ export const growthCards: GrowthCardData[] = [
   {
     id: "unifi-business",
     imageSrc: "/growth-spurts/unifi-business.webp",
-    videoSrc: "/growth-spurts/unifi-business.mp4",
+    videoSrc: "/growth-spurts/video/unifi-business.webm",
     alt: "Unifi Business: Unibizity",
     label: "Unifi Business: Unibizity",
     description: "345% increase in brand engagement",
@@ -20,7 +20,7 @@ export const growthCards: GrowthCardData[] = [
   {
     id: "malaysia-airlines",
     imageSrc: "/growth-spurts/malaysia-airlines.webp",
-    videoSrc: "/growth-spurts/malaysia-airlines.mp4",
+    videoSrc: "/growth-spurts/video/malaysia-arlines.webm",
     alt: "Malaysia Airlines: Windows of Hospitality",
     label: "Malaysia Airlines: Windows of Hospitality",
     description: "Multi-country roll out",
@@ -28,7 +28,7 @@ export const growthCards: GrowthCardData[] = [
   {
     id: "u-mobile",
     imageSrc: "/growth-spurts/digital-ecosystem.webp",
-    videoSrc: "/growth-spurts/digital-ecosystem.mp4",
+    videoSrc: "/growth-spurts/video/digital-ecosystem.webm",
     alt: "U Mobile: Digital Ecosystem Refresh",
     label: "U Mobile: Digital Ecosystem Refresh",
     description: "55% increase in conversion rate",
