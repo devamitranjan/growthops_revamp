@@ -9,6 +9,14 @@ const HeroBanner = dynamic(() => import("./features/landing/hero-banner"), {
   ssr: true,
 });
 
+const ReportOverview = dynamic(
+  () => import("./features/report/report-overview"),
+  {
+    loading: () => <div className="min-h-[600px] bg-background" />,
+    ssr: true,
+  },
+);
+
 const ServicesGrid = dynamic(() => import("./features/landing/services-grid"), {
   loading: () => <div className="min-h-[600px] bg-background" />,
   ssr: true,
@@ -63,6 +71,7 @@ export default function Home() {
     <div className="body-wrapper hs-content-id-153839881997 hs-site-page page">
       <Header />
       <HeroBanner />
+      <ReportOverview />
       <DownloadReportForm />
       <ServicesGrid />
       <GrowthSpurts />
