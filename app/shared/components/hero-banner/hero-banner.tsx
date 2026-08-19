@@ -1,43 +1,60 @@
+import { clsx } from "clsx";
+import Image from "next/image";
 import { FaAngleDown } from "react-icons/fa6";
+import { IHeroBannerData } from "./hero-banner.types";
 
-export default function HeroBanner() {
+interface HeroBannerProps extends React.HTMLAttributes<HTMLDivElement> {
+  data: IHeroBannerData;
+}
+
+export const HeroBanner = ({ data }: HeroBannerProps) => {
   return (
     <div className="relative">
-      <div className="h-screen w-full">
+      <div className="relative h-screen w-full">
         <div className="absolute top-0 w-full h-full z-10 bg-gradient-to-t from-neutral-black-base to-transparent to-70%" />
-        <video
-          preload="auto"
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/hero-banner/hero-poster.webp"
-          className="h-screen w-full object-cover"
-        >
-          <source src="/hero-banner/hero.webm" type="video/webm" />
-          Your browser does not support the video tag.
-        </video>
+        {data?.videoSrc ? (
+          <video
+            preload="auto"
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster={data?.posterSrc}
+            className="h-screen w-full object-cover"
+          >
+            <source src={data?.videoSrc} type="video/webm" />
+            Your browser does not support the video tag.
+          </video>
+        ) : (
+          <Image
+            src={data?.posterSrc}
+            alt="Hero Banner"
+            fill
+            priority
+            className="object-cover transition duration-300 ease-out group-hover:scale-110"
+            sizes="(max-width: 768px) 100vw, 300px"
+          />
+        )}
       </div>
 
       <div className="generic-container w-full flex flex-col gap-4 md:items-center text-neutral-white-base z-20 absolute bottom-0 left-1/2 -translate-x-1/2 pb-12 md:pb-8 border-b border-neutral-white-base/20">
         <h1 className="heading-h1-extrabold text-left md:text-center">
-          Grow Unforgettable with GO
+          {data?.title}
         </h1>
         <div className="flex flex-col gap-20 items-center">
           <div className="text-neutral-white-base text-left md:text-center gap-1">
-            <p className="body1-bold">
-              Growing Brands, Businesses and Bottom Lines for over 15 years
-            </p>
-            <p className="body1-regular">
-              GrowthOps Asia is a marketing transformation agency that has
-              helped grow and sustain market leaders by fusing digital-first
-              strategy, design and technology.
-            </p>
+            <p className="body1-bold">{data?.subtitle}</p>
+            <p className="body1-regular">{data?.description}</p>
           </div>
           <div className="flex items-center gap-5 max-md:hidden">
             <p className="body1-semibold text-neutral-white-base">Explore</p>
             <div className="relative h-10 w-10 flex justify-center items-center text-neutral-white-base">
-              <div className="animate-spin-slow absolute top-0 left-0">
+              <div
+                className={clsx(
+                  "absolute top-0 left-0",
+                  data?.animateSpin && "animate-spin",
+                )}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="41"
@@ -90,4 +107,4 @@ export default function HeroBanner() {
       </div>
     </div>
   );
-}
+};

@@ -115,9 +115,7 @@ export default function DownloadReportForm({
                 name={field.name}
                 className="flex flex-col gap-1"
               >
-                <Form.Label className={labelClasses}>
-                  {field.label}*
-                </Form.Label>
+                <Form.Label className={labelClasses}>{field.label}*</Form.Label>
                 <Form.Control
                   type={field.type}
                   autoComplete={field.autoComplete}
@@ -186,10 +184,6 @@ export default function DownloadReportForm({
           </Form.Root>
         </div>
       </section>
-
-      <div className="bg-neutral-black-light pt-24 pb-24">
-        <div className="border-t border-neutral-white-base/20" />
-      </div>
     </>
   );
 }

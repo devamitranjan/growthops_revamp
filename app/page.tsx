@@ -1,18 +1,15 @@
 import dynamic from "next/dynamic";
 import Header from "./features/landing/header";
 import SiteFooter from "./shared/components/site-footer";
-import DownloadReportForm from "./shared/components/download-report-form";
 
 // Lazy load all sections with loading fallbacks
-const HeroBanner = dynamic(() => import("./features/landing/hero-banner"), {
-  loading: () => <div className="min-h-screen bg-background" />,
-  ssr: true,
-});
-
-const ReportOverview = dynamic(
-  () => import("./features/report/report-overview"),
+const HeroBanner = dynamic(
+  () =>
+    import("./shared/components/hero-banner/hero-banner").then(
+      (module) => module.HeroBanner,
+    ),
   {
-    loading: () => <div className="min-h-[600px] bg-background" />,
+    loading: () => <div className="min-h-screen bg-background" />,
     ssr: true,
   },
 );
@@ -66,13 +63,21 @@ const TeamSection = dynamic(() => import("./features/landing/team-section"), {
   ssr: true,
 });
 
+const heroBannerData = {
+  title: "Grow Unforgettable with GO",
+  subtitle: "Growing Brands, Businesses and Bottom Lines for over 15 years",
+  description:
+    "GrowthOps Asia is a marketing transformation agency that has helped grow and sustain market leaders by fusing digital-first strategy, design and technology.",
+  videoSrc: "/hero-banner/hero.webm",
+  posterSrc: "/hero-banner/hero-poster.webp",
+  animateSpin: true,
+};
+
 export default function Home() {
   return (
     <div className="body-wrapper hs-content-id-153839881997 hs-site-page page">
       <Header />
-      <HeroBanner />
-      <ReportOverview />
-      <DownloadReportForm />
+      <HeroBanner data={heroBannerData} />
       <ServicesGrid />
       <GrowthSpurts />
       <UnrivaledGrowth />

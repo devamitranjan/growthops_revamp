@@ -1,13 +1,18 @@
 import { ReportCarousel } from "./report-carousel";
-import { reportHighlights, reportSlides } from "./report-overview.data";
+import { ReportHighlight, ReportSlide } from "./report-overview.types";
 
-export default function ReportOverview() {
+interface ReportOverviewProps extends React.HTMLAttributes<HTMLLIElement> {
+  reports: {
+    reportHighlights: ReportHighlight[];
+    reportSlides: ReportSlide[];
+  };
+}
+
+export const ReportOverview: React.FC<ReportOverviewProps> = (props) => {
+  const { reportHighlights, reportSlides } = props.reports;
   return (
     <section className="reveal mt-[40px] pb-12 md:mt-[40px] md:pb-10">
-      {/* The narrow first track is deliberate: the copy is meant to stack into
-          a tall, ragged column beside the cover. */}
       <div className="generic-container grid items-start gap-12 md:grid-cols-[minmax(180px,220px)_1fr] md:gap-16">
-        {/* COPY */}
         <div className="flex flex-col gap-8 md:gap-16">
           <h2 className="text-[3rem] font-extrabold leading-tight text-neutral-white-base md:text-[3rem] md:leading-[1.05]">
             In This Report
@@ -27,12 +32,13 @@ export default function ReportOverview() {
           </ol>
         </div>
 
-        {/* COVER CAROUSEL */}
-        <ReportCarousel
-          slides={reportSlides}
-          className="w-full max-w-[300px] justify-self-center md:max-w-[500px] md:justify-center"
-        />
+        {reportSlides.length > 0 && (
+          <ReportCarousel
+            slides={reportSlides}
+            className="w-full max-w-[600px] ml-10 justify-self-center md:justify-center"
+          />
+        )}
       </div>
     </section>
   );
-}
+};

@@ -5,7 +5,7 @@ import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { useCarouselButtons } from "../../../shared/hooks/use-carousel-buttons";
-import { ReportSlide } from "./report-overview.types";
+import { ReportSlide } from "../../../shared/components/report-overview/report-overview.types";
 
 interface ReportCarouselProps {
   slides: ReportSlide[];
@@ -15,8 +15,11 @@ interface ReportCarouselProps {
 const arrowClasses =
   "absolute top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-neutral-white-base/60 text-sm text-neutral-black-base backdrop-blur-sm transition duration-300 ease-out hover:bg-neutral-white-base disabled:cursor-not-allowed disabled:bg-neutral-white-base/25 disabled:text-neutral-black-base/40";
 
-export function ReportCarousel({ slides, className }: ReportCarouselProps) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: "start" });
+export const ReportCarousel = ({ slides, className }: ReportCarouselProps) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: false,
+    align: "start",
+  });
   const { canScrollPrev, canScrollNext, scrollPrev, scrollNext } =
     useCarouselButtons(emblaApi);
 
@@ -76,4 +79,4 @@ export function ReportCarousel({ slides, className }: ReportCarouselProps) {
       )}
     </div>
   );
-}
+};
