@@ -86,12 +86,12 @@ export default function DownloadReportForm({
     <>
       <section className={className}>
         <div className="generic-container flex flex-col gap-6 md:gap-8">
-          <h2 className="text-[1.5rem] leading-10 font-extrabold text-neutral-white-base md:text-[3rem] md:leading-[3.5rem]">
+          <h2 className="text-[2.5rem] leading-10 font-extrabold text-neutral-white-base md:text-[3rem] md:leading-[3.5rem]">
             {title}
           </h2>
 
           <Form.Root
-            className="mx-auto flex w-full max-w-[800px] flex-col gap-0.5 md:px-11"
+              className="mx-auto flex w-full max-w-[360px] flex-col gap-0.5 md:max-w-[820px] md:px-11"
             onSubmit={(event) => {
               // No backend yet: keep the entered values on screen instead of
               // letting the browser do a full-page GET submit.
