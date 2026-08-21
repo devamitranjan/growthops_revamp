@@ -5,7 +5,7 @@ import checkFile from "eslint-plugin-check-file";
 
 const assetGlobs = [
   "public/**/*.{webp,png,jpg,jpeg,gif,svg,ico,mp3}",
-  "app/**/*.css",
+  "src/**/*.css",
 ];
 
 const eslintConfig = defineConfig([
@@ -26,7 +26,7 @@ const eslintConfig = defineConfig([
     processor: "check-file/eslint-processor-check-file",
   },
   {
-    files: ["app/**/*.{ts,tsx,js,jsx}", "*.{ts,mjs,cjs}", ...assetGlobs],
+    files: ["src/**/*.{ts,tsx,js,jsx}", "*.{ts,mjs,cjs}", ...assetGlobs],
     plugins: { "check-file": checkFile },
     rules: {},
   },
