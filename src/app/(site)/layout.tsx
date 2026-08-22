@@ -3,7 +3,6 @@ import { Montserrat } from "next/font/google";
 import { draftMode } from "next/headers";
 
 import { LiveMode } from "@/components/site/live-mode";
-import { SanityLive } from "@/sanity/live";
 import { getSiteSettings } from "@/sanity/repositories/site-settings";
 
 import "../globals.css";
@@ -64,10 +63,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           document through a flex-column body, which silently kills every pin. */}
       <body className="min-h-full" suppressHydrationWarning>
         {children}
-        {/* Holds the Live Content API connection open and expires the cache
-            entries a change actually touched, so a page that is already on
-            screen updates without a manual reload. */}
-        <SanityLive />
         {(await draftMode()).isEnabled && <LiveMode />}
       </body>
     </html>
