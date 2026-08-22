@@ -1,7 +1,7 @@
-import { client, freshClient } from "../client";
+import { client } from "../client";
 import { REPORT_QUERY, REPORT_SLUGS_QUERY, REPORTS_QUERY } from "../queries/reports";
 import type { ReportPageData } from "../types";
-import { tagged } from "../tags";
+import { tagged, uncached } from "../tags";
 
 export async function getReports(): Promise<ReportPageData[]> {
   return (await client.fetch(REPORTS_QUERY, {}, tagged("report"))) as unknown as ReportPageData[];
@@ -12,10 +12,10 @@ export async function getReport(slug: string): Promise<ReportPageData | null> {
   return (report as unknown as ReportPageData | null) ?? null;
 }
 
-/** Feeds `generateStaticParams` for the root-level /[slug] report pages.
- *  Reads past the CDN — see `freshClient`. */
+/** Feeds `generateStaticParams` for the /reports/[slug] pages.
+ *  Reads uncached — see `uncached`. */
 export async function getReportSlugs(): Promise<string[]> {
-  return (await freshClient.fetch(REPORT_SLUGS_QUERY)).filter(
+  return (await client.fetch(REPORT_SLUGS_QUERY, {}, uncached())).filter(
     (slug): slug is string => typeof slug === "string",
   );
 }

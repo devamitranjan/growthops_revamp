@@ -2,7 +2,11 @@ import cx from "clsx";
 import type { PortableTextComponents } from "next-sanity";
 
 import { PostImage } from "@/components/ui/post-image";
-import type { PostImageBlock, PostQuoteBlock } from "@/sanity/types";
+import type {
+  PostImageBlock,
+  PostQuoteBlock,
+  PostTableBlock,
+} from "@/sanity/types";
 
 /** The ink every block of the article shares against the light panel. */
 const articleInk = "text-[#0b0d0f]";
@@ -238,6 +242,54 @@ export const postBlockComponents: PortableTextComponents = {
             </footer>
           )}
         </blockquote>
+      );
+    },
+
+    postTable: ({ value }) => {
+      const block = value as PostTableBlock;
+      const rows = block.rows ?? [];
+      const header = block.hasHeader ? rows[0] : undefined;
+      const body = block.hasHeader ? rows.slice(1) : rows;
+
+      return (
+        <figure className="mt-8 overflow-x-auto">
+          <table className="min-w-full border-collapse text-left text-[0.9375rem] leading-[1.5] text-[#0b0d0f]">
+            {header && (
+              <thead>
+                <tr>
+                  {header.cells.map((cell, index) => (
+                    <th
+                      key={`${header._key}-${index}`}
+                      scope="col"
+                      className="border border-[#0b0d0f]/20 bg-[#0b0d0f]/5 px-4 py-3 font-bold"
+                    >
+                      {cell}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            )}
+            <tbody>
+              {body.map((row) => (
+                <tr key={row._key}>
+                  {row.cells.map((cell, index) => (
+                    <td
+                      key={`${row._key}-${index}`}
+                      className="border border-[#0b0d0f]/20 px-4 py-3 align-top"
+                    >
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {block.caption && (
+            <figcaption className="body2-regular mt-3 text-[#0b0d0f]/60">
+              {block.caption}
+            </figcaption>
+          )}
+        </figure>
       );
     },
   },

@@ -1,10 +1,10 @@
-import { client, freshClient } from "../client";
+import { client } from "../client";
 import {
   ARTICLE_SLUGS_QUERY,
   ARTICLES_COUNT_QUERY,
   ARTICLES_QUERY,
 } from "../queries/articles";
-import { tagged } from "../tags";
+import { tagged, uncached } from "../tags";
 import type { PostData } from "../types";
 import { getSiteSettings } from "./site-settings";
 
@@ -50,9 +50,10 @@ export async function getArticles(page = 1): Promise<ArticleListing> {
 }
 
 /** Slugs with a body — these render in-site at /post/[slug]; the rest still
- *  hand off to growthops.asia. Feeds `generateStaticParams`. */
+ *  hand off to growthops.asia. Feeds `generateStaticParams`, so it reads
+ *  uncached — see `uncached`. */
 export async function getArticleSlugs(): Promise<string[]> {
-  return (await freshClient.fetch(ARTICLE_SLUGS_QUERY)).filter(
+  return (await client.fetch(ARTICLE_SLUGS_QUERY, {}, uncached())).filter(
     (slug): slug is string => typeof slug === "string",
   );
 }

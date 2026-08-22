@@ -17,6 +17,7 @@ import { navChild, navLink } from "./objects/nav-link";
 import { postBody } from "./objects/post-body";
 import { postImage } from "./objects/post-image";
 import { postQuote } from "./objects/post-quote";
+import { postTable } from "./objects/post-table";
 import { reportHighlight } from "./objects/report-highlight";
 import { reportSlide } from "./objects/report-slide";
 import { seo } from "./objects/seo";
@@ -78,6 +79,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   postBody,
   postImage,
   postQuote,
+  postTable,
   navLink,
   navChild,
   footerLink,

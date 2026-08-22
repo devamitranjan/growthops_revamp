@@ -28,10 +28,24 @@ component ever handles a Sanity image object.
 browser. There is no build-time guard on it — keep it correct by construction:
 repositories are only reached from Server Components and route handlers.
 
-`freshClient` is the same client with `useCdn: false`. Use it in
-`generateStaticParams`. Reading slugs through the CDN right after a publish can
-return the previous, empty result, and a build that does so silently ships a
-site with zero prerendered pages.
+### Caching
+
+There is exactly one cache in front of Sanity: Next's data cache. The client
+sets `useCdn: false` on purpose — a tagged read is stored with no expiry, so a
+stale `apicdn.sanity.io` response (they carry `s-maxage=3600`) would be frozen
+into the data cache indefinitely, and the webhook cannot reach the Sanity CDN
+to correct it.
+
+Every repository read passes `tagged(...)` from `tags.ts`, which puts the
+response in the data cache under `sanity:<type>`; the Sanity webhook at
+`/api/revalidate` drops those tags on publish. In development `tagged()`
+degrades to `cache: "no-store"`, because Sanity cannot call `localhost` and an
+uninvalidatable entry in `.next/cache/fetch-cache` survives dev-server
+restarts — edits in the local Studio would never show up.
+
+The `generateStaticParams` slug queries use `uncached()` instead. They must not
+read a slug list restored from a previous build's `.next/cache`: a build that
+reads a stale empty list silently ships a site with zero prerendered pages.
 
 ## Content model
 
