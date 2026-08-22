@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import { draftMode } from "next/headers";
-
-import { LiveMode } from "@/components/site/live-mode";
 import { getSiteSettings } from "@/sanity/repositories/site-settings";
 
 import "../globals.css";
@@ -63,7 +60,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           document through a flex-column body, which silently kills every pin. */}
       <body className="min-h-full" suppressHydrationWarning>
         {children}
-        {(await draftMode()).isEnabled && <LiveMode />}
       </body>
     </html>
   );
