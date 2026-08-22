@@ -21,7 +21,18 @@ Copy the Sanity credentials into `.env.local`:
 NEXT_PUBLIC_SANITY_PROJECT_ID=
 NEXT_PUBLIC_SANITY_DATASET=production
 SANITY_API_READ_TOKEN=          # server-only, never prefix with NEXT_PUBLIC_
+SANITY_REVALIDATE_SECRET=       # shared with the Sanity webhook, see below
 ```
+
+### Publishing a change
+
+Pages are prerendered and read through the Sanity CDN, so a publish only
+reaches the live site when something invalidates the cache. That something is a
+Sanity webhook pointed at `/api/revalidate`; the setup it expects is documented
+at the top of [`src/app/api/revalidate/route.ts`](src/app/api/revalidate/route.ts).
+Reads are tagged per document type in [`src/sanity/tags.ts`](src/sanity/tags.ts),
+and the `(site)` layout carries an hourly `revalidate` as a fallback for a
+webhook that never arrives.
 
 Content is currently served from fixtures, so the site runs without these — see
 [Content layer](#content-layer) below.

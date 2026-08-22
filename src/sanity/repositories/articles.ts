@@ -4,6 +4,7 @@ import {
   ARTICLES_COUNT_QUERY,
   ARTICLES_QUERY,
 } from "../queries/articles";
+import { tagged } from "../tags";
 import type { PostData } from "../types";
 import { getSiteSettings } from "./site-settings";
 
@@ -18,7 +19,7 @@ export interface ArticleListing {
 }
 
 export async function getArticleCount(): Promise<number> {
-  return client.fetch(ARTICLES_COUNT_QUERY);
+  return client.fetch(ARTICLES_COUNT_QUERY, {}, tagged("article"));
 }
 
 export async function getTotalArticlePages(): Promise<number> {
@@ -31,7 +32,11 @@ export async function getArticles(page = 1): Promise<ArticleListing> {
   const start = (safePage - 1) * POSTS_PER_PAGE;
 
   const [articles, total, settings] = await Promise.all([
-    client.fetch(ARTICLES_QUERY, { start, end: start + POSTS_PER_PAGE }),
+    client.fetch(
+      ARTICLES_QUERY,
+      { start, end: start + POSTS_PER_PAGE },
+      tagged("article"),
+    ),
     getArticleCount(),
     getSiteSettings(),
   ]);

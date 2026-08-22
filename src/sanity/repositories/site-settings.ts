@@ -1,5 +1,6 @@
 import { client } from "../client";
 import { SITE_SETTINGS_QUERY } from "../queries/site-settings";
+import { tagged } from "../tags";
 import type { SiteSettings } from "../types";
 
 /**
@@ -8,7 +9,11 @@ import type { SiteSettings } from "../types";
  * header, footer and page body asking for it separately costs one request.
  */
 export async function getSiteSettings(): Promise<SiteSettings> {
-  const settings = await client.fetch(SITE_SETTINGS_QUERY);
+  const settings = await client.fetch(
+    SITE_SETTINGS_QUERY,
+    {},
+    tagged("siteSettings"),
+  );
 
   if (!settings) {
     throw new Error(
