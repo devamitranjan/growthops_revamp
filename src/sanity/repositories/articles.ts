@@ -1,4 +1,5 @@
 import { client } from "../client";
+import { sanityFetch } from "../live";
 import {
   ARTICLE_SLUGS_QUERY,
   ARTICLES_COUNT_QUERY,
@@ -6,7 +7,7 @@ import {
   POSTS_PER_PAGE,
   articlePageRange,
 } from "../queries/articles";
-import { tagged, uncached } from "../tags";
+import { documentTags, uncached } from "../tags";
 import type { PostData } from "../types";
 import { getSiteSettings } from "./site-settings";
 
@@ -20,7 +21,12 @@ export interface ArticleListing {
 }
 
 export async function getArticleCount(): Promise<number> {
-  return client.fetch(ARTICLES_COUNT_QUERY, {}, tagged("article"));
+  const { data } = await sanityFetch({
+    query: ARTICLES_COUNT_QUERY,
+    stega: false,
+    tags: documentTags("article"),
+  });
+  return data;
 }
 
 export async function getTotalArticlePages(): Promise<number> {
@@ -32,7 +38,12 @@ export async function getArticles(page = 1): Promise<ArticleListing> {
   const { page: safePage, start, end } = articlePageRange(page);
 
   const [articles, total, settings] = await Promise.all([
-    client.fetch(ARTICLES_QUERY, { start, end }, tagged("article")),
+    sanityFetch({
+      query: ARTICLES_QUERY,
+      params: { start, end },
+      stega: false,
+      tags: documentTags("article"),
+    }).then((result) => result.data),
     getArticleCount(),
     getSiteSettings(),
   ]);

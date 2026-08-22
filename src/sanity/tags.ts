@@ -1,12 +1,17 @@
 /**
  * Cache tags for on-demand revalidation.
  *
- * Every read in `repositories/*` is tagged with the document types it can be
- * affected by, and the Sanity webhook at `/api/revalidate` calls
- * `revalidateTag` with the tag for the published document's `_type`. Tags are
- * therefore derived straight from the Sanity type names — the webhook does no
- * mapping of its own, so wiring a new document type up is just a matter of
- * listing it here and tagging its reads.
+ * Every read in `repositories/*` goes through `sanityFetch` (see `live.ts`)
+ * and is stored under two sets of tags. Sanity's own *sync* tags come back
+ * with the query result and are expired by `<SanityLive />` the instant an
+ * editor publishes, which is what refreshes a page someone already has open.
+ * The type tags in this file are the second set: the Sanity webhook at
+ * `/api/revalidate` calls `revalidateTag` with the tag for the published
+ * document's `_type`, and unlike a live event that needs a connected browser,
+ * the webhook fires whether or not anyone is on the site. Tags are derived
+ * straight from the Sanity type names — the webhook does no mapping of its
+ * own, so wiring a new document type up is just a matter of listing it here
+ * and tagging its reads.
  *
  * Granularity is per type, not per document: publishing one report drops the
  * cache for every page that reads reports. That is deliberate. Slug-level tags
@@ -35,32 +40,19 @@ export function isDocumentType(type: string): type is DocumentType {
 }
 
 /**
- * The data cache is only correct as long as something invalidates it, and the
- * only thing that does is a Sanity webhook posting to `/api/revalidate`.
- * Sanity cannot reach `localhost`, so in development a tagged read would be
- * stored with no expiry and never dropped: `.next/cache/fetch-cache` survives
- * restarts, so an edit made in the local Studio would stay invisible until
- * someone deleted `.next`. Skip the cache entirely there — dev traffic is one
- * developer, and the round trip to Sanity is cheaper than the confusion.
- */
-const CACHE_IN_DEV = false;
-
-const bypass = process.env.NODE_ENV === "development" && !CACHE_IN_DEV;
-
-export type ReadOptions =
-  | { cache: "no-store" }
-  | { cache: "force-cache"; next: { tags: string[] } };
-
-/**
- * Fetch options that put a query in the data cache under the given tags.
+ * The document-type tags for a read, as the plain list `sanityFetch` wants.
  *
- * `cache: "force-cache"` is not redundant with the tags: fetches are uncached
- * by default, and an uncached fetch records no tags at all, so the route would
- * prerender at build and then never be invalidated by anything.
+ * Passing these alongside the sync tags Sanity generates is not redundant, and
+ * the two invalidate on different events. `<SanityLive />` only expires a
+ * cache entry when a *connected browser* receives the change event, so with no
+ * one on the site nothing fires and the entry — written with `revalidate:
+ * false` — would outlive the edit and serve the next visitor stale content.
+ * The webhook has no such dependency: it reaches `/api/revalidate` whether or
+ * not anyone is looking. Sync tags refresh the open page, these tags keep the
+ * cache honest for the next arrival.
  */
-export function tagged(...types: DocumentType[]): ReadOptions {
-  if (bypass) return { cache: "no-store" };
-  return { cache: "force-cache", next: { tags: types.map(documentTag) } };
+export function documentTags(...types: DocumentType[]): string[] {
+  return types.map(documentTag);
 }
 
 /**

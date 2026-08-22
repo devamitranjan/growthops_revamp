@@ -11,18 +11,20 @@ import { apiVersion, dataset, projectId } from "./env";
  *
  * There is no build-time guard on this — keep it that way by construction:
  * nothing outside `src/sanity` imports this file, and the only callers are
- * `repositories/*`, which are reached from Server Components and route
- * handlers. Never import a repository from a "use client" component.
+ * `live.ts` and the `generateStaticParams` reads in `repositories/*`, both of
+ * which are reached from Server Components and route handlers. Never import a
+ * repository from a "use client" component.
  *
- * `useCdn: false` is deliberate and load-bearing. Caching is Next's job here:
- * every read in `repositories/*` goes through `tagged()`, lands in the data
- * cache, and is dropped by the `/api/revalidate` webhook. Reading through
- * apicdn.sanity.io on top of that stacks a second cache that the webhook
- * cannot reach — and because a tagged read is stored with no expiry, a stale
- * CDN response (they are served with `s-maxage=3600`) gets frozen into the
- * data cache indefinitely. That is not theoretical: entries in
- * `.next/cache/fetch-cache` came back with `x-sanity-age: 3078`, i.e. content
- * that was already 51 minutes old at the moment it was cached "forever".
+ * `useCdn: false` still applies to the direct `client.fetch` reads left in
+ * `repositories/*` — the `generateStaticParams` slug lists. It no longer
+ * describes the page reads: `defineLive` reconfigures this client with
+ * `useCdn: true`, and it is allowed to, because it closes the hole this
+ * setting was guarding. The original failure needed a cache entry that nothing
+ * could invalidate — entries in `.next/cache/fetch-cache` came back with
+ * `x-sanity-age: 3078`, content already 51 minutes old at the moment it was
+ * cached "forever". Reads through `sanityFetch` are sent with
+ * `cacheMode: "noStale"` and are expired by name on the next live event or
+ * webhook, so nothing gets frozen. Do not flip this to `true` by hand.
  */
 export const client = createClient({
   projectId,

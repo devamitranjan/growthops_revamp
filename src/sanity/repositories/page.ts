@@ -1,6 +1,6 @@
-import { client } from "../client";
+import { sanityFetch } from "../live";
 import { PAGE_QUERY } from "../queries/page";
-import { tagged } from "../tags";
+import { documentTags } from "../tags";
 import type { PageData, PageSection, TeamMember } from "../types";
 
 /** The home page's document id/slug. */
@@ -36,11 +36,12 @@ function normalise(section: Record<string, unknown>): PageSection {
  * read is stored with no expiry to age it out.
  */
 export async function getPage(slug: string): Promise<PageData | null> {
-  const page = await client.fetch(
-    PAGE_QUERY,
-    { slug },
-    tagged("page", "testimonialsSection"),
-  );
+  const { data: page } = await sanityFetch({
+    query: PAGE_QUERY,
+    params: { slug },
+    stega: false,
+    tags: documentTags("page", "testimonialsSection"),
+  });
   if (!page) return null;
 
   return {
