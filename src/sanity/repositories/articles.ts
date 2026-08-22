@@ -1,8 +1,14 @@
-import { hasPostDetail } from "../fixtures/article-bodies";
-import { POSTS_PER_PAGE, pageHeading, posts } from "../fixtures/articles";
+import { client, freshClient } from "../client";
+import {
+  ARTICLE_SLUGS_QUERY,
+  ARTICLES_COUNT_QUERY,
+  ARTICLES_QUERY,
+} from "../queries/articles";
 import type { PostData } from "../types";
+import { getSiteSettings } from "./site-settings";
 
-export { POSTS_PER_PAGE };
+/** Matches the 10-per-page pagination on growthops.asia/post. */
+export const POSTS_PER_PAGE = 10;
 
 export interface ArticleListing {
   heading: string;
@@ -12,7 +18,7 @@ export interface ArticleListing {
 }
 
 export async function getArticleCount(): Promise<number> {
-  return posts.length;
+  return client.fetch(ARTICLES_COUNT_QUERY);
 }
 
 export async function getTotalArticlePages(): Promise<number> {
@@ -21,19 +27,27 @@ export async function getTotalArticlePages(): Promise<number> {
 
 /** One page of the /post listing. `page` is 1-based. */
 export async function getArticles(page = 1): Promise<ArticleListing> {
-  const totalPages = await getTotalArticlePages();
-  const start = (page - 1) * POSTS_PER_PAGE;
+  const safePage = Math.max(1, Math.floor(page) || 1);
+  const start = (safePage - 1) * POSTS_PER_PAGE;
+
+  const [articles, total, settings] = await Promise.all([
+    client.fetch(ARTICLES_QUERY, { start, end: start + POSTS_PER_PAGE }),
+    getArticleCount(),
+    getSiteSettings(),
+  ]);
 
   return {
-    heading: pageHeading,
-    articles: posts.slice(start, start + POSTS_PER_PAGE),
-    page,
-    totalPages,
+    heading: settings.postListingHeading,
+    articles: articles as unknown as PostData[],
+    page: safePage,
+    totalPages: Math.ceil(total / POSTS_PER_PAGE),
   };
 }
 
-/** Slugs with a body in the CMS — these render in-site at /post/[slug];
- *  the rest still hand off to growthops.asia. Feeds `generateStaticParams`. */
+/** Slugs with a body — these render in-site at /post/[slug]; the rest still
+ *  hand off to growthops.asia. Feeds `generateStaticParams`. */
 export async function getArticleSlugs(): Promise<string[]> {
-  return posts.filter((post) => hasPostDetail(post.slug)).map((post) => post.slug);
+  return (await freshClient.fetch(ARTICLE_SLUGS_QUERY)).filter(
+    (slug): slug is string => typeof slug === "string",
+  );
 }

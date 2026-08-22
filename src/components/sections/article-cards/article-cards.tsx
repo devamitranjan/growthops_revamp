@@ -9,10 +9,16 @@ import type { ArticleData } from "@/sanity/types";
 import { ArticleCard } from "./article-card";
 
 interface ArticleCardsProps {
+  title: string;
+  sectionLink?: string;
   articles: ArticleData[];
 }
 
-export default function ArticleCards({ articles }: ArticleCardsProps) {
+export default function ArticleCards({
+  title,
+  sectionLink,
+  articles,
+}: ArticleCardsProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
     containScroll: "trimSnaps",
@@ -26,9 +32,9 @@ export default function ArticleCards({ articles }: ArticleCardsProps) {
     <section className="reveal mt-[80px] md:mt-[100px]">
       <div className="mx-auto w-full max-w-[1366px] px-5 md:px-20">
         <SectionHeader
-          title="Accelerate Your Learning Curve"
+          title={title}
           titleClassName="heading-h2-bold max-w-[300px] text-4xl font-extrabold leading-[1.05] text-white max-md:text-[22px] md:max-w-none md:text-5xl"
-          link="https://www.growthops.asia/post"
+          link={sectionLink}
         />
       </div>
 

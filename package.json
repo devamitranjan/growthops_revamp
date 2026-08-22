@@ -8,25 +8,34 @@
   ],
   "scripts": {
     "dev": "next dev",
+    "cms": "printf '\\n  Studio -> http://localhost:3000/studio\\n\\n' && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "typegen": "cd src/sanity && sanity schemas extract --force && sanity typegen generate",
+    "schema:deploy": "cd src/sanity && sanity schemas deploy",
+    "sanity": "cd src/sanity && sanity",
     "prepare": "husky",
     "commit": "cz"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@sanity/client": "7.26.2",
+    "@sanity/image-url": "^2.1.1",
+    "@sanity/vision": "6.10.1",
     "@tanstack/react-query": "^5.101.4",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
     "gsap": "^3.15.0",
     "lucide-react": "^1.31.0",
     "next": "16.3.0",
+    "next-sanity": "13.3.3",
     "radix-ui": "1.6.7",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-fast-marquee": "^1.6.5",
-    "react-icons": "^5.7.0"
+    "react-icons": "^5.7.0",
+    "sanity": "6.10.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.2",

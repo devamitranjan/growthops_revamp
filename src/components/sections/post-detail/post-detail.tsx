@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { PortableText } from "next-sanity";
 import { FaAngleLeft } from "react-icons/fa6";
 import { PostImage } from "@/components/ui/post-image";
 import { PostDetailData } from "@/sanity/types";
-import { PostBlock } from "./post-block";
+import { postBlockComponents } from "./post-block";
 
 interface PostDetailProps {
   post: PostDetailData;
@@ -66,9 +67,10 @@ export default function PostDetail({ post }: PostDetailProps) {
             right up against it, with only the heading's own line box between
             them. */}
         <div className="mx-auto max-w-[988px] px-6 pb-32 pt-20 md:pb-40 md:pt-28 [&>*:first-child]:mt-0 [&>[data-lead-in]+*]:mt-0 [&>h2+*]:mt-0 [&>h3+*]:mt-0 [&>h4+*]:mt-0">
-          {post.content.map((block, index) => (
-            <PostBlock key={index} block={block} />
-          ))}
+          {/* PortableText renders each block as a direct child of this div,
+              with no wrapper of its own — which is what the `>` selectors on
+              the class list above depend on. */}
+          <PortableText value={post.content} components={postBlockComponents} />
         </div>
       </div>
     </article>

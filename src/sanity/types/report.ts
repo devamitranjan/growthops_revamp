@@ -1,4 +1,4 @@
-import type { IHeroBannerData } from "./home";
+import type { IHeroBannerData } from "./sections";
 
 export interface ReportHighlight {
   id: string;

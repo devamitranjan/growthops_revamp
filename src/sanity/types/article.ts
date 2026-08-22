@@ -1,3 +1,5 @@
+import type { PortableTextBlock } from "next-sanity";
+
 export interface PostData {
   slug: string;
   href: string;
@@ -7,60 +9,32 @@ export interface PostData {
   authorName: string;
 }
 
-/** A run of copy inside a block: plain by default, optionally emphasised, and
- *  optionally a link. */
-export interface PostTextSegment {
-  text: string;
-  bold?: boolean;
-  italic?: boolean;
-  href?: string;
-}
-
-interface PostHeadingBlock {
-  type: "heading";
-  /** Article headings sit under the <h1> the detail page renders. */
-  level: 2 | 3 | 4 | 5;
-  text: string;
-}
-
-interface PostParagraphBlock {
-  type: "paragraph";
-  content: PostTextSegment[];
-}
-
-interface PostImageBlock {
-  type: "image";
+/** A diagram or photo inside an article body. The frame borrows `width` and
+ *  `height` for the aspect ratio and the width cap, so both must survive the
+ *  round trip through the CMS. */
+export interface PostImageBlock {
+  _type: "postImage";
+  _key: string;
   src: string;
   alt: string;
-  /** Intrinsic size — the frame borrows it for the aspect ratio and the cap. */
   width: number;
   height: number;
   caption?: string;
 }
 
-interface PostQuoteBlock {
-  type: "quote";
+export interface PostQuoteBlock {
+  _type: "postQuote";
+  _key: string;
   text: string;
   author?: string;
 }
 
-interface PostListBlock {
-  type: "list";
-  style: "bullet" | "ordered";
-  /** "statements" items carry a full argument each and set at paragraph
-   *  leading; anything else reads as a hyphen run. */
-  variant?: "statements";
-  /** A plain string for an unadorned item, segments when it needs emphasis
-   *  or a link. */
-  items: (string | PostTextSegment[])[];
-}
-
-export type PostContentBlock =
-  | PostHeadingBlock
-  | PostParagraphBlock
-  | PostImageBlock
-  | PostQuoteBlock
-  | PostListBlock;
+/**
+ * Article bodies are real Portable Text: standard blocks carry the headings,
+ * running copy and lists, and the two custom object types above are embedded
+ * alongside them.
+ */
+export type PostContentBlock = PortableTextBlock | PostImageBlock | PostQuoteBlock;
 
 /** A full article body, keyed by the same slug the listing card uses. */
 export interface PostDetailData {

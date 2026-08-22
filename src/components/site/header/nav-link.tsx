@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Dialog } from "radix-ui";
 import { FaAngleRight } from "react-icons/fa6";
-import { NavLinkData } from "./header.types";
+import type { NavLinkData } from "@/sanity/types";
 
 interface NavLinkProps {
   link: NavLinkData;

@@ -1,21 +1,20 @@
-import { telcoReportData } from "../fixtures/reports";
+import { client, freshClient } from "../client";
+import { REPORT_QUERY, REPORT_SLUGS_QUERY, REPORTS_QUERY } from "../queries/reports";
 import type { ReportPageData } from "../types";
 
 export async function getReports(): Promise<ReportPageData[]> {
-  return Object.entries(telcoReportData).map(([slug, report]) => ({
-    slug,
-    ...report,
-  }));
+  return (await client.fetch(REPORTS_QUERY)) as unknown as ReportPageData[];
 }
 
-export async function getReport(
-  slug: string,
-): Promise<ReportPageData | null> {
-  const report = telcoReportData[slug];
-  return report ? { slug, ...report } : null;
+export async function getReport(slug: string): Promise<ReportPageData | null> {
+  const report = await client.fetch(REPORT_QUERY, { slug });
+  return (report as unknown as ReportPageData | null) ?? null;
 }
 
-/** Feeds `generateStaticParams` for the root-level /[slug] report pages. */
+/** Feeds `generateStaticParams` for the root-level /[slug] report pages.
+ *  Reads past the CDN — see `freshClient`. */
 export async function getReportSlugs(): Promise<string[]> {
-  return Object.keys(telcoReportData);
+  return (await freshClient.fetch(REPORT_SLUGS_QUERY)).filter(
+    (slug): slug is string => typeof slug === "string",
+  );
 }
