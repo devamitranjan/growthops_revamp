@@ -1,15 +1,17 @@
-import { client, freshClient } from "../client";
+import { client } from "../client";
+import { sanityFetch } from "../live";
 import {
   ARTICLE_SLUGS_QUERY,
   ARTICLES_COUNT_QUERY,
   ARTICLES_QUERY,
+  POSTS_PER_PAGE,
+  articlePageRange,
 } from "../queries/articles";
-import { tagged } from "../tags";
+import { documentTags, uncached } from "../tags";
 import type { PostData } from "../types";
 import { getSiteSettings } from "./site-settings";
 
-/** Matches the 10-per-page pagination on growthops.asia/post. */
-export const POSTS_PER_PAGE = 10;
+export { POSTS_PER_PAGE };
 
 export interface ArticleListing {
   heading: string;
@@ -19,7 +21,12 @@ export interface ArticleListing {
 }
 
 export async function getArticleCount(): Promise<number> {
-  return client.fetch(ARTICLES_COUNT_QUERY, {}, tagged("article"));
+  const { data } = await sanityFetch({
+    query: ARTICLES_COUNT_QUERY,
+    stega: false,
+    tags: documentTags("article"),
+  });
+  return data;
 }
 
 export async function getTotalArticlePages(): Promise<number> {
@@ -28,15 +35,15 @@ export async function getTotalArticlePages(): Promise<number> {
 
 /** One page of the /post listing. `page` is 1-based. */
 export async function getArticles(page = 1): Promise<ArticleListing> {
-  const safePage = Math.max(1, Math.floor(page) || 1);
-  const start = (safePage - 1) * POSTS_PER_PAGE;
+  const { page: safePage, start, end } = articlePageRange(page);
 
   const [articles, total, settings] = await Promise.all([
-    client.fetch(
-      ARTICLES_QUERY,
-      { start, end: start + POSTS_PER_PAGE },
-      tagged("article"),
-    ),
+    sanityFetch({
+      query: ARTICLES_QUERY,
+      params: { start, end },
+      stega: false,
+      tags: documentTags("article"),
+    }).then((result) => result.data),
     getArticleCount(),
     getSiteSettings(),
   ]);
@@ -50,9 +57,10 @@ export async function getArticles(page = 1): Promise<ArticleListing> {
 }
 
 /** Slugs with a body — these render in-site at /post/[slug]; the rest still
- *  hand off to growthops.asia. Feeds `generateStaticParams`. */
+ *  hand off to growthops.asia. Feeds `generateStaticParams`, so it reads
+ *  uncached — see `uncached`. */
 export async function getArticleSlugs(): Promise<string[]> {
-  return (await freshClient.fetch(ARTICLE_SLUGS_QUERY)).filter(
+  return (await client.fetch(ARTICLE_SLUGS_QUERY, {}, uncached())).filter(
     (slug): slug is string => typeof slug === "string",
   );
 }

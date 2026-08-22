@@ -81,6 +81,17 @@ export type NavLink = {
   >;
 };
 
+export type PostTable = {
+  _type: "postTable";
+  caption?: string;
+  hasHeader?: boolean;
+  rows?: Array<{
+    cells?: Array<string>;
+    _type: "row";
+    _key: string;
+  }>;
+};
+
 export type PostQuote = {
   _type: "postQuote";
   text?: string;
@@ -128,6 +139,9 @@ export type PostBody = Array<
   | ({
       _key: string;
     } & PostQuote)
+  | ({
+      _key: string;
+    } & PostTable)
 >;
 
 export type ClientLogo = {
@@ -739,6 +753,7 @@ export type AllSanitySchemaTypes =
   | FooterLink
   | NavChild
   | NavLink
+  | PostTable
   | PostQuote
   | PostImage
   | PostBody
@@ -834,6 +849,17 @@ export type ARTICLE_QUERY_RESULT = {
         _type: "postQuote";
         text?: string;
         author?: string;
+      }
+    | {
+        _key: string;
+        _type: "postTable";
+        caption?: string;
+        hasHeader?: boolean;
+        rows?: Array<{
+          cells?: Array<string>;
+          _type: "row";
+          _key: string;
+        }>;
       }
   > | null;
 } | null;

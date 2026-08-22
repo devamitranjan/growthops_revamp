@@ -1,6 +1,6 @@
-import { client } from "../client";
+import { sanityFetch } from "../live";
 import { SITE_SETTINGS_QUERY } from "../queries/site-settings";
-import { tagged } from "../tags";
+import { documentTags } from "../tags";
 import type { SiteSettings } from "../types";
 
 /**
@@ -9,11 +9,11 @@ import type { SiteSettings } from "../types";
  * header, footer and page body asking for it separately costs one request.
  */
 export async function getSiteSettings(): Promise<SiteSettings> {
-  const settings = await client.fetch(
-    SITE_SETTINGS_QUERY,
-    {},
-    tagged("siteSettings"),
-  );
+  const { data: settings } = await sanityFetch({
+    query: SITE_SETTINGS_QUERY,
+    stega: false,
+    tags: documentTags("siteSettings"),
+  });
 
   if (!settings) {
     throw new Error(

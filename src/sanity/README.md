@@ -28,10 +28,37 @@ component ever handles a Sanity image object.
 browser. There is no build-time guard on it — keep it correct by construction:
 repositories are only reached from Server Components and route handlers.
 
-`freshClient` is the same client with `useCdn: false`. Use it in
-`generateStaticParams`. Reading slugs through the CDN right after a publish can
-return the previous, empty result, and a build that does so silently ships a
-site with zero prerendered pages.
+### Caching and live updates
+
+Page reads go through `sanityFetch` from `live.ts`, and `<SanityLive />` is
+mounted in the site layout. Two independent things invalidate the data cache,
+and the site needs both:
+
+- **Live events.** `<SanityLive />` holds an SSE connection to the Live Content
+  API. Each `sanityFetch` response is stored under the *sync tags* Sanity
+  returns for it, so a publish names the exact entries to expire and the router
+  refreshes. This is what updates a page someone already has open — the piece
+  `revalidateTag` alone cannot do, because invalidating the server cache gives
+  an already-rendered browser tab no reason to ask again.
+- **The webhook.** A live event only reaches browsers that are *connected*. If
+  nobody is on the site when an editor publishes, nothing fires, and entries
+  written with `revalidate: false` would serve the next visitor stale content.
+  `/api/revalidate` has no such dependency, so `documentTags(...)` is passed on
+  every read to keep the `sanity:<type>` tags working as the backstop.
+
+Note that `defineLive` reconfigures the client with `useCdn: true`, overriding
+`client.ts`. That is safe here: those reads are sent with `cacheMode:
+"noStale"` and every entry is expired by name, so the stale-CDN-response-frozen-
+forever failure that motivated `useCdn: false` can no longer happen. The direct
+`client.fetch` reads that remain still honour it.
+
+`sanityFetch` issues two requests for a cache miss — one to learn the sync tags,
+one for the cached result. The tag probe is not cached, so a dynamic route pays
+one CDN round trip per request even on a data-cache hit.
+
+The `generateStaticParams` slug queries use `uncached()` instead. They must not
+read a slug list restored from a previous build's `.next/cache`: a build that
+reads a stale empty list silently ships a site with zero prerendered pages.
 
 ## Content model
 

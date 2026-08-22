@@ -29,12 +29,29 @@ export interface PostQuoteBlock {
   author?: string;
 }
 
+export interface PostTableRow {
+  _key: string;
+  cells: string[];
+}
+
+export interface PostTableBlock {
+  _type: "postTable";
+  _key: string;
+  caption?: string;
+  hasHeader?: boolean;
+  rows: PostTableRow[];
+}
+
 /**
  * Article bodies are real Portable Text: standard blocks carry the headings,
  * running copy and lists, and the two custom object types above are embedded
  * alongside them.
  */
-export type PostContentBlock = PortableTextBlock | PostImageBlock | PostQuoteBlock;
+export type PostContentBlock =
+  | PortableTextBlock
+  | PostImageBlock
+  | PostQuoteBlock
+  | PostTableBlock;
 
 /** A full article body, keyed by the same slug the listing card uses. */
 export interface PostDetailData {

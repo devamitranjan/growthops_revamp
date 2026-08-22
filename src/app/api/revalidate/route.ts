@@ -23,6 +23,10 @@ import { documentTag, isDocumentType } from "@/sanity/tags";
  *
  * The default projection sends the whole document, which works but wastes
  * payload on bodies and images; `{_type}` is all this handler reads.
+ *
+ * None of this applies locally: Sanity cannot post to `localhost`, so reads in
+ * development bypass the data cache entirely instead — see `tagged` in
+ * `src/sanity/tags.ts`.
  */
 export async function POST(req: NextRequest) {
   const secret = process.env.SANITY_REVALIDATE_SECRET;
@@ -62,9 +66,13 @@ export async function POST(req: NextRequest) {
 
   const tag = documentTag(type);
 
-  // "max" is stale-while-revalidate: the next visitor gets the cached page
-  // immediately and the fresh one is built behind them.
-  revalidateTag(tag, "max");
+  // `{ expire: 0 }` rather than "max". "max" is stale-while-revalidate: the
+  // first visitor after a publish still gets the *old* page and only triggers
+  // the rebuild behind them. For an editor that is indistinguishable from the
+  // site being broken — they publish, reload, and see the previous copy. Next
+  // documents `{ expire: 0 }` as the form for webhooks that need the data gone
+  // now; the cost is that one request blocks on a refetch.
+  revalidateTag(tag, { expire: 0 });
 
   return NextResponse.json({ revalidated: true, tag, now: Date.now() });
 }

@@ -1,10 +1,15 @@
-import { client } from "../client";
+import { sanityFetch } from "../live";
 import { ARTICLE_EXISTS_QUERY, ARTICLE_QUERY } from "../queries/article";
-import { tagged } from "../tags";
+import { documentTags } from "../tags";
 import type { PostDetailData } from "../types";
 
 export async function getArticle(slug: string): Promise<PostDetailData | null> {
-  const article = await client.fetch(ARTICLE_QUERY, { slug }, tagged("article"));
+  const { data: article } = await sanityFetch({
+    query: ARTICLE_QUERY,
+    params: { slug },
+    stega: false,
+    tags: documentTags("article"),
+  });
   if (!article || !Array.isArray(article.content) || article.content.length === 0) {
     return null;
   }
@@ -12,5 +17,11 @@ export async function getArticle(slug: string): Promise<PostDetailData | null> {
 }
 
 export async function articleExists(slug: string): Promise<boolean> {
-  return client.fetch(ARTICLE_EXISTS_QUERY, { slug }, tagged("article"));
+  const { data } = await sanityFetch({
+    query: ARTICLE_EXISTS_QUERY,
+    params: { slug },
+    stega: false,
+    tags: documentTags("article"),
+  });
+  return data;
 }

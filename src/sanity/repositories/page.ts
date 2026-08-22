@@ -1,6 +1,6 @@
-import { client } from "../client";
+import { sanityFetch } from "../live";
 import { PAGE_QUERY } from "../queries/page";
-import { tagged } from "../tags";
+import { documentTags } from "../tags";
 import type { PageData, PageSection, TeamMember } from "../types";
 
 /** The home page's document id/slug. */
@@ -27,8 +27,21 @@ function normalise(section: Record<string, unknown>): PageSection {
   return section as PageSection;
 }
 
+/**
+ * `testimonialsSection` is in the tag list because `PAGE_QUERY` dereferences
+ * it — the page builder's testimonials block stores a reference and the query
+ * follows it with `source->`. Tag only "page" and editing a testimonial leaves
+ * the home page serving the old quotes forever: the webhook drops
+ * `sanity:testimonialsSection`, this entry is not under that tag, and a tagged
+ * read is stored with no expiry to age it out.
+ */
 export async function getPage(slug: string): Promise<PageData | null> {
-  const page = await client.fetch(PAGE_QUERY, { slug }, tagged("page"));
+  const { data: page } = await sanityFetch({
+    query: PAGE_QUERY,
+    params: { slug },
+    stega: false,
+    tags: documentTags("page", "testimonialsSection"),
+  });
   if (!page) return null;
 
   return {

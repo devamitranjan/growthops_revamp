@@ -1,15 +1,15 @@
-import { client } from "../client";
+import { sanityFetch } from "../live";
 import { TESTIMONIALS_QUERY } from "../queries/testimonials";
-import { tagged } from "../tags";
+import { documentTags } from "../tags";
 import type { ITestimonialsData } from "../types";
 
 /** Shared by the home page and /contact — one document, two consumers. */
 export async function getTestimonials(): Promise<ITestimonialsData> {
-  const data = await client.fetch(
-    TESTIMONIALS_QUERY,
-    {},
-    tagged("testimonialsSection"),
-  );
+  const { data } = await sanityFetch({
+    query: TESTIMONIALS_QUERY,
+    stega: false,
+    tags: documentTags("testimonialsSection"),
+  });
 
   return {
     title: data?.title ?? "",

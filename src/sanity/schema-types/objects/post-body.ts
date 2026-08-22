@@ -56,5 +56,6 @@ export const postBody = defineType({
     }),
     defineArrayMember({ type: "postImage" }),
     defineArrayMember({ type: "postQuote" }),
+    defineArrayMember({ type: "postTable" }),
   ],
 });
