@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import { SanityLive } from "@/sanity/live";
 import { getSiteSettings } from "@/sanity/repositories/site-settings";
 
 import "../globals.css";
@@ -60,6 +61,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           document through a flex-column body, which silently kills every pin. */}
       <body className="min-h-full" suppressHydrationWarning>
         {children}
+        <SanityLive />
       </body>
     </html>
   );
