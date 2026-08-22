@@ -1,15 +1,15 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { apiGet } from "@/lib/api";
-import { queryKeys } from "@/lib/query-keys";
+import type { QueryResponseInitial } from "@sanity/react-loader";
+
+import { useQuery } from "@/sanity/loader";
+import { ARTICLE_QUERY } from "@/sanity/queries/article";
 import type { PostDetailData } from "@/sanity/types";
 
-export function useArticle(slug: string, initialData?: PostDetailData) {
-  return useQuery({
-    queryKey: queryKeys.articles.detail(slug),
-    queryFn: () => apiGet<PostDetailData>(`/articles/${slug}`),
-    initialData,
-    enabled: slug.length > 0,
-  });
+/** See `use-reports` for why `initial` is required rather than optional. */
+export function useArticle(
+  slug: string,
+  initial: QueryResponseInitial<PostDetailData | null>,
+) {
+  return useQuery<PostDetailData | null>(ARTICLE_QUERY, { slug }, { initial });
 }

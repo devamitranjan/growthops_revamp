@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import { draftMode } from "next/headers";
 
-import { QueryProvider } from "@/components/site/query-provider";
+import { LiveMode } from "@/components/site/live-mode";
 import { getSiteSettings } from "@/sanity/repositories/site-settings";
 
 import "../globals.css";
@@ -52,7 +53,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
@@ -61,7 +62,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       {/* Must stay a plain block box: GSAP's pin-spacing cannot grow the
           document through a flex-column body, which silently kills every pin. */}
       <body className="min-h-full" suppressHydrationWarning>
-        <QueryProvider>{children}</QueryProvider>
+        {children}
+        {(await draftMode()).isEnabled && <LiveMode />}
       </body>
     </html>
   );
