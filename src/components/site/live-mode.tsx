@@ -1,6 +1,6 @@
 "use client";
 
-import { createClient } from "@sanity/client/stega";
+import { createClient } from "@sanity/client";
 
 import { apiVersion, dataset, projectId } from "@/sanity/env";
 import { useLiveMode } from "@/sanity/loader";

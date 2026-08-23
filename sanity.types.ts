@@ -554,6 +554,49 @@ export type TestimonialsSection = {
   >;
 };
 
+export type NewsroomArticleReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "newsroomArticle";
+};
+
+export type NewsroomPage = {
+  _id: string;
+  _type: "newsroomPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  heading?: string;
+  readMoreLabel?: string;
+  articles?: Array<
+    {
+      _key: string;
+    } & NewsroomArticleReference
+  >;
+  seo?: Seo;
+};
+
+export type NewsroomArticle = {
+  _id: string;
+  _type: "newsroomArticle";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  href?: string;
+  publishedAt?: string;
+  excerpt?: string;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  alt?: string;
+};
+
 export type Report = {
   _id: string;
   _type: "report";
@@ -785,6 +828,9 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | TestimonialsSection
+  | NewsroomArticleReference
+  | NewsroomPage
+  | NewsroomArticle
   | Report
   | Slug
   | Article
@@ -890,6 +936,45 @@ export type ARTICLES_COUNT_QUERY_RESULT = number;
 // Variable: ARTICLE_SLUGS_QUERY
 // Query: *[_type == "article" && defined(slug.current) && count(content) > 0].slug.current
 export type ARTICLE_SLUGS_QUERY_RESULT = Array<string | null>;
+
+// Source: queries/newsroom.ts
+// Variable: NEWSROOM_PAGE_QUERY
+// Query: *[_id == "newsroomPage"][0]{  heading,  readMoreLabel,  "seoTitle": seo.title,  "seoDescription": seo.description}
+export type NEWSROOM_PAGE_QUERY_RESULT =
+  | {
+      heading: null;
+      readMoreLabel: null;
+      seoTitle: null;
+      seoDescription: null;
+    }
+  | {
+      heading: null;
+      readMoreLabel: null;
+      seoTitle: string | null;
+      seoDescription: string | null;
+    }
+  | {
+      heading: string | null;
+      readMoreLabel: string | null;
+      seoTitle: string | null;
+      seoDescription: string | null;
+    }
+  | null;
+
+// Source: queries/newsroom.ts
+// Variable: NEWSROOM_ARTICLES_QUERY
+// Query: coalesce(    *[_id == "newsroomPage"][0].articles[defined(@->publishedAt)]->{  "id": _id,  title,  href,  publishedAt,  excerpt,  "imgSrc": image.asset->url,  alt},    []  )
+export type NEWSROOM_ARTICLES_QUERY_RESULT =
+  | Array<{
+      id: string;
+      title: string | null;
+      href: string | null;
+      publishedAt: string | null;
+      excerpt: string | null;
+      imgSrc: string | null;
+      alt: string | null;
+    }>
+  | Array<never>;
 
 // Source: queries/page.ts
 // Variable: PAGE_QUERY
@@ -1277,6 +1362,8 @@ declare module "@sanity/client" {
     '*[_type == "article"] | order(order asc) [$start...$end]{\n  "slug": slug.current,\n  href,\n  "imgSrc": coalesce(featuredImage.asset->url, featuredImageSrc),\n  title,\n  subtitle,\n  authorName\n}': ARTICLES_QUERY_RESULT;
     'count(*[_type == "article"])': ARTICLES_COUNT_QUERY_RESULT;
     '*[_type == "article" && defined(slug.current) && count(content) > 0].slug.current': ARTICLE_SLUGS_QUERY_RESULT;
+    '*[_id == "newsroomPage"][0]{\n  heading,\n  readMoreLabel,\n  "seoTitle": seo.title,\n  "seoDescription": seo.description\n}': NEWSROOM_PAGE_QUERY_RESULT;
+    '\n  coalesce(\n    *[_id == "newsroomPage"][0].articles[defined(@->publishedAt)]->{\n  "id": _id,\n  title,\n  href,\n  publishedAt,\n  excerpt,\n  "imgSrc": image.asset->url,\n  alt\n},\n    []\n  )\n': NEWSROOM_ARTICLES_QUERY_RESULT;
     '*[_type == "page" && slug.current == $slug][0]{\n  "slug": slug.current,\n  title,\n  sections[]{\n    _key,\n    _type,\n\n    _type == "heroSection" => {\n      hero{\n        title, subtitle, description, videoSrc, animateSpin,\n        "posterSrc": coalesce(poster.asset->url, posterSrc)\n      }\n    },\n\n    _type == "servicesSection" => {\n      services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }\n    },\n\n    _type == "growthSpurtsSection" => {\n      cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }\n    },\n\n    _type == "unrivaledGrowthSection" => {\n      title,\n      stats[]{ "id": _key, stat, description },\n      cta{ label, href }\n    },\n\n    _type == "caseStudySection" => {\n      slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }\n    },\n\n    _type == "articleCardsSection" => {\n      title,\n      sectionLink,\n      articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }\n    },\n\n    _type == "testimonialsBlock" => {\n      "data": source->{\n        title,\n        categories,\n        testimonials[]{\n          "id": _key, category, audioSrc,\n          "imgSrc": image.asset->url, alt, quote, position\n        },\n        logos[]{ "id": _key, "src": logo.asset->url, alt }\n      }\n    },\n\n    _type == "growthValidationSection" => {\n      title,\n      sectionLink,\n      eyebrow,\n      headline,\n      awards[]{ href, "image": image.asset->url, alt },\n      "image": image.asset->url,\n      imageAlt\n    },\n\n    _type == "teamSection" => {\n      title,\n      batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },\n      highlight{ value, description, cta{ label, href, target } }\n    }\n  }\n}': PAGE_QUERY_RESULT;
     '*[_type == "report"]{\n  "slug": slug.current,\n  heroBannerData{\n    title, subtitle, description, videoSrc, animateSpin,\n    "posterSrc": coalesce(poster.asset->url, posterSrc)\n  },\n  reportHighlights[]{ "id": _key, title },\n  reportSlides[]{ "id": _key, "src": image.asset->url, alt }\n}': REPORTS_QUERY_RESULT;
     '*[_type == "report" && slug.current == $slug][0]{\n  "slug": slug.current,\n  heroBannerData{\n    title, subtitle, description, videoSrc, animateSpin,\n    "posterSrc": coalesce(poster.asset->url, posterSrc)\n  },\n  reportHighlights[]{ "id": _key, title },\n  reportSlides[]{ "id": _key, "src": image.asset->url, alt }\n}': REPORT_QUERY_RESULT;

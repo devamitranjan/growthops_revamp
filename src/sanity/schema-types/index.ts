@@ -1,6 +1,8 @@
 import type { SchemaTypeDefinition } from "sanity";
 
 import { article } from "./documents/article";
+import { newsroomArticle } from "./documents/newsroom-article";
+import { newsroomPage } from "./documents/newsroom-page";
 import { page } from "./documents/page";
 import { report } from "./documents/report";
 import { siteSettings } from "./documents/site-settings";
@@ -47,6 +49,8 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   page,
   article,
   report,
+  newsroomArticle,
+  newsroomPage,
   testimonialsSection,
   siteSettings,
 

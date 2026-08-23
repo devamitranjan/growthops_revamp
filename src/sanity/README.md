@@ -72,6 +72,21 @@ reads a stale empty list silently ships a site with zero prerendered pages.
   listing cannot be sorted by one. An article renders in-site only once it has
   a body; until then its card links out via `href`.
 - **`report`** — the root-level `/[slug]` landing pages.
+- **`newsroomArticle`** — the cards on /newsroom: press coverage published by
+  other outlets. No slug and no detail page — the card links out and that is
+  the only destination the content has, which is why it is not an `article`.
+  A document existing does not put it on the page: the `articles` list on
+  `newsroomPage` is the listing, and one left off it is hidden.
+- **`newsroomPage`** — a singleton holding what is on /newsroom but is not a
+  card: the heading, the card link label, per-page SEO, and `articles`, a
+  drag-sortable list of references that *is* the listing — the cards render in
+  the order they sit there, and removing one hides it without touching the
+  article document. The trade is that a new `newsroomArticle` shows up nowhere
+  until someone adds it here. Its own document rather than another
+  `siteSettings` group
+  so the page copy sits beside the articles it heads in the sidebar. The route
+  404s until it is published, so a build never fails on a page nobody has
+  filled in yet.
 - **`testimonialsSection`** — a singleton, referenced by the page builder's
   testimonials block and read directly by /contact.
 - **`siteSettings`** — a singleton holding everything that appears on every

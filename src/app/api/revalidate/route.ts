@@ -16,7 +16,8 @@ import { documentTag, isDocumentType } from "@/sanity/tags";
  *   URL      https://<domain>/api/revalidate
  *   Dataset  production
  *   Trigger  Create, Update, Delete
- *   Filter   _type in ["page","article","report","testimonialsSection","siteSettings"]
+ *   Filter   _type in ["page","article","report","newsroomArticle",
+ *              "newsroomPage","testimonialsSection","siteSettings"]
  *   Projection  {_type}
  *   HTTP method POST, API version v2026-08-22
  *   Secret   the same value as SANITY_REVALIDATE_SECRET
