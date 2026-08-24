@@ -33,6 +33,28 @@ export interface GrowthCardData {
   description: string;
 }
 
+/** One hover-to-play card in the growth videos row. */
+export interface GrowthVideoData {
+  id: string;
+  /** Names the clip for screen readers and the video dialog. */
+  title: string;
+  /** The caption under the card. */
+  description: string;
+  /** The uploaded clip's asset URL. Optional because a draft can be
+   *  half-filled; the schema requires it to publish. */
+  videoSrc?: string;
+  /** Shown until the card is hovered or focused. */
+  thumbnail: string;
+  alt: string;
+}
+
+export interface IGrowthVideosData {
+  title: string;
+  subtitle?: string;
+  /** Capped at four by the schema — one desktop row. */
+  videos: GrowthVideoData[];
+}
+
 export interface CaseStudySlideData {
   id: string;
   label: string;

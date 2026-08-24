@@ -37,6 +37,14 @@ const GrowthSpurts = dynamic(
   },
 );
 
+const GrowthVideos = dynamic(
+  () => import("@/components/sections/growth-videos/growth-videos"),
+  {
+    loading: () => <div className="min-h-[600px] bg-background" />,
+    ssr: true,
+  },
+);
+
 const UnrivaledGrowth = dynamic(
   () =>
     import("@/components/sections/unrivaled-growth/unrivaled-growth").then(
@@ -171,6 +179,17 @@ export function SectionRenderer({
 
     case "growthSpurtsSection":
       return <GrowthSpurts cards={section.cards} />;
+
+    case "growthVideosSection":
+      return (
+        <GrowthVideos
+          data={{
+            title: section.title,
+            subtitle: section.subtitle,
+            videos: section.videos,
+          }}
+        />
+      );
 
     case "unrivaledGrowthSection":
       return (

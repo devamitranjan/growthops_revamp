@@ -8,6 +8,7 @@ import { downloadReportSection } from "./download-report-section";
 import { faqSection } from "./faq-section";
 import { growthSpurtsSection } from "./growth-spurts-section";
 import { growthValidationSection } from "./growth-validation-section";
+import { growthVideosSection } from "./growth-videos-section";
 import { heroSection } from "./hero-section";
 import { newsroomListingSection } from "./newsroom-listing-section";
 import { postListingSection } from "./post-listing-section";
@@ -37,6 +38,7 @@ export const sectionTypes = [
   heroSection,
   servicesSection,
   growthSpurtsSection,
+  growthVideosSection,
   unrivaledGrowthSection,
   caseStudySection,
   articleCardsSection,

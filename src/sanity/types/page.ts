@@ -7,6 +7,7 @@ import type {
   GrowthCardData,
   ICreativeTechData,
   IFaqData,
+  IGrowthVideosData,
   IHeroBannerData,
   ITeamSectionData,
   IUnrivaledGrowthData,
@@ -46,6 +47,7 @@ export type PageSection =
   | { _type: "heroSection"; _key: string; hero: IHeroBannerData }
   | { _type: "servicesSection"; _key: string; services: ServiceItem[] }
   | { _type: "growthSpurtsSection"; _key: string; cards: GrowthCardData[] }
+  | ({ _type: "growthVideosSection"; _key: string } & IGrowthVideosData)
   | ({ _type: "unrivaledGrowthSection"; _key: string } & IUnrivaledGrowthData)
   | { _type: "caseStudySection"; _key: string; slides: CaseStudySlideData[] }
   | {
