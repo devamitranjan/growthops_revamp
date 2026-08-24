@@ -20,8 +20,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
+    # Only for `SANITY_API_READ_TOKEN`, which lives in this environment's
+    # secrets. Keep "Production" free of required reviewers: an approval gate
+    # here would park every CI run until someone clicks it.
+    environment: Production
+
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -44,10 +49,20 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
-      # The build needs the public Sanity vars to prerender. These are the
-      # NEXT_PUBLIC_ pair only — no read token, so CI can never touch drafts.
+      # The read token is not optional. This Sanity project returns an empty
+      # result set to unauthenticated callers, so without it `getSiteSettings`
+      # finds no document and throws during prerender, which fails the build on
+      # whichever route Next happens to reach first.
+      #
+      # The project/dataset vars stay unpassed on purpose. `src/sanity/env.ts`
+      # already defaults to the public values, and wiring `${{ vars.* }}` in was
+      # actively harmful: an undefined repository variable interpolates to the
+      # empty string, which is *defined*, so the `??` fallback never fires and
+      # the build dies with "Configuration must contain `projectId`".
       - name: Build
         run: pnpm build
         env:
-          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID }}
-          NEXT_PUBLIC_SANITY_DATASET: ${{ vars.NEXT_PUBLIC_SANITY_DATASET }}
+          SANITY_API_READ_TOKEN: ${{ secrets.SANITY_API_READ_TOKEN }}
+          SANITY_REVALIDATE_SECRET: ${{ secrets.SANITY_REVALIDATE_SECRET }}
+          NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
