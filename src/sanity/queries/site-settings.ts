@@ -32,9 +32,6 @@ export const SITE_SETTINGS_QUERY = defineQuery(`*[_id == "siteSettings"][0]{
   ogImageAlt,
   googleSiteVerification,
 
-  contactTitle,
-  contactMetaTitle,
-  contactMetaDescription,
   contactFieldPlaceholders[]{ value, label },
   contactSubjectLabel,
   contactSubjectPlaceholder,
@@ -49,9 +46,6 @@ export const SITE_SETTINGS_QUERY = defineQuery(`*[_id == "siteSettings"][0]{
   contactTermsLabel,
   contactValidationMessages[]{ value, label },
 
-  postListingTitle,
-  postListingHeading,
-  postListingDescription,
 
   reportFormTitle,
   reportFormSubmitLabel,

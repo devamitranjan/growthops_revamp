@@ -1,12 +1,19 @@
-import { defineArrayMember, defineField, defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 /**
  * A composed page. Sections are reorderable, removable, and repeatable, so an
  * editor can build a new page without a developer.
  *
- * The home page is the `home` slug; `src/app/(site)/page.tsx` asks for it by
- * name. Any other slug is served by the catch-all report/page route only if a
- * route exists for it — adding a page document does not by itself create a URL.
+ * Creating a page document *does* create a URL: `src/app/(site)/[slug]/page.tsx`
+ * serves every page by its slug. The home page is the `home` slug and is
+ * served by `src/app/(site)/page.tsx` at `/` instead; slugs that a hand-built
+ * route already owns (`contact`, `newsroom`, `post`, `reports`) are listed in
+ * that route and stay with the hand-built page.
+ *
+ * The section library lives in `schema-types/sections/index.ts` — the
+ * `pageSections` array offers all of it, and each section instance carries its
+ * own content, so the same section can appear on several pages saying
+ * different things.
  */
 export const page = defineType({
   name: "page",
@@ -18,23 +25,13 @@ export const page = defineType({
       name: "slug",
       type: "slug",
       options: { source: "title", maxLength: 96 },
+      description: "The URL this page is served at, e.g. `about` -> /about.",
       validation: (r) => r.required(),
     }),
     defineField({
       name: "sections",
       title: "Page sections",
-      type: "array",
-      of: [
-        defineArrayMember({ type: "heroSection" }),
-        defineArrayMember({ type: "servicesSection" }),
-        defineArrayMember({ type: "growthSpurtsSection" }),
-        defineArrayMember({ type: "unrivaledGrowthSection" }),
-        defineArrayMember({ type: "caseStudySection" }),
-        defineArrayMember({ type: "articleCardsSection" }),
-        defineArrayMember({ type: "testimonialsBlock" }),
-        defineArrayMember({ type: "growthValidationSection" }),
-        defineArrayMember({ type: "teamSection" }),
-      ],
+      type: "pageSections",
       validation: (r) => r.required().min(1),
     }),
     defineField({ name: "seo", type: "seo" }),

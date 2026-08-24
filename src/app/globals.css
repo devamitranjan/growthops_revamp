@@ -375,3 +375,48 @@
     padding-right: 5rem;
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/* Accordion (Radix) — height is only known at runtime, so the open/close     */
+/* transitions run off the variable Radix measures onto the content element.  */
+/* -------------------------------------------------------------------------- */
+@keyframes accordion-open {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes accordion-close {
+  from {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+@layer components {
+  .accordion-content {
+    overflow: hidden;
+  }
+  .accordion-content[data-state="open"] {
+    animation: accordion-open 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .accordion-content[data-state="closed"] {
+    animation: accordion-close 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accordion-content[data-state="open"],
+  .accordion-content[data-state="closed"] {
+    animation: none;
+  }
+}

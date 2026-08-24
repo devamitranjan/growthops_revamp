@@ -4,6 +4,10 @@
  *  because the GROQ resolves `.asset->url` for us — components never see a
  *  Sanity image object. */
 
+import type { PortableTextBlock } from "next-sanity";
+
+import type { LogoData } from "./testimonial";
+
 export interface IHeroBannerData {
   title: string;
   subtitle: string;
@@ -100,4 +104,36 @@ export interface ITeamSectionData {
   batches: TeamMember[][];
   /** Trailing highlight card. Omit to end the grid after the members. */
   highlight?: TeamHighlight;
+}
+
+/** One belt of logos in the creative-technologies card. */
+export interface TechMarqueeRowData {
+  id: string;
+  logos: LogoData[];
+  /** Resting speed in px/s. Defaults to 45 when the CMS leaves it empty. */
+  speed?: number;
+  /** Which way the row drifts while the page is still. Defaults to "left". */
+  direction?: "left" | "right";
+}
+
+export interface ICreativeTechData {
+  title: string;
+  /** Stacked belts, each running at its own speed. */
+  rows: TechMarqueeRowData[];
+}
+
+/** One row of the FAQ accordion. */
+export interface FaqItemData {
+  id: string;
+  question: string;
+  /** Answers are Portable Text so an editor can split paragraphs and link out. */
+  answer: PortableTextBlock[];
+}
+
+export interface IFaqData {
+  title: string;
+  eyebrow?: string;
+  items: FaqItemData[];
+  /** Expand the first answer on load, so the panel does not open empty. */
+  openFirst?: boolean;
 }

@@ -22,7 +22,15 @@ const checkboxClasses =
 const byValue = (entries: { value: string; label: string }[]) =>
   Object.fromEntries(entries.map((e) => [e.value, e.label]));
 
-export function ContactFormView({ settings }: { settings: SiteSettings }) {
+export function ContactFormView({
+  title,
+  settings,
+}: {
+  /** The page's own heading. The rest of the form's wording is shared, and
+   *  comes from `siteSettings`. */
+  title: string;
+  settings: SiteSettings;
+}) {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const placeholders = byValue(settings.contactFieldPlaceholders ?? []);
@@ -32,7 +40,7 @@ export function ContactFormView({ settings }: { settings: SiteSettings }) {
     <section className="pt-32 md:pt-40">
       <div className="generic-container flex flex-col gap-10 md:gap-14">
         <h1 className="heading-h1-extrabold text-primary-pink-base">
-          {settings.contactTitle}
+          {title}
         </h1>
 
         <Form.Root

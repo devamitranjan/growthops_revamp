@@ -61,9 +61,6 @@ export interface SiteSettings {
   ogImageAlt?: string;
   googleSiteVerification?: string;
 
-  contactTitle: string;
-  contactMetaTitle: string;
-  contactMetaDescription: string;
   contactFieldPlaceholders: LabelledValue[];
   contactSubjectLabel: string;
   contactSubjectPlaceholder: string;
@@ -77,10 +74,6 @@ export interface SiteSettings {
   contactMarketingLabel: string;
   contactTermsLabel: string;
   contactValidationMessages: LabelledValue[];
-
-  postListingTitle: string;
-  postListingHeading: string;
-  postListingDescription: string;
 
   reportFormTitle: string;
   reportFormSubmitLabel: string;

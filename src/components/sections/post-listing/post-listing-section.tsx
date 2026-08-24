@@ -1,0 +1,31 @@
+import { getArticleSlugs, getArticles } from "@/sanity/repositories/articles";
+
+import PostListing from "./post-listing";
+
+/**
+ * The listing section's server half: the cards are every `article` document,
+ * so they are fetched here rather than carried on the section.
+ *
+ * `page` comes from the URL and is validated by the route before it gets here
+ * — see `src/app/(site)/post/page.tsx`.
+ */
+export default async function PostListingSection({
+  heading,
+  page,
+}: {
+  heading: string;
+  page: number;
+}) {
+  const [listing, migratedSlugs] = await Promise.all([
+    getArticles(page),
+    getArticleSlugs(),
+  ]);
+
+  return (
+    <PostListing
+      heading={heading}
+      listing={listing}
+      migratedSlugs={migratedSlugs}
+    />
+  );
+}

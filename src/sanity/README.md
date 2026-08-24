@@ -8,7 +8,7 @@ client.ts         the read client (SERVER-SIDE ONLY, carries the read token)
 image.ts          urlFor() for Sanity image assets
 sanity.config.ts  Studio config — mounted at /studio
 sanity.cli.ts     CLI + TypeGen config
-structure.ts      Studio sidebar; singletons are pinned here
+structure.ts      Studio sidebar; groups, and the pinned pages
 schema-types/     the content model — documents/, sections/, objects/
 types/            the content contract — every content shape in the app
 queries/          GROQ, one file per top-level fetch
@@ -62,39 +62,96 @@ reads a stale empty list silently ships a site with zero prerendered pages.
 
 ## Content model
 
-- **`page`** — the page builder. `sections[]` is a reorderable union, so
-  editors can add, move and remove sections without a developer. The home page
-  is the `home` slug, pinned in `structure.ts` as document `page-home`.
-  `src/components/site/section-renderer.tsx` maps `_type` to a component and
-  keeps each section's `dynamic()` boundary and loading skeleton.
+- **`page`** — the page builder, and every page on the site bar the reports.
+  `sections[]` is a reorderable union of the whole section library, so editors
+  add, move and remove sections without a developer, and each section instance
+  holds its own content — two pages can both use the FAQ section and fill it
+  with different questions.
+  Publishing a page document **creates its URL**: `src/app/(site)/[slug]/page.tsx`
+  serves any slug, so a new page needs no route file and no deploy.
+  Four pages are pinned in `structure.ts` because a route depends on them
+  existing — `page-home` (`/`), `page-contact`, `page-newsroom` and `page-post`.
+  Only two of those still have a route file of their own: `/` because the home
+  page is served from the site root rather than from its slug, and `/post`
+  because `?page=` has to 404 on an out-of-range number before anything
+  renders. /contact and /newsroom go through `[slug]` like any other page.
+- **`report`** — the `/reports/[slug]` landing pages, composed from the same
+  section library: the hero, the "In this report" overview and the download
+  form are all sections on the document. `title` is the Studio's label for the
+  report and seeds the slug; what the page *says* is in its hero section.
 - **`article`** — the /post listing and detail pages. Ordered by the explicit
   `order` field: only three of sixty articles carry a publish date, so the
   listing cannot be sorted by one. An article renders in-site only once it has
-  a body; until then its card links out via `href`.
-- **`report`** — the root-level `/[slug]` landing pages.
+  a body; until then its card links out via `href`. The listing section carries
+  the heading and nothing else — which articles appear is the documents'
+  business, and the page number is the URL's.
 - **`newsroomArticle`** — the cards on /newsroom: press coverage published by
   other outlets. No slug and no detail page — the card links out and that is
   the only destination the content has, which is why it is not an `article`.
-  A document existing does not put it on the page: the `articles` list on
-  `newsroomPage` is the listing, and one left off it is hidden.
-- **`newsroomPage`** — a singleton holding what is on /newsroom but is not a
-  card: the heading, the card link label, per-page SEO, and `articles`, a
-  drag-sortable list of references that *is* the listing — the cards render in
-  the order they sit there, and removing one hides it without touching the
-  article document. The trade is that a new `newsroomArticle` shows up nowhere
-  until someone adds it here. Its own document rather than another
-  `siteSettings` group
-  so the page copy sits beside the articles it heads in the sidebar. The route
-  404s until it is published, so a build never fails on a page nobody has
-  filled in yet.
+  A document existing does not put it on the page: the `articles` list on the
+  newsroom page's `newsroomListingSection` is the listing, and one left off it
+  is hidden.
 - **`testimonialsSection`** — a singleton, referenced by the page builder's
-  testimonials block and read directly by /contact.
+  testimonials block. Shared on purpose: the same quotes appear on the home
+  page and /contact and must stay in step.
 - **`siteSettings`** — a singleton holding everything that appears on every
-  page (logo, navigation, footer, SEO defaults) plus the copy that belongs to
-  a route rather than a document (contact page, post listing, report download
-  form). `Header`, `SiteFooter`, `ContactForm` and `DownloadReportForm` are
-  client components, so each has a thin server wrapper in its `index.tsx` that
-  fetches this and passes it down — call sites stay `<Header />`.
+  page (logo, navigation, footer, SEO defaults) plus the **shared wiring of the
+  two forms**. Page copy is not here: a page's heading belongs to the section
+  that renders it, and its meta title to that page's `seo` group. What is left
+  of the contact and report-download groups is the forms' own vocabulary —
+  placeholders, options and messages keyed to field names that exist in code —
+  which every instance of the form shares rather than any one page owning.
+  `Header`, `SiteFooter`, `ContactForm` and `DownloadReportForm` are client
+  components, so each has a thin server wrapper in its `index.tsx` that fetches
+  this and passes it down.
+
+## The Studio sidebar
+
+`structure.ts` groups the Content pane into **Pages**, **Sections** and
+**Settings**. Every entry is placed by hand — there is no catch-all list, so a
+document type without an entry has no pane of its own. `article`,
+`newsroomArticle` and `report` are in that position on purpose: they are
+reached through the section that references them rather than from a list of
+their own.
+
+A composed document — a page or a report — opens onto "Page settings" plus one
+item per section it carries, so you can see what a page is made of without
+opening it. Every one of those items opens the same document, because a section
+is an object *inside* the page rather than a document of its own; the list is
+there to show the composition and to name each section with copy an editor
+recognises. Reordering happens in the form, where the "Page sections" array is
+drag-sortable, and the sidebar list follows it next time it is opened. The list
+is read with `perspective: "drafts"` so an unpublished section still shows.
+
+### Adding a section
+
+A section exists in three places, and the Studio side is one edit:
+
+1. **`schema-types/sections/<name>.ts`**, registered in
+   `schema-types/sections/index.ts`. That list is both the Studio schema and
+   the members of the `pageSections` array, so registering it there offers it
+   on *every* page and every report at once. Nothing else on the Studio side
+   changes.
+2. **`queries/sections.ts`** — a `_type == "<name>" => { ... }` projection, so
+   the site reads the fields back. Then `pnpm typegen`.
+3. **`types/page.ts`** (a member on the `PageSection` union) and
+   **`components/site/section-renderer.tsx`** (a `case` mapping `_type` to the
+   component, keeping its own `dynamic()` boundary and loading skeleton — the
+   skeletons reserve height so the pinned GSAP sections below do not jump).
+
+Miss step 2 or 3 and nothing breaks loudly: an unprojected or unmapped section
+renders as nothing, which is deliberate — a Studio ahead of the deploy costs an
+empty slot, not a broken page.
+
+`pageSections` is a named array type rather than an inline field, so any other
+document that should be composable gets the same library with
+`type: "pageSections"`. `page` and `report` both use it today.
+
+A section that needs something from the *request* rather than from the CMS
+takes it through `SectionContext` in the renderer — today only the article
+listing does, for the `?page=` it is showing. It is threaded through as a prop
+rather than read inside the section because /post has already validated the
+number: an out-of-range page is a 404, and that decision belongs to the route.
 
 Article bodies are real Portable Text. The original `variant: "statements"`
 list became a third list style, because Portable Text has no list container to

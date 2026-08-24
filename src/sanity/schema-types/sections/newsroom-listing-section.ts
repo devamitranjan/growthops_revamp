@@ -1,21 +1,23 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 /**
- * Page-level copy for /newsroom. Singleton, pinned in `structure.ts`.
+ * The press-coverage grid, as seen at /newsroom.
  *
- * The cards themselves are `newsroomArticle` documents; only what is not a
- * card lives here. It is a document of its own rather than another group on
- * `siteSettings` so the page copy sits next to the articles it heads in the
- * Studio sidebar.
+ * `articles` *is* the listing: only what is added here appears, in this order.
+ * Drag to re-prioritise, remove an entry to take a card off the page — the
+ * `newsroomArticle` document itself stays put and can be added back. There is
+ * deliberately no date-sorted fallback behind it: a fallback would put
+ * articles on the page that nobody chose to put there. The cost to remember is
+ * that a newly created article is invisible until someone adds it here.
  */
-export const newsroomPage = defineType({
-  name: "newsroomPage",
-  title: "Newsroom page",
-  type: "document",
+export const newsroomListingSection = defineType({
+  name: "newsroomListingSection",
+  title: "Newsroom listing",
+  type: "object",
   fields: [
     defineField({
       name: "heading",
-      title: "Page heading",
+      title: "Heading",
       type: "string",
       initialValue: "Newsroom",
       validation: (r) => r.required(),
@@ -38,16 +40,13 @@ export const newsroomPage = defineType({
           to: [{ type: "newsroomArticle" }],
         }),
       ],
-      description:
-        "The listing itself: only articles added here appear on /newsroom, in this order. Drag to re-prioritise, and remove an item to take it off the page — the article document itself stays put and can be added back at any time.",
       validation: (r) => r.unique(),
     }),
-    defineField({ name: "seo", type: "seo" }),
   ],
   preview: {
-    select: { count: "articles.length" },
-    prepare: ({ count }) => ({
-      title: "Newsroom page",
+    select: { title: "heading", count: "articles.length" },
+    prepare: ({ title, count }) => ({
+      title: title ?? "Newsroom listing",
       subtitle: count ? `${count} articles` : "No articles on the page",
     }),
   },

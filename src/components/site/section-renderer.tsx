@@ -85,7 +85,83 @@ const TeamSection = dynamic(
   },
 );
 
-export function SectionRenderer({ section }: { section: PageSection }) {
+const CreativeTech = dynamic(
+  () => import("@/components/sections/creative-tech/creative-tech"),
+  {
+    loading: () => <div className="min-h-[500px] bg-background" />,
+    ssr: true,
+  },
+);
+
+const Faq = dynamic(() => import("@/components/sections/faq"), {
+  loading: () => <div className="min-h-[500px] bg-background" />,
+  ssr: true,
+});
+
+const ContactForm = dynamic(() => import("@/components/sections/contact-form"), {
+  loading: () => <div className="min-h-screen bg-background" />,
+  ssr: true,
+});
+
+const PostListingSection = dynamic(
+  () =>
+    import("@/components/sections/post-listing/post-listing-section").then(
+      (module) => module.default,
+    ),
+  {
+    loading: () => <div className="min-h-screen bg-background" />,
+    ssr: true,
+  },
+);
+
+const NewsroomListing = dynamic(
+  () => import("@/components/sections/newsroom-listing"),
+  {
+    loading: () => <div className="min-h-screen bg-background" />,
+    ssr: true,
+  },
+);
+
+const ReportOverview = dynamic(
+  () =>
+    import("@/components/sections/report-overview/report-overview").then(
+      (module) => module.ReportOverview,
+    ),
+  {
+    loading: () => <div className="min-h-[600px] bg-background" />,
+    ssr: true,
+  },
+);
+
+const DownloadReportForm = dynamic(
+  () => import("@/components/sections/download-report-form"),
+  {
+    loading: () => <div className="min-h-[600px] bg-background" />,
+    ssr: true,
+  },
+);
+
+/**
+ * What a section can need from the request rather than from the CMS.
+ *
+ * Only the article listing uses it, for the `?page=` it is showing. It is
+ * threaded through as a prop rather than read from `searchParams` inside the
+ * section because the route has already validated the number — an out-of-range
+ * page is a 404, not a page-one fallback, and that decision belongs to the
+ * route.
+ */
+export interface SectionContext {
+  /** 1-based page number for a paginated listing section. */
+  page?: number;
+}
+
+export function SectionRenderer({
+  section,
+  context,
+}: {
+  section: PageSection;
+  context?: SectionContext;
+}) {
   switch (section._type) {
     case "heroSection":
       return <HeroBanner data={section.hero} />;
@@ -143,6 +219,53 @@ export function SectionRenderer({ section }: { section: PageSection }) {
           }}
         />
       );
+
+    case "creativeTechSection":
+      return <CreativeTech data={{ title: section.title, rows: section.rows }} />;
+
+    case "faqSection":
+      return (
+        <Faq
+          data={{
+            title: section.title,
+            eyebrow: section.eyebrow,
+            items: section.items,
+            openFirst: section.openFirst,
+          }}
+        />
+      );
+
+    case "contactFormSection":
+      return <ContactForm title={section.title} />;
+
+    case "postListingSection":
+      return (
+        <PostListingSection
+          heading={section.heading}
+          page={context?.page ?? 1}
+        />
+      );
+
+    case "newsroomListingSection":
+      return (
+        <NewsroomListing
+          data={{
+            heading: section.heading,
+            readMoreLabel: section.readMoreLabel,
+            articles: section.articles,
+          }}
+        />
+      );
+
+    case "reportOverviewSection":
+      return (
+        <ReportOverview
+          data={{ highlights: section.highlights, slides: section.slides }}
+        />
+      );
+
+    case "downloadReportSection":
+      return <DownloadReportForm title={section.title} />;
 
     default:
       // An unknown section means the Studio is ahead of this deploy. Render

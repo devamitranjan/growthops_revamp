@@ -1,4 +1,4 @@
-import type { IHeroBannerData } from "./sections";
+import type { PageSection, PageSeo } from "./page";
 
 export interface ReportHighlight {
   id: string;
@@ -12,10 +12,22 @@ export interface ReportSlide {
   alt: string;
 }
 
-/** A gated report landing page, addressed by slug at the site root. */
+/** What the `reportOverviewSection` renders. */
+export interface ReportOverviewData {
+  highlights: ReportHighlight[];
+  slides: ReportSlide[];
+}
+
+/**
+ * A gated report landing page, served at /reports/<slug>.
+ *
+ * Composed from the same section library as every other page, so this is the
+ * `PageData` shape with a report's own name on it — `title` is the Studio's
+ * label for the document, not something the page renders.
+ */
 export interface ReportPageData {
   slug: string;
-  heroBannerData: IHeroBannerData;
-  reportHighlights: ReportHighlight[];
-  reportSlides: ReportSlide[];
+  title: string;
+  seo?: PageSeo;
+  sections: PageSection[];
 }

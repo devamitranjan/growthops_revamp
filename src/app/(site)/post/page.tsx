@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Header from "@/components/site/header";
-import SiteFooter from "@/components/site/site-footer";
-import PostListing from "@/components/sections/post-listing/post-listing";
-import {
-  getArticleSlugs,
-  getArticles,
-  getTotalArticlePages,
-} from "@/sanity/repositories/articles";
-import { getSiteSettings } from "@/sanity/repositories/site-settings";
+
+import { ComposedPage } from "@/components/site/composed-page";
+import { pageMetadata } from "@/lib/page-metadata";
+import { getTotalArticlePages } from "@/sanity/repositories/articles";
+import { getPage } from "@/sanity/repositories/page";
+
+/** The page document this route composes itself from. */
+const POST_PAGE_SLUG = "post";
 
 /** Returns null for anything that is not a real page in [1, totalPages]. */
 function parsePage(value: string | string[] | undefined, totalPages: number) {
@@ -22,41 +21,44 @@ function parsePage(value: string | string[] | undefined, totalPages: number) {
   return page >= 1 && page <= totalPages ? page : null;
 }
 
+/**
+ * The article listing keeps a route of its own, unlike /contact and /newsroom,
+ * because `?page=` is not something a section can decide: an out-of-range
+ * number has to 404 here, before anything renders, and the canonical URL has
+ * to carry the page number. Everything the page *says* still comes from the
+ * `post` page document, and its sections are as reorderable as any other.
+ */
 export async function generateMetadata(
   props: PageProps<"/post">,
 ): Promise<Metadata> {
-  const [totalPages, settings] = await Promise.all([
+  const [totalPages, doc] = await Promise.all([
     getTotalArticlePages(),
-    getSiteSettings(),
+    getPage(POST_PAGE_SLUG),
   ]);
+
+  if (!doc) return {};
+
   const page = parsePage((await props.searchParams).page, totalPages);
   const suffix = page && page > 1 ? ` (Page ${page})` : "";
+  const canonical = page && page > 1 ? `/post?page=${page}` : "/post";
 
   return {
-    title: `${settings.postListingTitle}${suffix}`,
-    description: settings.postListingDescription,
-    alternates: {
-      canonical: page && page > 1 ? `/post?page=${page}` : "/post",
-    },
+    ...pageMetadata(doc, canonical, doc.title),
+    title: `${doc.seo?.title || doc.title}${suffix}`,
   };
 }
 
 export default async function PostPage(props: PageProps<"/post">) {
-  const totalPages = await getTotalArticlePages();
+  const [totalPages, doc] = await Promise.all([
+    getTotalArticlePages(),
+    getPage(POST_PAGE_SLUG),
+  ]);
+
+  if (!doc) notFound();
+
   const page = parsePage((await props.searchParams).page, totalPages);
 
   if (page === null) notFound();
 
-  const [listing, migratedSlugs] = await Promise.all([
-    getArticles(page),
-    getArticleSlugs(),
-  ]);
-
-  return (
-    <div className="body-wrapper hs-site-page page">
-      <Header />
-      <PostListing listing={listing} migratedSlugs={migratedSlugs} />
-      <SiteFooter />
-    </div>
-  );
+  return <ComposedPage sections={doc.sections} context={{ page }} />;
 }

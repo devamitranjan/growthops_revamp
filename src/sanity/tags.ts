@@ -25,7 +25,6 @@ export const DOCUMENT_TYPES = [
   "article",
   "report",
   "newsroomArticle",
-  "newsroomPage",
   "testimonialsSection",
   "siteSettings",
 ] as const;

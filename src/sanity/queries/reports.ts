@@ -1,13 +1,20 @@
 import { defineQuery } from "next-sanity";
 
+import { SECTIONS_PROJECTION } from "./sections";
+
+/**
+ * A report is a composed page like any other — the hero, the overview and the
+ * download form are sections — so it reads back through the same projections.
+ */
 const REPORT_FIELDS = `
   "slug": slug.current,
-  heroBannerData{
-    title, subtitle, description, videoSrc, animateSpin,
-    "posterSrc": coalesce(poster.asset->url, posterSrc)
+  title,
+  seo{
+    title,
+    description,
+    "ogImage": ogImage.asset->url
   },
-  reportHighlights[]{ "id": _key, title },
-  reportSlides[]{ "id": _key, "src": image.asset->url, alt }
+  sections[]{${SECTIONS_PROJECTION}}
 `;
 
 export const REPORTS_QUERY = defineQuery(`*[_type == "report"]{${REPORT_FIELDS}}`);

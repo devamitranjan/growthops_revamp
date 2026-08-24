@@ -1,9 +1,17 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import Header from "@/components/site/header";
-import { SectionRenderer } from "@/components/site/section-renderer";
-import SiteFooter from "@/components/site/site-footer";
+import { ComposedPage } from "@/components/site/composed-page";
+import { pageMetadata } from "@/lib/page-metadata";
 import { getHomePage } from "@/sanity/repositories/page";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getHomePage();
+
+  if (!page) return {};
+
+  return pageMetadata(page, "/");
+}
 
 export default async function Home() {
   const page = await getHomePage();
@@ -11,12 +19,9 @@ export default async function Home() {
   if (!page) notFound();
 
   return (
-    <div className="body-wrapper hs-content-id-153839881997 hs-site-page page">
-      <Header />
-      {page.sections.map((section) => (
-        <SectionRenderer key={section._key} section={section} />
-      ))}
-      <SiteFooter />
-    </div>
+    <ComposedPage
+      sections={page.sections}
+      className="hs-content-id-153839881997"
+    />
   );
 }

@@ -1,8 +1,8 @@
-import type { NewsroomPageData } from "@/sanity/types";
+import type { NewsroomListingData } from "@/sanity/types";
 import { NewsroomCard } from "./newsroom-card";
 
 interface NewsroomListingProps {
-  data: NewsroomPageData;
+  data: NewsroomListingData;
 }
 
 /**

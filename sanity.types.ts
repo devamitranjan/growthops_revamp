@@ -144,6 +144,40 @@ export type PostBody = Array<
     } & PostTable)
 >;
 
+export type TechMarqueeRow = {
+  _type: "techMarqueeRow";
+  logos?: Array<
+    {
+      _key: string;
+    } & ClientLogo
+  >;
+  speed?: number;
+  direction?: "left" | "right";
+};
+
+export type FaqItem = {
+  _type: "faqItem";
+  question?: string;
+  answer?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+};
+
 export type ClientLogo = {
   _type: "clientLogo";
   logo?: {
@@ -309,6 +343,126 @@ export type HeroBanner = {
   animateSpin?: boolean;
 };
 
+export type PageSections = Array<
+  | ({
+      _key: string;
+    } & HeroSection)
+  | ({
+      _key: string;
+    } & ServicesSection)
+  | ({
+      _key: string;
+    } & GrowthSpurtsSection)
+  | ({
+      _key: string;
+    } & UnrivaledGrowthSection)
+  | ({
+      _key: string;
+    } & CaseStudySection)
+  | ({
+      _key: string;
+    } & ArticleCardsSection)
+  | ({
+      _key: string;
+    } & TestimonialsBlock)
+  | ({
+      _key: string;
+    } & GrowthValidationSection)
+  | ({
+      _key: string;
+    } & TeamSection)
+  | ({
+      _key: string;
+    } & CreativeTechSection)
+  | ({
+      _key: string;
+    } & FaqSection)
+  | ({
+      _key: string;
+    } & ContactFormSection)
+  | ({
+      _key: string;
+    } & PostListingSection)
+  | ({
+      _key: string;
+    } & NewsroomListingSection)
+  | ({
+      _key: string;
+    } & ReportOverviewSection)
+  | ({
+      _key: string;
+    } & DownloadReportSection)
+>;
+
+export type DownloadReportSection = {
+  _type: "downloadReportSection";
+  title?: string;
+};
+
+export type ReportOverviewSection = {
+  _type: "reportOverviewSection";
+  highlights?: Array<
+    {
+      _key: string;
+    } & ReportHighlight
+  >;
+  slides?: Array<
+    {
+      _key: string;
+    } & ReportSlide
+  >;
+};
+
+export type NewsroomArticleReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "newsroomArticle";
+};
+
+export type NewsroomListingSection = {
+  _type: "newsroomListingSection";
+  heading?: string;
+  readMoreLabel?: string;
+  articles?: Array<
+    {
+      _key: string;
+    } & NewsroomArticleReference
+  >;
+};
+
+export type PostListingSection = {
+  _type: "postListingSection";
+  heading?: string;
+};
+
+export type ContactFormSection = {
+  _type: "contactFormSection";
+  title?: string;
+};
+
+export type FaqSection = {
+  _type: "faqSection";
+  title?: string;
+  eyebrow?: string;
+  items?: Array<
+    {
+      _key: string;
+    } & FaqItem
+  >;
+  openFirst?: boolean;
+};
+
+export type CreativeTechSection = {
+  _type: "creativeTechSection";
+  title?: string;
+  rows?: Array<
+    {
+      _key: string;
+    } & TechMarqueeRow
+  >;
+};
+
 export type TeamSection = {
   _type: "teamSection";
   title?: string;
@@ -468,9 +622,6 @@ export type SiteSettings = {
   };
   ogImageAlt?: string;
   googleSiteVerification?: string;
-  contactTitle?: string;
-  contactMetaTitle?: string;
-  contactMetaDescription?: string;
   contactFieldPlaceholders?: Array<
     {
       _key: string;
@@ -496,9 +647,6 @@ export type SiteSettings = {
       _key: string;
     } & SubjectOption
   >;
-  postListingTitle?: string;
-  postListingHeading?: string;
-  postListingDescription?: string;
   reportFormTitle?: string;
   reportFormSubmitLabel?: string;
   reportFormSuccessMessage?: string;
@@ -554,29 +702,6 @@ export type TestimonialsSection = {
   >;
 };
 
-export type NewsroomArticleReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "newsroomArticle";
-};
-
-export type NewsroomPage = {
-  _id: string;
-  _type: "newsroomPage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  heading?: string;
-  readMoreLabel?: string;
-  articles?: Array<
-    {
-      _key: string;
-    } & NewsroomArticleReference
-  >;
-  seo?: Seo;
-};
-
 export type NewsroomArticle = {
   _id: string;
   _type: "newsroomArticle";
@@ -603,18 +728,9 @@ export type Report = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  title?: string;
   slug?: Slug;
-  heroBannerData?: HeroBanner;
-  reportHighlights?: Array<
-    {
-      _key: string;
-    } & ReportHighlight
-  >;
-  reportSlides?: Array<
-    {
-      _key: string;
-    } & ReportSlide
-  >;
+  sections?: PageSections;
   seo?: Seo;
 };
 
@@ -658,35 +774,7 @@ export type Page = {
   _rev: string;
   title?: string;
   slug?: Slug;
-  sections?: Array<
-    | ({
-        _key: string;
-      } & HeroSection)
-    | ({
-        _key: string;
-      } & ServicesSection)
-    | ({
-        _key: string;
-      } & GrowthSpurtsSection)
-    | ({
-        _key: string;
-      } & UnrivaledGrowthSection)
-    | ({
-        _key: string;
-      } & CaseStudySection)
-    | ({
-        _key: string;
-      } & ArticleCardsSection)
-    | ({
-        _key: string;
-      } & TestimonialsBlock)
-    | ({
-        _key: string;
-      } & GrowthValidationSection)
-    | ({
-        _key: string;
-      } & TeamSection)
-  >;
+  sections?: PageSections;
   seo?: Seo;
 };
 
@@ -800,6 +888,8 @@ export type AllSanitySchemaTypes =
   | PostQuote
   | PostImage
   | PostBody
+  | TechMarqueeRow
+  | FaqItem
   | ClientLogo
   | Testimonial
   | ReportSlide
@@ -814,6 +904,15 @@ export type AllSanitySchemaTypes =
   | GrowthCard
   | ServiceItem
   | HeroBanner
+  | PageSections
+  | DownloadReportSection
+  | ReportOverviewSection
+  | NewsroomArticleReference
+  | NewsroomListingSection
+  | PostListingSection
+  | ContactFormSection
+  | FaqSection
+  | CreativeTechSection
   | TeamSection
   | GrowthValidationSection
   | TestimonialsSectionReference
@@ -828,8 +927,6 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | TestimonialsSection
-  | NewsroomArticleReference
-  | NewsroomPage
   | NewsroomArticle
   | Report
   | Slug
@@ -937,51 +1034,17 @@ export type ARTICLES_COUNT_QUERY_RESULT = number;
 // Query: *[_type == "article" && defined(slug.current) && count(content) > 0].slug.current
 export type ARTICLE_SLUGS_QUERY_RESULT = Array<string | null>;
 
-// Source: queries/newsroom.ts
-// Variable: NEWSROOM_PAGE_QUERY
-// Query: *[_id == "newsroomPage"][0]{  heading,  readMoreLabel,  "seoTitle": seo.title,  "seoDescription": seo.description}
-export type NEWSROOM_PAGE_QUERY_RESULT =
-  | {
-      heading: null;
-      readMoreLabel: null;
-      seoTitle: null;
-      seoDescription: null;
-    }
-  | {
-      heading: null;
-      readMoreLabel: null;
-      seoTitle: string | null;
-      seoDescription: string | null;
-    }
-  | {
-      heading: string | null;
-      readMoreLabel: string | null;
-      seoTitle: string | null;
-      seoDescription: string | null;
-    }
-  | null;
-
-// Source: queries/newsroom.ts
-// Variable: NEWSROOM_ARTICLES_QUERY
-// Query: coalesce(    *[_id == "newsroomPage"][0].articles[defined(@->publishedAt)]->{  "id": _id,  title,  href,  publishedAt,  excerpt,  "imgSrc": image.asset->url,  alt},    []  )
-export type NEWSROOM_ARTICLES_QUERY_RESULT =
-  | Array<{
-      id: string;
-      title: string | null;
-      href: string | null;
-      publishedAt: string | null;
-      excerpt: string | null;
-      imgSrc: string | null;
-      alt: string | null;
-    }>
-  | Array<never>;
-
 // Source: queries/page.ts
 // Variable: PAGE_QUERY
-// Query: *[_type == "page" && slug.current == $slug][0]{  "slug": slug.current,  title,  sections[]{    _key,    _type,    _type == "heroSection" => {      hero{        title, subtitle, description, videoSrc, animateSpin,        "posterSrc": coalesce(poster.asset->url, posterSrc)      }    },    _type == "servicesSection" => {      services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }    },    _type == "growthSpurtsSection" => {      cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }    },    _type == "unrivaledGrowthSection" => {      title,      stats[]{ "id": _key, stat, description },      cta{ label, href }    },    _type == "caseStudySection" => {      slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }    },    _type == "articleCardsSection" => {      title,      sectionLink,      articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }    },    _type == "testimonialsBlock" => {      "data": source->{        title,        categories,        testimonials[]{          "id": _key, category, audioSrc,          "imgSrc": image.asset->url, alt, quote, position        },        logos[]{ "id": _key, "src": logo.asset->url, alt }      }    },    _type == "growthValidationSection" => {      title,      sectionLink,      eyebrow,      headline,      awards[]{ href, "image": image.asset->url, alt },      "image": image.asset->url,      imageAlt    },    _type == "teamSection" => {      title,      batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },      highlight{ value, description, cta{ label, href, target } }    }  }}
+// Query: *[_type == "page" && slug.current == $slug][0]{  "slug": slug.current,  title,  seo{    title,    description,    "ogImage": ogImage.asset->url  },  sections[]{  _key,  _type,  _type == "heroSection" => {    hero{      title, subtitle, description, videoSrc, animateSpin,      "posterSrc": coalesce(poster.asset->url, posterSrc)    }  },  _type == "servicesSection" => {    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }  },  _type == "growthSpurtsSection" => {    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }  },  _type == "unrivaledGrowthSection" => {    title,    stats[]{ "id": _key, stat, description },    cta{ label, href }  },  _type == "caseStudySection" => {    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }  },  _type == "articleCardsSection" => {    title,    sectionLink,    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }  },  _type == "testimonialsBlock" => {    "data": source->{      title,      categories,      testimonials[]{        "id": _key, category, audioSrc,        "imgSrc": image.asset->url, alt, quote, position      },      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "growthValidationSection" => {    title,    sectionLink,    eyebrow,    headline,    awards[]{ href, "image": image.asset->url, alt },    "image": image.asset->url,    imageAlt  },  _type == "teamSection" => {    title,    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },    highlight{ value, description, cta{ label, href, target } }  },  _type == "creativeTechSection" => {    title,    rows[]{      "id": _key,      speed,      direction,      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "faqSection" => {    title,    eyebrow,    openFirst,    items[]{ "id": _key, question, answer }  },  _type == "contactFormSection" => {    title  },  _type == "postListingSection" => {    heading  },  _type == "newsroomListingSection" => {    heading,    readMoreLabel,    "articles": coalesce(      articles[defined(@->publishedAt)]->{        "id": _id, title, href, publishedAt, excerpt,        "imgSrc": image.asset->url, alt      },      []    )  },  _type == "reportOverviewSection" => {    "highlights": coalesce(highlights[]{ "id": _key, title }, []),    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])  },  _type == "downloadReportSection" => {    title  }}}
 export type PAGE_QUERY_RESULT = {
   slug: string | null;
   title: string | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    ogImage: string | null;
+  } | null;
   sections: Array<
     | {
         _key: string;
@@ -1006,6 +1069,60 @@ export type PAGE_QUERY_RESULT = {
           bg: string | null;
           previewVideo: string | null;
           video: string | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "contactFormSection";
+        title: string | null;
+      }
+    | {
+        _key: string;
+        _type: "creativeTechSection";
+        title: string | null;
+        rows: Array<{
+          id: string;
+          speed: number | null;
+          direction: "left" | "right" | null;
+          logos: Array<{
+            id: string;
+            src: string | null;
+            alt: string | null;
+          }> | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "downloadReportSection";
+        title: string | null;
+      }
+    | {
+        _key: string;
+        _type: "faqSection";
+        title: string | null;
+        eyebrow: string | null;
+        openFirst: boolean | null;
+        items: Array<{
+          id: string;
+          question: string | null;
+          answer: Array<{
+            children?: Array<{
+              marks?: Array<string>;
+              text?: string;
+              _type: "span";
+              _key: string;
+            }>;
+            style?: "normal";
+            listItem?: "bullet" | "number";
+            markDefs?: Array<{
+              href?: string;
+              _type: "link";
+              _key: string;
+            }>;
+            level?: number;
+            _type: "block";
+            _key: string;
+          }> | null;
         }> | null;
       }
     | {
@@ -1046,6 +1163,532 @@ export type PAGE_QUERY_RESULT = {
           animateSpin: boolean | null;
           posterSrc: string | null;
         } | null;
+      }
+    | {
+        _key: string;
+        _type: "newsroomListingSection";
+        heading: string | null;
+        readMoreLabel: string | null;
+        articles:
+          | Array<{
+              id: string;
+              title: string | null;
+              href: string | null;
+              publishedAt: string | null;
+              excerpt: string | null;
+              imgSrc: string | null;
+              alt: string | null;
+            }>
+          | Array<never>;
+      }
+    | {
+        _key: string;
+        _type: "postListingSection";
+        heading: string | null;
+      }
+    | {
+        _key: string;
+        _type: "reportOverviewSection";
+        highlights:
+          | Array<{
+              id: string;
+              title: string | null;
+            }>
+          | Array<never>;
+        slides:
+          | Array<{
+              id: string;
+              src: string | null;
+              alt: string | null;
+            }>
+          | Array<never>;
+      }
+    | {
+        _key: string;
+        _type: "servicesSection";
+        services: Array<{
+          href: string | null;
+          imgSrc: string | null;
+          alt: string | null;
+          overlayColor: string | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "teamSection";
+        title: string | null;
+        batches: Array<{
+          members: Array<{
+            name: string | null;
+            title: string | null;
+            from: string | null;
+            to: string | null;
+            image: string | null;
+          }> | null;
+        }> | null;
+        highlight: {
+          value: string | null;
+          description: string | null;
+          cta: {
+            label: string | null;
+            href: string | null;
+            target: "_blank" | "_self" | null;
+          } | null;
+        } | null;
+      }
+    | {
+        _key: string;
+        _type: "testimonialsBlock";
+        data: {
+          title: string | null;
+          categories: Array<string> | null;
+          testimonials: Array<{
+            id: string;
+            category: string | null;
+            audioSrc: string | null;
+            imgSrc: string | null;
+            alt: string | null;
+            quote: string | null;
+            position: string | null;
+          }> | null;
+          logos: Array<{
+            id: string;
+            src: string | null;
+            alt: string | null;
+          }> | null;
+        } | null;
+      }
+    | {
+        _key: string;
+        _type: "unrivaledGrowthSection";
+        title: string | null;
+        stats: Array<{
+          id: string;
+          stat: string | null;
+          description: string | null;
+        }> | null;
+        cta: {
+          label: string | null;
+          href: string | null;
+        } | null;
+      }
+  > | null;
+} | null;
+
+// Source: queries/page.ts
+// Variable: PAGE_SLUGS_QUERY
+// Query: *[_type == "page" && defined(slug.current)].slug.current
+export type PAGE_SLUGS_QUERY_RESULT = Array<string | null>;
+
+// Source: queries/reports.ts
+// Variable: REPORTS_QUERY
+// Query: *[_type == "report"]{  "slug": slug.current,  title,  seo{    title,    description,    "ogImage": ogImage.asset->url  },  sections[]{  _key,  _type,  _type == "heroSection" => {    hero{      title, subtitle, description, videoSrc, animateSpin,      "posterSrc": coalesce(poster.asset->url, posterSrc)    }  },  _type == "servicesSection" => {    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }  },  _type == "growthSpurtsSection" => {    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }  },  _type == "unrivaledGrowthSection" => {    title,    stats[]{ "id": _key, stat, description },    cta{ label, href }  },  _type == "caseStudySection" => {    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }  },  _type == "articleCardsSection" => {    title,    sectionLink,    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }  },  _type == "testimonialsBlock" => {    "data": source->{      title,      categories,      testimonials[]{        "id": _key, category, audioSrc,        "imgSrc": image.asset->url, alt, quote, position      },      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "growthValidationSection" => {    title,    sectionLink,    eyebrow,    headline,    awards[]{ href, "image": image.asset->url, alt },    "image": image.asset->url,    imageAlt  },  _type == "teamSection" => {    title,    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },    highlight{ value, description, cta{ label, href, target } }  },  _type == "creativeTechSection" => {    title,    rows[]{      "id": _key,      speed,      direction,      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "faqSection" => {    title,    eyebrow,    openFirst,    items[]{ "id": _key, question, answer }  },  _type == "contactFormSection" => {    title  },  _type == "postListingSection" => {    heading  },  _type == "newsroomListingSection" => {    heading,    readMoreLabel,    "articles": coalesce(      articles[defined(@->publishedAt)]->{        "id": _id, title, href, publishedAt, excerpt,        "imgSrc": image.asset->url, alt      },      []    )  },  _type == "reportOverviewSection" => {    "highlights": coalesce(highlights[]{ "id": _key, title }, []),    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])  },  _type == "downloadReportSection" => {    title  }}}
+export type REPORTS_QUERY_RESULT = Array<{
+  slug: string | null;
+  title: string | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    ogImage: string | null;
+  } | null;
+  sections: Array<
+    | {
+        _key: string;
+        _type: "articleCardsSection";
+        title: string | null;
+        sectionLink: string | null;
+        articles: Array<{
+          href: string | null;
+          imgSrc: string | null;
+          alt: string | null;
+          tag: string | null;
+          title: string | null;
+          date: string | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "caseStudySection";
+        slides: Array<{
+          id: string;
+          label: string | null;
+          bg: string | null;
+          previewVideo: string | null;
+          video: string | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "contactFormSection";
+        title: string | null;
+      }
+    | {
+        _key: string;
+        _type: "creativeTechSection";
+        title: string | null;
+        rows: Array<{
+          id: string;
+          speed: number | null;
+          direction: "left" | "right" | null;
+          logos: Array<{
+            id: string;
+            src: string | null;
+            alt: string | null;
+          }> | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "downloadReportSection";
+        title: string | null;
+      }
+    | {
+        _key: string;
+        _type: "faqSection";
+        title: string | null;
+        eyebrow: string | null;
+        openFirst: boolean | null;
+        items: Array<{
+          id: string;
+          question: string | null;
+          answer: Array<{
+            children?: Array<{
+              marks?: Array<string>;
+              text?: string;
+              _type: "span";
+              _key: string;
+            }>;
+            style?: "normal";
+            listItem?: "bullet" | "number";
+            markDefs?: Array<{
+              href?: string;
+              _type: "link";
+              _key: string;
+            }>;
+            level?: number;
+            _type: "block";
+            _key: string;
+          }> | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "growthSpurtsSection";
+        cards: Array<{
+          id: string;
+          imageSrc: string | null;
+          videoSrc: string | null;
+          alt: string | null;
+          label: string | null;
+          description: string | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "growthValidationSection";
+        title: string | null;
+        sectionLink: string | null;
+        eyebrow: string | null;
+        headline: string | null;
+        awards: Array<{
+          href: string | null;
+          image: string | null;
+          alt: string | null;
+        }> | null;
+        image: string | null;
+        imageAlt: string | null;
+      }
+    | {
+        _key: string;
+        _type: "heroSection";
+        hero: {
+          title: string | null;
+          subtitle: string | null;
+          description: string | null;
+          videoSrc: string | null;
+          animateSpin: boolean | null;
+          posterSrc: string | null;
+        } | null;
+      }
+    | {
+        _key: string;
+        _type: "newsroomListingSection";
+        heading: string | null;
+        readMoreLabel: string | null;
+        articles:
+          | Array<{
+              id: string;
+              title: string | null;
+              href: string | null;
+              publishedAt: string | null;
+              excerpt: string | null;
+              imgSrc: string | null;
+              alt: string | null;
+            }>
+          | Array<never>;
+      }
+    | {
+        _key: string;
+        _type: "postListingSection";
+        heading: string | null;
+      }
+    | {
+        _key: string;
+        _type: "reportOverviewSection";
+        highlights:
+          | Array<{
+              id: string;
+              title: string | null;
+            }>
+          | Array<never>;
+        slides:
+          | Array<{
+              id: string;
+              src: string | null;
+              alt: string | null;
+            }>
+          | Array<never>;
+      }
+    | {
+        _key: string;
+        _type: "servicesSection";
+        services: Array<{
+          href: string | null;
+          imgSrc: string | null;
+          alt: string | null;
+          overlayColor: string | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "teamSection";
+        title: string | null;
+        batches: Array<{
+          members: Array<{
+            name: string | null;
+            title: string | null;
+            from: string | null;
+            to: string | null;
+            image: string | null;
+          }> | null;
+        }> | null;
+        highlight: {
+          value: string | null;
+          description: string | null;
+          cta: {
+            label: string | null;
+            href: string | null;
+            target: "_blank" | "_self" | null;
+          } | null;
+        } | null;
+      }
+    | {
+        _key: string;
+        _type: "testimonialsBlock";
+        data: {
+          title: string | null;
+          categories: Array<string> | null;
+          testimonials: Array<{
+            id: string;
+            category: string | null;
+            audioSrc: string | null;
+            imgSrc: string | null;
+            alt: string | null;
+            quote: string | null;
+            position: string | null;
+          }> | null;
+          logos: Array<{
+            id: string;
+            src: string | null;
+            alt: string | null;
+          }> | null;
+        } | null;
+      }
+    | {
+        _key: string;
+        _type: "unrivaledGrowthSection";
+        title: string | null;
+        stats: Array<{
+          id: string;
+          stat: string | null;
+          description: string | null;
+        }> | null;
+        cta: {
+          label: string | null;
+          href: string | null;
+        } | null;
+      }
+  > | null;
+}>;
+
+// Source: queries/reports.ts
+// Variable: REPORT_QUERY
+// Query: *[_type == "report" && slug.current == $slug][0]{  "slug": slug.current,  title,  seo{    title,    description,    "ogImage": ogImage.asset->url  },  sections[]{  _key,  _type,  _type == "heroSection" => {    hero{      title, subtitle, description, videoSrc, animateSpin,      "posterSrc": coalesce(poster.asset->url, posterSrc)    }  },  _type == "servicesSection" => {    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }  },  _type == "growthSpurtsSection" => {    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }  },  _type == "unrivaledGrowthSection" => {    title,    stats[]{ "id": _key, stat, description },    cta{ label, href }  },  _type == "caseStudySection" => {    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }  },  _type == "articleCardsSection" => {    title,    sectionLink,    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }  },  _type == "testimonialsBlock" => {    "data": source->{      title,      categories,      testimonials[]{        "id": _key, category, audioSrc,        "imgSrc": image.asset->url, alt, quote, position      },      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "growthValidationSection" => {    title,    sectionLink,    eyebrow,    headline,    awards[]{ href, "image": image.asset->url, alt },    "image": image.asset->url,    imageAlt  },  _type == "teamSection" => {    title,    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },    highlight{ value, description, cta{ label, href, target } }  },  _type == "creativeTechSection" => {    title,    rows[]{      "id": _key,      speed,      direction,      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "faqSection" => {    title,    eyebrow,    openFirst,    items[]{ "id": _key, question, answer }  },  _type == "contactFormSection" => {    title  },  _type == "postListingSection" => {    heading  },  _type == "newsroomListingSection" => {    heading,    readMoreLabel,    "articles": coalesce(      articles[defined(@->publishedAt)]->{        "id": _id, title, href, publishedAt, excerpt,        "imgSrc": image.asset->url, alt      },      []    )  },  _type == "reportOverviewSection" => {    "highlights": coalesce(highlights[]{ "id": _key, title }, []),    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])  },  _type == "downloadReportSection" => {    title  }}}
+export type REPORT_QUERY_RESULT = {
+  slug: string | null;
+  title: string | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    ogImage: string | null;
+  } | null;
+  sections: Array<
+    | {
+        _key: string;
+        _type: "articleCardsSection";
+        title: string | null;
+        sectionLink: string | null;
+        articles: Array<{
+          href: string | null;
+          imgSrc: string | null;
+          alt: string | null;
+          tag: string | null;
+          title: string | null;
+          date: string | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "caseStudySection";
+        slides: Array<{
+          id: string;
+          label: string | null;
+          bg: string | null;
+          previewVideo: string | null;
+          video: string | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "contactFormSection";
+        title: string | null;
+      }
+    | {
+        _key: string;
+        _type: "creativeTechSection";
+        title: string | null;
+        rows: Array<{
+          id: string;
+          speed: number | null;
+          direction: "left" | "right" | null;
+          logos: Array<{
+            id: string;
+            src: string | null;
+            alt: string | null;
+          }> | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "downloadReportSection";
+        title: string | null;
+      }
+    | {
+        _key: string;
+        _type: "faqSection";
+        title: string | null;
+        eyebrow: string | null;
+        openFirst: boolean | null;
+        items: Array<{
+          id: string;
+          question: string | null;
+          answer: Array<{
+            children?: Array<{
+              marks?: Array<string>;
+              text?: string;
+              _type: "span";
+              _key: string;
+            }>;
+            style?: "normal";
+            listItem?: "bullet" | "number";
+            markDefs?: Array<{
+              href?: string;
+              _type: "link";
+              _key: string;
+            }>;
+            level?: number;
+            _type: "block";
+            _key: string;
+          }> | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "growthSpurtsSection";
+        cards: Array<{
+          id: string;
+          imageSrc: string | null;
+          videoSrc: string | null;
+          alt: string | null;
+          label: string | null;
+          description: string | null;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "growthValidationSection";
+        title: string | null;
+        sectionLink: string | null;
+        eyebrow: string | null;
+        headline: string | null;
+        awards: Array<{
+          href: string | null;
+          image: string | null;
+          alt: string | null;
+        }> | null;
+        image: string | null;
+        imageAlt: string | null;
+      }
+    | {
+        _key: string;
+        _type: "heroSection";
+        hero: {
+          title: string | null;
+          subtitle: string | null;
+          description: string | null;
+          videoSrc: string | null;
+          animateSpin: boolean | null;
+          posterSrc: string | null;
+        } | null;
+      }
+    | {
+        _key: string;
+        _type: "newsroomListingSection";
+        heading: string | null;
+        readMoreLabel: string | null;
+        articles:
+          | Array<{
+              id: string;
+              title: string | null;
+              href: string | null;
+              publishedAt: string | null;
+              excerpt: string | null;
+              imgSrc: string | null;
+              alt: string | null;
+            }>
+          | Array<never>;
+      }
+    | {
+        _key: string;
+        _type: "postListingSection";
+        heading: string | null;
+      }
+    | {
+        _key: string;
+        _type: "reportOverviewSection";
+        highlights:
+          | Array<{
+              id: string;
+              title: string | null;
+            }>
+          | Array<never>;
+        slides:
+          | Array<{
+              id: string;
+              src: string | null;
+              alt: string | null;
+            }>
+          | Array<never>;
       }
     | {
         _key: string;
@@ -1120,61 +1763,13 @@ export type PAGE_QUERY_RESULT = {
 } | null;
 
 // Source: queries/reports.ts
-// Variable: REPORTS_QUERY
-// Query: *[_type == "report"]{  "slug": slug.current,  heroBannerData{    title, subtitle, description, videoSrc, animateSpin,    "posterSrc": coalesce(poster.asset->url, posterSrc)  },  reportHighlights[]{ "id": _key, title },  reportSlides[]{ "id": _key, "src": image.asset->url, alt }}
-export type REPORTS_QUERY_RESULT = Array<{
-  slug: string | null;
-  heroBannerData: {
-    title: string | null;
-    subtitle: string | null;
-    description: string | null;
-    videoSrc: string | null;
-    animateSpin: boolean | null;
-    posterSrc: string | null;
-  } | null;
-  reportHighlights: Array<{
-    id: string;
-    title: string | null;
-  }> | null;
-  reportSlides: Array<{
-    id: string;
-    src: string | null;
-    alt: string | null;
-  }> | null;
-}>;
-
-// Source: queries/reports.ts
-// Variable: REPORT_QUERY
-// Query: *[_type == "report" && slug.current == $slug][0]{  "slug": slug.current,  heroBannerData{    title, subtitle, description, videoSrc, animateSpin,    "posterSrc": coalesce(poster.asset->url, posterSrc)  },  reportHighlights[]{ "id": _key, title },  reportSlides[]{ "id": _key, "src": image.asset->url, alt }}
-export type REPORT_QUERY_RESULT = {
-  slug: string | null;
-  heroBannerData: {
-    title: string | null;
-    subtitle: string | null;
-    description: string | null;
-    videoSrc: string | null;
-    animateSpin: boolean | null;
-    posterSrc: string | null;
-  } | null;
-  reportHighlights: Array<{
-    id: string;
-    title: string | null;
-  }> | null;
-  reportSlides: Array<{
-    id: string;
-    src: string | null;
-    alt: string | null;
-  }> | null;
-} | null;
-
-// Source: queries/reports.ts
 // Variable: REPORT_SLUGS_QUERY
 // Query: *[_type == "report" && defined(slug.current)].slug.current
 export type REPORT_SLUGS_QUERY_RESULT = Array<string | null>;
 
 // Source: queries/site-settings.ts
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_id == "siteSettings"][0]{  "logo": logo.asset->url,  logoAlt,  navLinks[]{ label, href, children[]{ label, href } },  footerHeadline,  footerHeadlineAccent,  footerCta{ label, href },  exploreTitle,  exploreLinks[]{ label, href, target, rel },  socials[]{ platform, href, label },  newsletterTitle,  newsletterLabel,  newsletterPlaceholder,  newsletterSubmitLabel,  newsletterRequiredMessage,  newsletterInvalidMessage,  copyright,  legalLinks[]{ label, href, target, rel },  siteName,  siteUrl,  defaultTitle,  titleTemplate,  defaultDescription,  "ogImage": ogImage.asset->url,  "ogImageWidth": ogImage.asset->metadata.dimensions.width,  "ogImageHeight": ogImage.asset->metadata.dimensions.height,  ogImageAlt,  googleSiteVerification,  contactTitle,  contactMetaTitle,  contactMetaDescription,  contactFieldPlaceholders[]{ value, label },  contactSubjectLabel,  contactSubjectPlaceholder,  contactSubjectOptions[]{ value, label },  contactConsentText,  contactConsentLinkLabel,  contactConsentLinkHref,  contactSubmitLabel,  contactSuccessMessage,  contactMessagePlaceholder,  contactMarketingLabel,  contactTermsLabel,  contactValidationMessages[]{ value, label },  postListingTitle,  postListingHeading,  postListingDescription,  reportFormTitle,  reportFormSubmitLabel,  reportFormSuccessMessage,  reportFormPrivacyHref,  reportFormMarketingLabel,  reportFormConsentText,  reportFormConsentLinkLabel,  reportFormFieldLabels[]{ value, label },  reportFormValidationMessages[]{ value, label }}
+// Query: *[_id == "siteSettings"][0]{  "logo": logo.asset->url,  logoAlt,  navLinks[]{ label, href, children[]{ label, href } },  footerHeadline,  footerHeadlineAccent,  footerCta{ label, href },  exploreTitle,  exploreLinks[]{ label, href, target, rel },  socials[]{ platform, href, label },  newsletterTitle,  newsletterLabel,  newsletterPlaceholder,  newsletterSubmitLabel,  newsletterRequiredMessage,  newsletterInvalidMessage,  copyright,  legalLinks[]{ label, href, target, rel },  siteName,  siteUrl,  defaultTitle,  titleTemplate,  defaultDescription,  "ogImage": ogImage.asset->url,  "ogImageWidth": ogImage.asset->metadata.dimensions.width,  "ogImageHeight": ogImage.asset->metadata.dimensions.height,  ogImageAlt,  googleSiteVerification,  contactFieldPlaceholders[]{ value, label },  contactSubjectLabel,  contactSubjectPlaceholder,  contactSubjectOptions[]{ value, label },  contactConsentText,  contactConsentLinkLabel,  contactConsentLinkHref,  contactSubmitLabel,  contactSuccessMessage,  contactMessagePlaceholder,  contactMarketingLabel,  contactTermsLabel,  contactValidationMessages[]{ value, label },  reportFormTitle,  reportFormSubmitLabel,  reportFormSuccessMessage,  reportFormPrivacyHref,  reportFormMarketingLabel,  reportFormConsentText,  reportFormConsentLinkLabel,  reportFormFieldLabels[]{ value, label },  reportFormValidationMessages[]{ value, label }}
 export type SITE_SETTINGS_QUERY_RESULT =
   | {
       logo: null;
@@ -1204,9 +1799,6 @@ export type SITE_SETTINGS_QUERY_RESULT =
       ogImageHeight: null;
       ogImageAlt: null;
       googleSiteVerification: null;
-      contactTitle: null;
-      contactMetaTitle: null;
-      contactMetaDescription: null;
       contactFieldPlaceholders: null;
       contactSubjectLabel: null;
       contactSubjectPlaceholder: null;
@@ -1220,9 +1812,6 @@ export type SITE_SETTINGS_QUERY_RESULT =
       contactMarketingLabel: null;
       contactTermsLabel: null;
       contactValidationMessages: null;
-      postListingTitle: null;
-      postListingHeading: null;
-      postListingDescription: null;
       reportFormTitle: null;
       reportFormSubmitLabel: null;
       reportFormSuccessMessage: null;
@@ -1285,9 +1874,6 @@ export type SITE_SETTINGS_QUERY_RESULT =
       ogImageHeight: number | null;
       ogImageAlt: string | null;
       googleSiteVerification: string | null;
-      contactTitle: string | null;
-      contactMetaTitle: string | null;
-      contactMetaDescription: string | null;
       contactFieldPlaceholders: Array<{
         value: string | null;
         label: string | null;
@@ -1310,9 +1896,6 @@ export type SITE_SETTINGS_QUERY_RESULT =
         value: string | null;
         label: string | null;
       }> | null;
-      postListingTitle: string | null;
-      postListingHeading: string | null;
-      postListingDescription: string | null;
       reportFormTitle: string | null;
       reportFormSubmitLabel: string | null;
       reportFormSuccessMessage: string | null;
@@ -1362,13 +1945,12 @@ declare module "@sanity/client" {
     '*[_type == "article"] | order(order asc) [$start...$end]{\n  "slug": slug.current,\n  href,\n  "imgSrc": coalesce(featuredImage.asset->url, featuredImageSrc),\n  title,\n  subtitle,\n  authorName\n}': ARTICLES_QUERY_RESULT;
     'count(*[_type == "article"])': ARTICLES_COUNT_QUERY_RESULT;
     '*[_type == "article" && defined(slug.current) && count(content) > 0].slug.current': ARTICLE_SLUGS_QUERY_RESULT;
-    '*[_id == "newsroomPage"][0]{\n  heading,\n  readMoreLabel,\n  "seoTitle": seo.title,\n  "seoDescription": seo.description\n}': NEWSROOM_PAGE_QUERY_RESULT;
-    '\n  coalesce(\n    *[_id == "newsroomPage"][0].articles[defined(@->publishedAt)]->{\n  "id": _id,\n  title,\n  href,\n  publishedAt,\n  excerpt,\n  "imgSrc": image.asset->url,\n  alt\n},\n    []\n  )\n': NEWSROOM_ARTICLES_QUERY_RESULT;
-    '*[_type == "page" && slug.current == $slug][0]{\n  "slug": slug.current,\n  title,\n  sections[]{\n    _key,\n    _type,\n\n    _type == "heroSection" => {\n      hero{\n        title, subtitle, description, videoSrc, animateSpin,\n        "posterSrc": coalesce(poster.asset->url, posterSrc)\n      }\n    },\n\n    _type == "servicesSection" => {\n      services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }\n    },\n\n    _type == "growthSpurtsSection" => {\n      cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }\n    },\n\n    _type == "unrivaledGrowthSection" => {\n      title,\n      stats[]{ "id": _key, stat, description },\n      cta{ label, href }\n    },\n\n    _type == "caseStudySection" => {\n      slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }\n    },\n\n    _type == "articleCardsSection" => {\n      title,\n      sectionLink,\n      articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }\n    },\n\n    _type == "testimonialsBlock" => {\n      "data": source->{\n        title,\n        categories,\n        testimonials[]{\n          "id": _key, category, audioSrc,\n          "imgSrc": image.asset->url, alt, quote, position\n        },\n        logos[]{ "id": _key, "src": logo.asset->url, alt }\n      }\n    },\n\n    _type == "growthValidationSection" => {\n      title,\n      sectionLink,\n      eyebrow,\n      headline,\n      awards[]{ href, "image": image.asset->url, alt },\n      "image": image.asset->url,\n      imageAlt\n    },\n\n    _type == "teamSection" => {\n      title,\n      batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },\n      highlight{ value, description, cta{ label, href, target } }\n    }\n  }\n}': PAGE_QUERY_RESULT;
-    '*[_type == "report"]{\n  "slug": slug.current,\n  heroBannerData{\n    title, subtitle, description, videoSrc, animateSpin,\n    "posterSrc": coalesce(poster.asset->url, posterSrc)\n  },\n  reportHighlights[]{ "id": _key, title },\n  reportSlides[]{ "id": _key, "src": image.asset->url, alt }\n}': REPORTS_QUERY_RESULT;
-    '*[_type == "report" && slug.current == $slug][0]{\n  "slug": slug.current,\n  heroBannerData{\n    title, subtitle, description, videoSrc, animateSpin,\n    "posterSrc": coalesce(poster.asset->url, posterSrc)\n  },\n  reportHighlights[]{ "id": _key, title },\n  reportSlides[]{ "id": _key, "src": image.asset->url, alt }\n}': REPORT_QUERY_RESULT;
+    '*[_type == "page" && slug.current == $slug][0]{\n  "slug": slug.current,\n  title,\n  seo{\n    title,\n    description,\n    "ogImage": ogImage.asset->url\n  },\n  sections[]{\n  _key,\n  _type,\n\n  _type == "heroSection" => {\n    hero{\n      title, subtitle, description, videoSrc, animateSpin,\n      "posterSrc": coalesce(poster.asset->url, posterSrc)\n    }\n  },\n\n  _type == "servicesSection" => {\n    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }\n  },\n\n  _type == "growthSpurtsSection" => {\n    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }\n  },\n\n  _type == "unrivaledGrowthSection" => {\n    title,\n    stats[]{ "id": _key, stat, description },\n    cta{ label, href }\n  },\n\n  _type == "caseStudySection" => {\n    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }\n  },\n\n  _type == "articleCardsSection" => {\n    title,\n    sectionLink,\n    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }\n  },\n\n  _type == "testimonialsBlock" => {\n    "data": source->{\n      title,\n      categories,\n      testimonials[]{\n        "id": _key, category, audioSrc,\n        "imgSrc": image.asset->url, alt, quote, position\n      },\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "growthValidationSection" => {\n    title,\n    sectionLink,\n    eyebrow,\n    headline,\n    awards[]{ href, "image": image.asset->url, alt },\n    "image": image.asset->url,\n    imageAlt\n  },\n\n  _type == "teamSection" => {\n    title,\n    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },\n    highlight{ value, description, cta{ label, href, target } }\n  },\n\n  _type == "creativeTechSection" => {\n    title,\n    rows[]{\n      "id": _key,\n      speed,\n      direction,\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "faqSection" => {\n    title,\n    eyebrow,\n    openFirst,\n    items[]{ "id": _key, question, answer }\n  },\n\n  _type == "contactFormSection" => {\n    title\n  },\n\n  _type == "postListingSection" => {\n    heading\n  },\n\n  _type == "newsroomListingSection" => {\n    heading,\n    readMoreLabel,\n    "articles": coalesce(\n      articles[defined(@->publishedAt)]->{\n        "id": _id, title, href, publishedAt, excerpt,\n        "imgSrc": image.asset->url, alt\n      },\n      []\n    )\n  },\n\n  _type == "reportOverviewSection" => {\n    "highlights": coalesce(highlights[]{ "id": _key, title }, []),\n    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])\n  },\n\n  _type == "downloadReportSection" => {\n    title\n  }\n}\n}': PAGE_QUERY_RESULT;
+    '*[_type == "page" && defined(slug.current)].slug.current': PAGE_SLUGS_QUERY_RESULT;
+    '*[_type == "report"]{\n  "slug": slug.current,\n  title,\n  seo{\n    title,\n    description,\n    "ogImage": ogImage.asset->url\n  },\n  sections[]{\n  _key,\n  _type,\n\n  _type == "heroSection" => {\n    hero{\n      title, subtitle, description, videoSrc, animateSpin,\n      "posterSrc": coalesce(poster.asset->url, posterSrc)\n    }\n  },\n\n  _type == "servicesSection" => {\n    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }\n  },\n\n  _type == "growthSpurtsSection" => {\n    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }\n  },\n\n  _type == "unrivaledGrowthSection" => {\n    title,\n    stats[]{ "id": _key, stat, description },\n    cta{ label, href }\n  },\n\n  _type == "caseStudySection" => {\n    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }\n  },\n\n  _type == "articleCardsSection" => {\n    title,\n    sectionLink,\n    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }\n  },\n\n  _type == "testimonialsBlock" => {\n    "data": source->{\n      title,\n      categories,\n      testimonials[]{\n        "id": _key, category, audioSrc,\n        "imgSrc": image.asset->url, alt, quote, position\n      },\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "growthValidationSection" => {\n    title,\n    sectionLink,\n    eyebrow,\n    headline,\n    awards[]{ href, "image": image.asset->url, alt },\n    "image": image.asset->url,\n    imageAlt\n  },\n\n  _type == "teamSection" => {\n    title,\n    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },\n    highlight{ value, description, cta{ label, href, target } }\n  },\n\n  _type == "creativeTechSection" => {\n    title,\n    rows[]{\n      "id": _key,\n      speed,\n      direction,\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "faqSection" => {\n    title,\n    eyebrow,\n    openFirst,\n    items[]{ "id": _key, question, answer }\n  },\n\n  _type == "contactFormSection" => {\n    title\n  },\n\n  _type == "postListingSection" => {\n    heading\n  },\n\n  _type == "newsroomListingSection" => {\n    heading,\n    readMoreLabel,\n    "articles": coalesce(\n      articles[defined(@->publishedAt)]->{\n        "id": _id, title, href, publishedAt, excerpt,\n        "imgSrc": image.asset->url, alt\n      },\n      []\n    )\n  },\n\n  _type == "reportOverviewSection" => {\n    "highlights": coalesce(highlights[]{ "id": _key, title }, []),\n    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])\n  },\n\n  _type == "downloadReportSection" => {\n    title\n  }\n}\n}': REPORTS_QUERY_RESULT;
+    '*[_type == "report" && slug.current == $slug][0]{\n  "slug": slug.current,\n  title,\n  seo{\n    title,\n    description,\n    "ogImage": ogImage.asset->url\n  },\n  sections[]{\n  _key,\n  _type,\n\n  _type == "heroSection" => {\n    hero{\n      title, subtitle, description, videoSrc, animateSpin,\n      "posterSrc": coalesce(poster.asset->url, posterSrc)\n    }\n  },\n\n  _type == "servicesSection" => {\n    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }\n  },\n\n  _type == "growthSpurtsSection" => {\n    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }\n  },\n\n  _type == "unrivaledGrowthSection" => {\n    title,\n    stats[]{ "id": _key, stat, description },\n    cta{ label, href }\n  },\n\n  _type == "caseStudySection" => {\n    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }\n  },\n\n  _type == "articleCardsSection" => {\n    title,\n    sectionLink,\n    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }\n  },\n\n  _type == "testimonialsBlock" => {\n    "data": source->{\n      title,\n      categories,\n      testimonials[]{\n        "id": _key, category, audioSrc,\n        "imgSrc": image.asset->url, alt, quote, position\n      },\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "growthValidationSection" => {\n    title,\n    sectionLink,\n    eyebrow,\n    headline,\n    awards[]{ href, "image": image.asset->url, alt },\n    "image": image.asset->url,\n    imageAlt\n  },\n\n  _type == "teamSection" => {\n    title,\n    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },\n    highlight{ value, description, cta{ label, href, target } }\n  },\n\n  _type == "creativeTechSection" => {\n    title,\n    rows[]{\n      "id": _key,\n      speed,\n      direction,\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "faqSection" => {\n    title,\n    eyebrow,\n    openFirst,\n    items[]{ "id": _key, question, answer }\n  },\n\n  _type == "contactFormSection" => {\n    title\n  },\n\n  _type == "postListingSection" => {\n    heading\n  },\n\n  _type == "newsroomListingSection" => {\n    heading,\n    readMoreLabel,\n    "articles": coalesce(\n      articles[defined(@->publishedAt)]->{\n        "id": _id, title, href, publishedAt, excerpt,\n        "imgSrc": image.asset->url, alt\n      },\n      []\n    )\n  },\n\n  _type == "reportOverviewSection" => {\n    "highlights": coalesce(highlights[]{ "id": _key, title }, []),\n    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])\n  },\n\n  _type == "downloadReportSection" => {\n    title\n  }\n}\n}': REPORT_QUERY_RESULT;
     '*[_type == "report" && defined(slug.current)].slug.current': REPORT_SLUGS_QUERY_RESULT;
-    '*[_id == "siteSettings"][0]{\n  "logo": logo.asset->url,\n  logoAlt,\n  navLinks[]{ label, href, children[]{ label, href } },\n\n  footerHeadline,\n  footerHeadlineAccent,\n  footerCta{ label, href },\n  exploreTitle,\n  exploreLinks[]{ label, href, target, rel },\n  socials[]{ platform, href, label },\n  newsletterTitle,\n  newsletterLabel,\n  newsletterPlaceholder,\n  newsletterSubmitLabel,\n  newsletterRequiredMessage,\n  newsletterInvalidMessage,\n  copyright,\n  legalLinks[]{ label, href, target, rel },\n\n  siteName,\n  siteUrl,\n  defaultTitle,\n  titleTemplate,\n  defaultDescription,\n  "ogImage": ogImage.asset->url,\n  "ogImageWidth": ogImage.asset->metadata.dimensions.width,\n  "ogImageHeight": ogImage.asset->metadata.dimensions.height,\n  ogImageAlt,\n  googleSiteVerification,\n\n  contactTitle,\n  contactMetaTitle,\n  contactMetaDescription,\n  contactFieldPlaceholders[]{ value, label },\n  contactSubjectLabel,\n  contactSubjectPlaceholder,\n  contactSubjectOptions[]{ value, label },\n  contactConsentText,\n  contactConsentLinkLabel,\n  contactConsentLinkHref,\n  contactSubmitLabel,\n  contactSuccessMessage,\n  contactMessagePlaceholder,\n  contactMarketingLabel,\n  contactTermsLabel,\n  contactValidationMessages[]{ value, label },\n\n  postListingTitle,\n  postListingHeading,\n  postListingDescription,\n\n  reportFormTitle,\n  reportFormSubmitLabel,\n  reportFormSuccessMessage,\n  reportFormPrivacyHref,\n  reportFormMarketingLabel,\n  reportFormConsentText,\n  reportFormConsentLinkLabel,\n  reportFormFieldLabels[]{ value, label },\n  reportFormValidationMessages[]{ value, label }\n}': SITE_SETTINGS_QUERY_RESULT;
+    '*[_id == "siteSettings"][0]{\n  "logo": logo.asset->url,\n  logoAlt,\n  navLinks[]{ label, href, children[]{ label, href } },\n\n  footerHeadline,\n  footerHeadlineAccent,\n  footerCta{ label, href },\n  exploreTitle,\n  exploreLinks[]{ label, href, target, rel },\n  socials[]{ platform, href, label },\n  newsletterTitle,\n  newsletterLabel,\n  newsletterPlaceholder,\n  newsletterSubmitLabel,\n  newsletterRequiredMessage,\n  newsletterInvalidMessage,\n  copyright,\n  legalLinks[]{ label, href, target, rel },\n\n  siteName,\n  siteUrl,\n  defaultTitle,\n  titleTemplate,\n  defaultDescription,\n  "ogImage": ogImage.asset->url,\n  "ogImageWidth": ogImage.asset->metadata.dimensions.width,\n  "ogImageHeight": ogImage.asset->metadata.dimensions.height,\n  ogImageAlt,\n  googleSiteVerification,\n\n  contactFieldPlaceholders[]{ value, label },\n  contactSubjectLabel,\n  contactSubjectPlaceholder,\n  contactSubjectOptions[]{ value, label },\n  contactConsentText,\n  contactConsentLinkLabel,\n  contactConsentLinkHref,\n  contactSubmitLabel,\n  contactSuccessMessage,\n  contactMessagePlaceholder,\n  contactMarketingLabel,\n  contactTermsLabel,\n  contactValidationMessages[]{ value, label },\n\n\n  reportFormTitle,\n  reportFormSubmitLabel,\n  reportFormSuccessMessage,\n  reportFormPrivacyHref,\n  reportFormMarketingLabel,\n  reportFormConsentText,\n  reportFormConsentLinkLabel,\n  reportFormFieldLabels[]{ value, label },\n  reportFormValidationMessages[]{ value, label }\n}': SITE_SETTINGS_QUERY_RESULT;
     '*[_type == "testimonialsSection"][0]{\n  title,\n  categories,\n  testimonials[]{\n    "id": _key, category, audioSrc,\n    "imgSrc": image.asset->url, alt, quote, position\n  },\n  logos[]{ "id": _key, "src": logo.asset->url, alt }\n}': TESTIMONIALS_QUERY_RESULT;
   }
 }

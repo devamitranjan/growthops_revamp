@@ -9,6 +9,8 @@ import { downloadFormFields } from "./download-report-form.fields";
 
 export interface DownloadReportFormProps {
   settings: SiteSettings;
+  /** Per-page override for the shared heading in `siteSettings`. */
+  title?: string;
   /** Opened once the form validates — the gated asset. */
   fileUrl?: string;
   onSubmit?: (values: Record<string, string>) => void;
@@ -27,6 +29,7 @@ const checkboxClasses =
 
 export function DownloadReportFormView({
   settings,
+  title,
   fileUrl,
   onSubmit,
   className = "bg-[#666666] py-[100px]",
@@ -44,7 +47,7 @@ export function DownloadReportFormView({
       <section className={className}>
         <div className="generic-container flex flex-col gap-6 md:gap-8">
           <h2 className="text-[2.5rem] leading-10 font-extrabold text-neutral-white-base md:text-[3rem] md:leading-[3.5rem]">
-            {settings.reportFormTitle}
+            {title ?? settings.reportFormTitle}
           </h2>
 
           <Form.Root

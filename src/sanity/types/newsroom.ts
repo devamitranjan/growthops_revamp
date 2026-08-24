@@ -13,10 +13,10 @@ export interface NewsroomArticle {
   alt: string;
 }
 
-export interface NewsroomPageData {
+/** What the `newsroomListingSection` renders: the page's own ordering of the
+ *  article documents, plus the two strings that head them. */
+export interface NewsroomListingData {
   heading: string;
   readMoreLabel: string;
-  seoTitle?: string;
-  seoDescription?: string;
   articles: NewsroomArticle[];
 }

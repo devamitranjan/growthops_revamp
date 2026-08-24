@@ -52,7 +52,7 @@ export const HeroBanner = ({ data }: HeroBannerProps) => {
               <div
                 className={clsx(
                   "absolute top-0 left-0",
-                  data?.animateSpin && "animate-spin",
+                  data?.animateSpin && "animate-spin-slow",
                 )}
               >
                 <svg

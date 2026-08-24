@@ -9,12 +9,10 @@ import {
 } from "../queries/articles";
 import { documentTags, uncached } from "../tags";
 import type { PostData } from "../types";
-import { getSiteSettings } from "./site-settings";
 
 export { POSTS_PER_PAGE };
 
 export interface ArticleListing {
-  heading: string;
   articles: PostData[];
   page: number;
   totalPages: number;
@@ -37,7 +35,7 @@ export async function getTotalArticlePages(): Promise<number> {
 export async function getArticles(page = 1): Promise<ArticleListing> {
   const { page: safePage, start, end } = articlePageRange(page);
 
-  const [articles, total, settings] = await Promise.all([
+  const [articles, total] = await Promise.all([
     sanityFetch({
       query: ARTICLES_QUERY,
       params: { start, end },
@@ -45,11 +43,9 @@ export async function getArticles(page = 1): Promise<ArticleListing> {
       tags: documentTags("article"),
     }).then((result) => result.data),
     getArticleCount(),
-    getSiteSettings(),
   ]);
 
   return {
-    heading: settings.postListingHeading,
     articles: articles as unknown as PostData[],
     page: safePage,
     totalPages: Math.ceil(total / POSTS_PER_PAGE),

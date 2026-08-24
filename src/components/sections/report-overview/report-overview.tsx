@@ -1,15 +1,12 @@
 import { ReportCarousel } from "./report-carousel";
-import { ReportHighlight, ReportSlide } from "@/sanity/types";
+import { ReportOverviewData } from "@/sanity/types";
 
-interface ReportOverviewProps extends React.HTMLAttributes<HTMLLIElement> {
-  reports: {
-    reportHighlights: ReportHighlight[];
-    reportSlides: ReportSlide[];
-  };
+interface ReportOverviewProps {
+  data: ReportOverviewData;
 }
 
-export const ReportOverview: React.FC<ReportOverviewProps> = (props) => {
-  const { reportHighlights, reportSlides } = props.reports;
+export const ReportOverview: React.FC<ReportOverviewProps> = ({ data }) => {
+  const { highlights, slides } = data;
   return (
     <section className="reveal mt-[40px] pb-12 md:mt-[40px] md:pb-10">
       <div className="generic-container grid items-start gap-12 md:grid-cols-[minmax(180px,220px)_1fr] md:gap-16">
@@ -19,7 +16,7 @@ export const ReportOverview: React.FC<ReportOverviewProps> = (props) => {
           </h2>
 
           <ol className="flex flex-col gap-8 md:gap-12">
-            {reportHighlights.map((highlight, index) => (
+            {highlights.map((highlight, index) => (
               <li key={highlight.id} className="flex flex-col gap-2">
                 <span className="text-[25px] text-primary-pink-base md:text-[24px]">
                   {String(index + 1).padStart(2, "0")}.
@@ -32,9 +29,9 @@ export const ReportOverview: React.FC<ReportOverviewProps> = (props) => {
           </ol>
         </div>
 
-        {reportSlides.length > 0 && (
+        {slides.length > 0 && (
           <ReportCarousel
-            slides={reportSlides}
+            slides={slides}
             className="w-full max-w-[600px] ml-10 justify-self-center md:justify-center"
           />
         )}

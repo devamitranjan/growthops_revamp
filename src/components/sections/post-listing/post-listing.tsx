@@ -3,6 +3,8 @@ import { PostCard } from "./post-card";
 import { PostPagination } from "./post-pagination";
 
 interface PostListingProps {
+  /** The section's own heading. */
+  heading: string;
   listing: ArticleListing;
   /** Slugs with a body in the CMS — these open in-site rather than handing
    *  off to growthops.asia. */
@@ -10,10 +12,11 @@ interface PostListingProps {
 }
 
 export default function PostListing({
+  heading,
   listing,
   migratedSlugs,
 }: PostListingProps) {
-  const { heading, articles, page, totalPages } = listing;
+  const { articles, page, totalPages } = listing;
   const migrated = new Set(migratedSlugs);
 
   return (

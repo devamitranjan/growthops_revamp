@@ -2,7 +2,6 @@ import type { SchemaTypeDefinition } from "sanity";
 
 import { article } from "./documents/article";
 import { newsroomArticle } from "./documents/newsroom-article";
-import { newsroomPage } from "./documents/newsroom-page";
 import { page } from "./documents/page";
 import { report } from "./documents/report";
 import { siteSettings } from "./documents/site-settings";
@@ -10,12 +9,14 @@ import { testimonialsSection } from "./documents/testimonials-section";
 import { articleTeaser } from "./objects/article-teaser";
 import { caseStudySlide } from "./objects/case-study-slide";
 import { clientLogo } from "./objects/client-logo";
+import { faqItem } from "./objects/faq-item";
 import { footerLink } from "./objects/footer-link";
 import { growthCard } from "./objects/growth-card";
 import { growthStat } from "./objects/growth-stat";
 import { heroBanner } from "./objects/hero-banner";
 import { linkCta } from "./objects/link-cta";
 import { navChild, navLink } from "./objects/nav-link";
+import { pageSections } from "./objects/page-sections";
 import { postBody } from "./objects/post-body";
 import { postImage } from "./objects/post-image";
 import { postQuote } from "./objects/post-quote";
@@ -26,23 +27,20 @@ import { seo } from "./objects/seo";
 import { serviceItem } from "./objects/service-item";
 import { socialLink } from "./objects/social-link";
 import { subjectOption } from "./objects/subject-option";
+import { techMarqueeRow } from "./objects/tech-marquee-row";
 import { teamBatch } from "./objects/team-batch";
 import { teamHighlight } from "./objects/team-highlight";
 import { teamMember } from "./objects/team-member";
 import { testimonial } from "./objects/testimonial";
-import { articleCardsSection } from "./sections/article-cards-section";
-import { caseStudySection } from "./sections/case-study-section";
-import { growthSpurtsSection } from "./sections/growth-spurts-section";
-import { growthValidationSection } from "./sections/growth-validation-section";
-import { heroSection } from "./sections/hero-section";
-import { servicesSection } from "./sections/services-section";
-import { teamSection } from "./sections/team-section";
-import { testimonialsBlock } from "./sections/testimonials-block";
-import { unrivaledGrowthSection } from "./sections/unrivaled-growth-section";
+import { sectionTypes } from "./sections";
 
 /**
  * Only types listed here are part of the Studio schema and reach schema
  * extraction. Adding a file is not enough.
+ *
+ * The page-builder sections are the exception: they come in as one spread from
+ * `sections/index.ts`, which is also what fills the `sections` array. Register
+ * a new section there and it is both in the schema and offered on every page.
  */
 export const schemaTypes: SchemaTypeDefinition[] = [
   // documents
@@ -50,22 +48,14 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   article,
   report,
   newsroomArticle,
-  newsroomPage,
   testimonialsSection,
   siteSettings,
 
   // page-builder sections
-  heroSection,
-  servicesSection,
-  growthSpurtsSection,
-  unrivaledGrowthSection,
-  caseStudySection,
-  articleCardsSection,
-  testimonialsBlock,
-  growthValidationSection,
-  teamSection,
+  ...sectionTypes,
 
   // objects
+  pageSections,
   heroBanner,
   serviceItem,
   growthCard,
@@ -80,6 +70,8 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   reportSlide,
   testimonial,
   clientLogo,
+  faqItem,
+  techMarqueeRow,
   postBody,
   postImage,
   postQuote,

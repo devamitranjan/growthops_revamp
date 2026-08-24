@@ -1,8 +1,14 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 /**
- * Everything that appears on every page, plus the copy that belongs to a route
- * rather than to a content document.
+ * Everything that appears on every page, plus the shared wiring of the two
+ * forms.
+ *
+ * Page copy is *not* here any more: it belongs to the section that renders it,
+ * on the page document that carries the section. What is left of the contact
+ * and report-download groups is the vocabulary of the forms themselves — the
+ * placeholders, options and messages keyed to field names that exist in code —
+ * which is shared by every instance of the form rather than owned by one page.
  *
  * Singleton, pinned in `structure.ts`.
  *
@@ -19,8 +25,7 @@ export const siteSettings = defineType({
     { name: "nav", title: "Navigation" },
     { name: "footer", title: "Footer" },
     { name: "seo", title: "SEO defaults" },
-    { name: "contact", title: "Contact page" },
-    { name: "listing", title: "Post listing" },
+    { name: "contact", title: "Contact form" },
     { name: "reportForm", title: "Report download form" },
   ],
 
@@ -105,10 +110,9 @@ export const siteSettings = defineType({
     defineField({ name: "ogImageAlt", title: "Share image alternative text", type: "string", group: "seo" }),
     defineField({ name: "googleSiteVerification", type: "string", group: "seo" }),
 
-    // ── Contact page ────────────────────────────────────────────────────
-    defineField({ name: "contactTitle", title: "Heading", type: "string", group: "contact" }),
-    defineField({ name: "contactMetaTitle", title: "Meta title", type: "string", group: "contact" }),
-    defineField({ name: "contactMetaDescription", title: "Meta description", type: "text", rows: 3, group: "contact" }),
+    // ── Contact form ────────────────────────────────────────────────────
+    // Shared form wiring, not page copy: the heading and the page's SEO belong
+    // to the `contactFormSection` and the page document that carries it.
     defineField({
       name: "contactFieldPlaceholders",
       title: "Field placeholders",
@@ -144,11 +148,6 @@ export const siteSettings = defineType({
       description:
         'Keyed by "value": required, email, subject, message, terms. The rules themselves live in code; only the wording is editable here.',
     }),
-
-    // ── Post listing ────────────────────────────────────────────────────
-    defineField({ name: "postListingTitle", title: "Page title", type: "string", group: "listing" }),
-    defineField({ name: "postListingHeading", title: "On-page heading", type: "text", rows: 3, group: "listing" }),
-    defineField({ name: "postListingDescription", title: "Meta description", type: "text", rows: 3, group: "listing" }),
 
     // ── Report download form ────────────────────────────────────────────
     defineField({ name: "reportFormTitle", title: "Heading", type: "string", group: "reportForm" }),
