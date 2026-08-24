@@ -13,6 +13,7 @@ import { faqItem } from "./objects/faq-item";
 import { footerLink } from "./objects/footer-link";
 import { growthCard } from "./objects/growth-card";
 import { growthStat } from "./objects/growth-stat";
+import { growthVideo } from "./objects/growth-video";
 import { heroBanner } from "./objects/hero-banner";
 import { linkCta } from "./objects/link-cta";
 import { navChild, navLink } from "./objects/nav-link";
@@ -60,6 +61,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   serviceItem,
   growthCard,
   growthStat,
+  growthVideo,
   linkCta,
   caseStudySlide,
   articleTeaser,

@@ -43,6 +43,16 @@ export const SECTIONS_PROJECTION = `
     cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }
   },
 
+  _type == "growthVideosSection" => {
+    title,
+    subtitle,
+    videos[]{
+      "id": _key, title, description,
+      "videoSrc": video.asset->url,
+      "thumbnail": thumbnail.asset->url, alt
+    }
+  },
+
   _type == "unrivaledGrowthSection" => {
     title,
     stats[]{ "id": _key, stat, description },
