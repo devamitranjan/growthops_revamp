@@ -44,10 +44,10 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
-      # The build needs the public Sanity vars to prerender. These are the
-      # NEXT_PUBLIC_ pair only — no read token, so CI can never touch drafts.
+      # No Sanity vars are passed here. `src/sanity/env.ts` already defaults to
+      # the public project/dataset, and passing `${{ vars.* }}` was actively
+      # harmful: an undefined repository variable interpolates to the empty
+      # string, which is *defined*, so the `??` fallback never fires and the
+      # build dies with "Configuration must contain `projectId`".
       - name: Build
         run: pnpm build
-        env:
-          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID }}
-          NEXT_PUBLIC_SANITY_DATASET: ${{ vars.NEXT_PUBLIC_SANITY_DATASET }}
