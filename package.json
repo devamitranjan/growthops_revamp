@@ -12,7 +12,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "typegen": "cd src/sanity && sanity schemas extract --force && sanity typegen generate",
     "schema:deploy": "cd src/sanity && sanity schemas deploy",
     "sanity": "cd src/sanity && sanity",
