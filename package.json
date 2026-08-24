@@ -12,6 +12,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
     "typegen": "cd src/sanity && sanity schemas extract --force && sanity typegen generate",
     "schema:deploy": "cd src/sanity && sanity schemas deploy",
     "sanity": "cd src/sanity && sanity",
@@ -61,6 +62,11 @@
   "config": {
     "commitizen": {
       "path": "node_modules/cz-git"
+    }
+  },
+  "pnpm": {
+    "overrides": {
+      "js-yaml@3": "^3.15.1"
     }
   }
 }
