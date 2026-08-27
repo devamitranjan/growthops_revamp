@@ -38,6 +38,11 @@ export const HeroBanner = ({ data }: HeroBannerProps) => {
       </div>
 
       <div className="generic-container w-full flex flex-col gap-4 md:items-center text-neutral-white-base z-20 absolute bottom-0 left-1/2 -translate-x-1/2 pb-12 md:pb-8 border-b border-neutral-white-base/20">
+        {data?.tag && (
+          <p className="body2-bold w-fit rounded-full bg-primary-cyan-base px-4 py-1 text-neutral-black-base md:mx-auto">
+            {data.tag}
+          </p>
+        )}
         <h1 className="heading-h1-extrabold text-left md:text-center">
           {data?.title}
         </h1>

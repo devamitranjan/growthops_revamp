@@ -9,6 +9,7 @@ import type { PortableTextBlock } from "next-sanity";
 import type { LogoData } from "./testimonial";
 
 export interface IHeroBannerData {
+  tag?: string;
   title: string;
   subtitle: string;
   description: string;
