@@ -106,6 +106,21 @@ export interface ITeamSectionData {
   highlight?: TeamHighlight;
 }
 
+/** One badge tile in the culture validation grid. The artwork is the whole
+ *  card, so `alt` is the only text describing the award. */
+export interface CultureCardData {
+  id: string;
+  image: string;
+  alt: string;
+  /** Optional — makes the card a link. */
+  href?: string;
+}
+
+export interface ICultureValidationData {
+  title: string;
+  cards: CultureCardData[];
+}
+
 /** One belt of logos in the creative-technologies card. */
 export interface TechMarqueeRowData {
   id: string;

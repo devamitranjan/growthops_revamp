@@ -77,6 +77,14 @@ const GrowthValidation = dynamic(
   },
 );
 
+const CultureValidation = dynamic(
+  () => import("@/components/sections/culture-validation/culture-validation"),
+  {
+    loading: () => <div className="min-h-[600px] bg-background" />,
+    ssr: true,
+  },
+);
+
 const TeamSection = dynamic(
   () => import("@/components/sections/team-section/team-section"),
   {
@@ -206,6 +214,13 @@ export function SectionRenderer({
             image: section.image,
             imageAlt: section.imageAlt,
           }}
+        />
+      );
+
+    case "cultureValidationSection":
+      return (
+        <CultureValidation
+          data={{ title: section.title, cards: section.cards }}
         />
       );
 

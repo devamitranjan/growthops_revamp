@@ -420,3 +420,25 @@
     animation: none;
   }
 }
+
+@keyframes culture-card-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@layer components {
+  .culture-card:hover {
+    animation: culture-card-bounce 2s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .culture-card:hover {
+    animation: none;
+  }
+}
