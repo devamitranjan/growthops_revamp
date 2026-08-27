@@ -6,6 +6,7 @@ import type {
   CaseStudySlideData,
   GrowthCardData,
   ICreativeTechData,
+  ICultureValidationData,
   IFaqData,
   IHeroBannerData,
   ITeamSectionData,
@@ -57,6 +58,7 @@ export type PageSection =
     }
   | { _type: "testimonialsBlock"; _key: string; data: ITestimonialsData }
   | ({ _type: "growthValidationSection"; _key: string } & GrowthValidationData)
+  | ({ _type: "cultureValidationSection"; _key: string } & ICultureValidationData)
   | ({ _type: "teamSection"; _key: string } & ITeamSectionData)
   | ({ _type: "creativeTechSection"; _key: string } & ICreativeTechData)
   | ({ _type: "faqSection"; _key: string } & IFaqData)

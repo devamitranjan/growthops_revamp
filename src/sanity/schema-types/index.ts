@@ -9,6 +9,7 @@ import { testimonialsSection } from "./documents/testimonials-section";
 import { articleTeaser } from "./objects/article-teaser";
 import { caseStudySlide } from "./objects/case-study-slide";
 import { clientLogo } from "./objects/client-logo";
+import { cultureCard } from "./objects/culture-card";
 import { faqItem } from "./objects/faq-item";
 import { footerLink } from "./objects/footer-link";
 import { growthCard } from "./objects/growth-card";
@@ -60,6 +61,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   serviceItem,
   growthCard,
   growthStat,
+  cultureCard,
   linkCta,
   caseStudySlide,
   articleTeaser,

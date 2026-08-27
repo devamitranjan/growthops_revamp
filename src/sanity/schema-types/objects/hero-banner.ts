@@ -6,6 +6,12 @@ export const heroBanner = defineType({
   title: "Hero banner",
   type: "object",
   fields: [
+    defineField({
+      name: "tag",
+      title: "Tag",
+      type: "string",
+      description: "Optional pill shown above the title, e.g. Culture.",
+    }),
     defineField({ name: "title", type: "string", validation: (r) => r.required() }),
     defineField({ name: "subtitle", type: "string" }),
     defineField({ name: "description", type: "text", rows: 4 }),

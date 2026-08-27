@@ -30,7 +30,7 @@ export const SECTIONS_PROJECTION = `
 
   _type == "heroSection" => {
     hero{
-      title, subtitle, description, videoSrc, animateSpin,
+      tag, title, subtitle, description, videoSrc, animateSpin,
       "posterSrc": coalesce(poster.asset->url, posterSrc)
     }
   },
@@ -79,6 +79,11 @@ export const SECTIONS_PROJECTION = `
     awards[]{ href, "image": image.asset->url, alt },
     "image": image.asset->url,
     imageAlt
+  },
+
+  _type == "cultureValidationSection" => {
+    title,
+    cards[]{ "id": _key, href, "image": image.asset->url, alt }
   },
 
   _type == "teamSection" => {

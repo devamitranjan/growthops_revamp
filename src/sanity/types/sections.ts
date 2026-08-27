@@ -9,6 +9,7 @@ import type { PortableTextBlock } from "next-sanity";
 import type { LogoData } from "./testimonial";
 
 export interface IHeroBannerData {
+  tag?: string;
   title: string;
   subtitle: string;
   description: string;
@@ -104,6 +105,21 @@ export interface ITeamSectionData {
   batches: TeamMember[][];
   /** Trailing highlight card. Omit to end the grid after the members. */
   highlight?: TeamHighlight;
+}
+
+/** One badge tile in the culture validation grid. The artwork is the whole
+ *  card, so `alt` is the only text describing the award. */
+export interface CultureCardData {
+  id: string;
+  image: string;
+  alt: string;
+  /** Optional — makes the card a link. */
+  href?: string;
+}
+
+export interface ICultureValidationData {
+  title: string;
+  cards: CultureCardData[];
 }
 
 /** One belt of logos in the creative-technologies card. */

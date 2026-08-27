@@ -4,6 +4,7 @@ import { articleCardsSection } from "./article-cards-section";
 import { caseStudySection } from "./case-study-section";
 import { contactFormSection } from "./contact-form-section";
 import { creativeTechSection } from "./creative-tech-section";
+import { cultureValidationSection } from "./culture-validation-section";
 import { downloadReportSection } from "./download-report-section";
 import { faqSection } from "./faq-section";
 import { growthSpurtsSection } from "./growth-spurts-section";
@@ -42,6 +43,7 @@ export const sectionTypes = [
   articleCardsSection,
   testimonialsBlock,
   growthValidationSection,
+  cultureValidationSection,
   teamSection,
   creativeTechSection,
   faqSection,
