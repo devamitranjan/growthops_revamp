@@ -1,21 +1,27 @@
 import { client } from "../client";
 import { sanityFetch } from "../live";
 import {
+  DEFAULT_POSTS_PER_PAGE,
+  articlePageRange,
+  totalPagesFor,
+} from "../pagination";
+import {
   ARTICLE_SLUGS_QUERY,
   ARTICLES_COUNT_QUERY,
   ARTICLES_QUERY,
-  POSTS_PER_PAGE,
-  articlePageRange,
 } from "../queries/articles";
 import { documentTags, uncached } from "../tags";
 import type { PostData } from "../types";
 
-export { POSTS_PER_PAGE };
+export { DEFAULT_POSTS_PER_PAGE };
 
 export interface ArticleListing {
   articles: PostData[];
   page: number;
   totalPages: number;
+  /** The page size this listing was built with — the section's value, or the
+   *  default where it left the field empty. */
+  perPage: number;
 }
 
 export async function getArticleCount(): Promise<number> {
@@ -27,13 +33,26 @@ export async function getArticleCount(): Promise<number> {
   return data;
 }
 
-export async function getTotalArticlePages(): Promise<number> {
-  return Math.ceil((await getArticleCount()) / POSTS_PER_PAGE);
+/** How many pages the archive fills at a given page size. The size comes from
+ *  the listing section, so the caller has to have read the page first. */
+export async function getTotalArticlePages(
+  perPage?: number | null,
+): Promise<number> {
+  return totalPagesFor(await getArticleCount(), perPage);
 }
 
-/** One page of the /post listing. `page` is 1-based. */
-export async function getArticles(page = 1): Promise<ArticleListing> {
-  const { page: safePage, start, end } = articlePageRange(page);
+/** One page of the /post listing. `page` is 1-based; `perPage` is the listing
+ *  section's "Posts per page", and falls back to the default when unset. */
+export async function getArticles(
+  page = 1,
+  perPage?: number | null,
+): Promise<ArticleListing> {
+  const {
+    page: safePage,
+    perPage: size,
+    start,
+    end,
+  } = articlePageRange(page, perPage);
 
   const [articles, total] = await Promise.all([
     sanityFetch({
@@ -48,7 +67,8 @@ export async function getArticles(page = 1): Promise<ArticleListing> {
   return {
     articles: articles as unknown as PostData[],
     page: safePage,
-    totalPages: Math.ceil(total / POSTS_PER_PAGE),
+    totalPages: totalPagesFor(total, size),
+    perPage: size,
   };
 }
 

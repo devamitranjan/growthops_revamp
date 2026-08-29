@@ -258,6 +258,7 @@ export function SectionRenderer({
         <PostListingSection
           heading={section.heading}
           page={context?.page ?? 1}
+          postsPerPage={section.postsPerPage}
         />
       );
 

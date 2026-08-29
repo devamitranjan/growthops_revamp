@@ -4,7 +4,9 @@ import type {
   StructureResolverContext,
 } from "sanity/structure";
 
+import { PostOrderPane } from "./components/post-order-pane";
 import { apiVersion } from "./env";
+import { resolvePostsPerPage } from "./pagination";
 import { sectionTypes } from "./schema-types/sections";
 
 /**
@@ -43,6 +45,7 @@ const SECTIONS_QUERY = `*[_id == $id][0].sections[]{
   _type,
   title,
   heading,
+  postsPerPage,
   "heroTitle": hero.title
 }`;
 
@@ -52,7 +55,19 @@ interface SectionRow {
   title?: string;
   heading?: string;
   heroTitle?: string;
+  /** Only on `postListingSection` — the page size its pane splits by. */
+  postsPerPage?: number;
 }
+
+/**
+ * Every article in listing order — the same ordering `ARTICLES_QUERY` uses to
+ * build /post, so the pages this pane shows are the pages the site serves.
+ *
+ * Ids only: the pane hands each page's window to a document list rather than
+ * rendering previews itself, so the cards stay the ones the article schema
+ * defines.
+ */
+const ARTICLE_ORDER_QUERY = `*[_type == "article"] | order(order asc) { _id }`;
 
 /** The document types that carry a `sections` array. A new composed document
  *  type needs adding here, or it will be missing from every section's usage
@@ -111,7 +126,10 @@ function composedDocumentChild(
       .title(title)
       .id("composed-document")
       .items([
-        S.listItem().id("settings").title("Page settings").child(openDocument(title)),
+        S.listItem()
+          .id("settings")
+          .title("Page settings")
+          .child(openDocument(title)),
 
         ...(sections.length ? [S.divider().title("Sections")] : []),
 
@@ -123,10 +141,122 @@ function composedDocumentChild(
             context.schema.get(section._type)?.title ||
             section._type;
 
-          return S.listItem()
+          const item = S.listItem()
             .id(section._key || `section-${index}`)
-            .title(label)
-            .child(openDocument(label));
+            .title(label);
+
+          // The one section whose content lives outside the page: it renders
+          // article documents nobody can see from the form, so its item opens
+          // the pages it will produce rather than the form alone.
+          if (section._type === "postListingSection") {
+            return item.child(
+              postListingChild(S, context, {
+                id,
+                type,
+                title: label,
+                postsPerPage: section.postsPerPage,
+              }),
+            );
+          }
+
+          return item.child(openDocument(label));
+        }),
+      ]);
+  };
+}
+
+/**
+ * The article listing section's pane: the form, then one item per page of the
+ * listing it produces.
+ *
+ * The section names a page size but not a single article — which posts appear,
+ * and on which page, falls out of the `order` field on sixty separate
+ * documents. That is invisible from the form, so an editor changing "posts per
+ * page" from 10 to 12 has no way to see what page 3 becomes. This pane answers
+ * it with the same query and the same page size the site uses, so the split
+ * shown here is the split /post serves.
+ *
+ * Read at open time rather than live: it is a snapshot of the current order,
+ * and reopening the pane re-runs it.
+ */
+function postListingChild(
+  S: StructureBuilder,
+  context: StructureResolverContext,
+  {
+    id,
+    type,
+    title,
+    postsPerPage,
+  }: { id: string; type: string; title: string; postsPerPage?: number },
+) {
+  return async () => {
+    const client = context
+      .getClient({ apiVersion })
+      .withConfig({ perspective: "drafts" });
+
+    // The drafts perspective answers with the draft id wherever one exists;
+    // both forms are needed below, since an article that has never been
+    // published only exists as a draft.
+    const rows: { _id: string }[] =
+      (await client.fetch(ARTICLE_ORDER_QUERY)) ?? [];
+    const ids = rows.map((row) => row._id.replace(/^drafts\./, ""));
+
+    const perPage = resolvePostsPerPage(postsPerPage);
+    const pageCount = Math.ceil(ids.length / perPage);
+
+    return S.list()
+      .title(title)
+      .id("post-listing")
+      .items([
+        S.listItem()
+          .id("settings")
+          .title("Section settings")
+          .child(S.document().schemaType(type).documentId(id).title(title)),
+
+        // Where the order is actually changed. The page lists below open and
+        // search articles; this one moves them between pages, which nothing
+        // else in the Studio can do — the position is a number on each of
+        // sixty separate documents.
+        S.listItem()
+          .id("reorder")
+          .title("Reorder posts")
+          .child(
+            S.component(PostOrderPane)
+              .id("post-order")
+              .title(`Reorder posts · ${title}`)
+              .options({ perPage }),
+          ),
+
+        S.divider().title(
+          ids.length
+            ? `${ids.length} posts · ${perPage} per page`
+            : "No articles yet",
+        ),
+
+        ...Array.from({ length: pageCount }, (_, index) => {
+          const start = index * perPage;
+          const pageIds = ids.slice(start, start + perPage);
+          const pageTitle = `Page ${index + 1} · posts ${start + 1}\u2013${
+            start + pageIds.length
+          }`;
+
+          return S.listItem()
+            .id(`page-${index + 1}`)
+            .title(pageTitle)
+            .child(
+              S.documentList()
+                .id(`post-listing-page-${index + 1}`)
+                .title(pageTitle)
+                .apiVersion(apiVersion)
+                .filter("_id in $ids || _id in $draftIds")
+                .params({
+                  ids: pageIds,
+                  draftIds: pageIds.map((pageId) => `drafts.${pageId}`),
+                })
+                // The listing's own order, not the list's default of newest
+                // first — the point of the pane is the order /post renders.
+                .defaultOrdering([{ field: "order", direction: "asc" }]),
+            );
         }),
       ]);
   };
@@ -182,7 +312,9 @@ function sectionUsageChild(
 
         // A divider carries the empty state: `items([])` gives a blank pane
         // that looks like something failed to load rather than an answer.
-        ...(usages.length ? [] : [S.divider().title("Not used on any page yet")]),
+        ...(usages.length
+          ? []
+          : [S.divider().title("Not used on any page yet")]),
 
         ...usages.map((usage) => {
           // The drafts perspective hands back the draft id where one exists;
@@ -219,7 +351,9 @@ export const structure: StructureResolver = (S, context) =>
         S.listItem()
           .title(title)
           .id(id)
-          .child(composedDocumentChild(S, context, { id, type: "page", title })),
+          .child(
+            composedDocumentChild(S, context, { id, type: "page", title }),
+          ),
       ),
 
       S.listItem()
@@ -252,7 +386,9 @@ export const structure: StructureResolver = (S, context) =>
           S.documentTypeList("page")
             .title("Pages")
             .apiVersion(apiVersion)
-            .filter("_type == $type && !(_id in $pinned) && !(_id in $pinnedDrafts)")
+            .filter(
+              "_type == $type && !(_id in $pinned) && !(_id in $pinnedDrafts)",
+            )
             .params({
               type: "page",
               pinned: PINNED_PAGE_IDS,
@@ -299,7 +435,10 @@ export const structure: StructureResolver = (S, context) =>
 
       // Every entry above is placed by hand — there is no catch-all list, so a
       // document type without an entry has no pane of its own. `article` and
-      // `newsroomArticle` are deliberately in that position: they are reached
-      // through the section that references them, not from here. A new document
-      // type needing its own pane wants an entry above.
+      // `newsroomArticle` are deliberately in that position: both are reached
+      // through the section that puts them on a page, not from here — the
+      // newsroom section through the reference list on its own form, the
+      // article listing through the pane `composedDocumentChild` gives it
+      // above, since that section references nothing. A new document type
+      // needing its own pane wants an entry here.
     ]);

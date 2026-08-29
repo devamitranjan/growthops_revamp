@@ -114,7 +114,8 @@ export const SECTIONS_PROJECTION = `
   },
 
   _type == "postListingSection" => {
-    heading
+    heading,
+    postsPerPage
   },
 
   _type == "newsroomListingSection" => {

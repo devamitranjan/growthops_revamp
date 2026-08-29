@@ -63,7 +63,14 @@ export type PageSection =
   | ({ _type: "creativeTechSection"; _key: string } & ICreativeTechData)
   | ({ _type: "faqSection"; _key: string } & IFaqData)
   | { _type: "contactFormSection"; _key: string; title: string }
-  | { _type: "postListingSection"; _key: string; heading: string }
+  | {
+      _type: "postListingSection";
+      _key: string;
+      heading: string;
+      /** How many cards one page shows. Absent on sections published before
+       *  the field existed, which fall back to `DEFAULT_POSTS_PER_PAGE`. */
+      postsPerPage?: number | null;
+    }
   | ({ _type: "newsroomListingSection"; _key: string } & NewsroomListingData)
   | ({ _type: "reportOverviewSection"; _key: string } & ReportOverviewData)
   | { _type: "downloadReportSection"; _key: string; title?: string };
