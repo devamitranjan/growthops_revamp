@@ -223,6 +223,26 @@ export const structure: StructureResolver = (S, context) =>
       ),
 
       S.listItem()
+        .title("Reports")
+        .id("allReports")
+        // Reports are pages in every way that matters here — same section
+        // library, same composed pane — so they sit with the pages rather than
+        // in a group of their own. Nothing references a report document, which
+        // is why they need an entry: without one there is no way to open an
+        // existing report, let alone create a new one.
+        .child(
+          S.documentTypeList("report")
+            .title("Reports")
+            .child((id) =>
+              composedDocumentChild(S, context, {
+                id,
+                type: "report",
+                title: "Report",
+              })(),
+            ),
+        ),
+
+      S.listItem()
         .title("All pages")
         .id("allPages")
         // The pinned four are above; listing them again here would leave an
@@ -231,6 +251,7 @@ export const structure: StructureResolver = (S, context) =>
         .child(
           S.documentTypeList("page")
             .title("Pages")
+            .apiVersion(apiVersion)
             .filter("_type == $type && !(_id in $pinned) && !(_id in $pinnedDrafts)")
             .params({
               type: "page",
@@ -277,8 +298,8 @@ export const structure: StructureResolver = (S, context) =>
         ),
 
       // Every entry above is placed by hand — there is no catch-all list, so a
-      // document type without an entry has no pane of its own. `article`,
-      // `newsroomArticle` and `report` are deliberately in that position: they
-      // are reached through the section that references them, not from here.
-      // A new document type needing its own pane wants an entry above.
+      // document type without an entry has no pane of its own. `article` and
+      // `newsroomArticle` are deliberately in that position: they are reached
+      // through the section that references them, not from here. A new document
+      // type needing its own pane wants an entry above.
     ]);

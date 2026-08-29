@@ -78,6 +78,10 @@ export interface PageSeo {
 
 /** Everything `getPage()` resolves — one composed page. */
 export interface PageData {
+  /** The full URL path this page is served at — `about`, `services/seo`.
+   *  Composed from the `parent` chain, so it is not stored on the document. */
+  path: string;
+  /** This page's own segment, the last one in `path`. */
   slug: string;
   title: string;
   seo?: PageSeo;
