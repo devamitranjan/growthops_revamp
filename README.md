@@ -1,6 +1,6 @@
 # GrowthOps Asia
 
-The marketing site for [GrowthOps Asia](https://www.growthops.asia), a growth marketing and creative agency helping ASEAN brands accelerate performance through data-driven strategy, creative, and technology. Built with Next.js 16 (App Router), React 19, Tailwind CSS v4, and GSAP.
+The marketing site for [GrowthOps Asia](https://www.growthops.asia), a growth marketing and creative agency helping ASEAN brands accelerate performance through data-driven strategy, creative, and technology. Built with Next.js 16 (App Router), React 19, Tailwind CSS v4, GSAP, and Sanity.
 
 ## Getting Started
 
@@ -13,28 +13,39 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000). The page auto-updates as you edit files under `src/`.
 
+Use `pnpm cms` instead when you are working on content — same dev server, but it prints the Studio URL.
+
 ### Environment
 
 Copy the Sanity credentials into `.env.local`:
 
 ```bash
-NEXT_PUBLIC_SANITY_PROJECT_ID=
-NEXT_PUBLIC_SANITY_DATASET=production
-SANITY_API_READ_TOKEN=          # server-only, never prefix with NEXT_PUBLIC_
+SANITY_API_READ_TOKEN=          # required — server-only, never prefix with NEXT_PUBLIC_
 SANITY_REVALIDATE_SECRET=       # shared with the Sanity webhook, see below
+NEXT_PUBLIC_SANITY_PROJECT_ID=  # optional, defaults in src/cms/sanity/env.ts
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_API_VERSION= # optional, pinned in env.ts
 ```
+
+Only the read token is genuinely required. This Sanity project returns an
+empty result set to unauthenticated callers, so without it the first
+prerendered route finds no `siteSettings` document and the build fails.
+The three public values have literal fallbacks in
+[`src/cms/sanity/env.ts`](src/cms/sanity/env.ts) — leave them unset rather
+than set them empty, because an empty string is *defined* and defeats the
+`??`.
 
 ### Publishing a change
 
 Pages are prerendered and read through the Sanity CDN, so a publish only
-reaches the live site when something invalidates the cache. That something is a
-Sanity webhook pointed at `/api/revalidate`; the setup it expects is documented
-at the top of [`src/app/api/revalidate/route.ts`](src/app/api/revalidate/route.ts).
-Reads are tagged per document type in [`src/sanity/tags.ts`](src/sanity/tags.ts),
-and the `(site)` layout carries an hourly `revalidate` as a fallback for a
-webhook that never arrives.
-
-Content is currently served from fixtures, so the site runs without these — see
+reaches the live site when something invalidates the cache. Two things do,
+and the site needs both: `<SanityLive />` refreshes pages that are already
+open, and a Sanity webhook pointed at `/api/revalidate` covers the case
+where nobody is on the site when an editor publishes. The setup that
+webhook expects is documented at the top of
+[`src/app/api/revalidate/route.ts`](src/app/api/revalidate/route.ts), and
+reads are tagged per document type in
+[`src/cms/sanity/tags.ts`](src/cms/sanity/tags.ts). See
 [Content layer](#content-layer) below.
 
 ## Project Structure
@@ -42,20 +53,35 @@ Content is currently served from fixtures, so the site runs without these — se
 ```
 src/
   app/                   # Routes only — every page is a server component
-    (reports)/[slug]/    # Gated report landing pages, addressed at the site root
-    api/                 # Route handlers backing the client-side hooks
-    post/                # Article listing (/post) and detail (/post/[slug])
-    contact/
-    layout.tsx           # Root layout, fonts, metadata, QueryProvider
-    page.tsx             # Home page composition
+    (site)/              # The public site
+      [...slug]/         # Every CMS-authored page — /contact, /newsroom, ...
+      post/              # Article listing (/post) and detail (/post/[slug])
+      reports/[slug]/    # Gated report landing pages
+      faq-preview/       # Standalone FAQ section preview, fixed sample copy
+      layout.tsx         # Root layout, fonts, site-wide metadata
+      page.tsx           # Home page
+    (studio)/studio/     # The embedded Sanity Studio — the one CMS-aware route
+    api/                 # Route handlers (revalidate webhook, JSON reads)
     globals.css          # Tailwind v4 entry point and design tokens
   components/
     sections/            # Page sections (hero-banner, unrivaled-growth, ...)
-    site/                # Chrome: header, site-footer, query-provider
+    site/                # Chrome: header, site-footer, section-renderer
     ui/                  # Small shared primitives (section-header, icons, ...)
-  hooks/                 # Client data hooks (use-articles) and UI hooks (use-audio-player)
-  lib/                   # api (fetch wrapper), query-keys, event-bus, format-time
-  sanity/                # The content layer — see src/sanity/README.md
+  content/               # CMS-agnostic domain layer — see src/content/README.md
+    models/              # Shared vocabulary: ContentImage, ContentLink, RichText, Seo
+    domain/              # One folder per content type: types + repository contract
+    sections/            # The PageSection union the page builder renders
+    types.ts             # Type-only barrel — what @/content/types resolves to
+    repositories.ts      # The composition point: the one file naming a CMS
+  cms/sanity/            # The Sanity adapter — see src/cms/sanity/README.md
+    documents/           # One folder per document type, every layer inside it
+    sections/            # The page-builder library (17 sections today)
+    rich-text/           # Portable Text -> RichText
+    studio/              # The Studio sidebar
+    preview/             # The Studio's live-editing surface
+    generated/           # TypeGen output — an implementation detail
+  hooks/                 # UI hooks (use-audio-player, use-carousel-*)
+  lib/                   # page-metadata, event-bus, format-time
 public/                  # Static assets, one kebab-case folder per section
 ```
 
@@ -67,78 +93,122 @@ fetch — which is what lets the same section render on more than one page.
 
 ### Routes
 
-| Route                                                | Source                                                                                                |
-| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `/`                                                  | `src/app/page.tsx`                                                                                    |
-| `/contact`                                           | `src/app/contact/page.tsx`                                                                            |
-| `/post`, `/post/[slug]`                              | `src/app/post/`                                                                                       |
-| `/[slug]`                                            | `src/app/(reports)/[slug]/page.tsx` — report pages; the `(reports)` group keeps them at the site root |
-| `/api/articles`, `/api/reports`, `/api/testimonials` | `src/app/api/`                                                                                        |
+| Route                     | Source                                                               |
+| ------------------------- | -------------------------------------------------------------------- |
+| `/`                       | `src/app/(site)/page.tsx` — the `page-home` document                 |
+| `/contact`, `/newsroom`, … | `src/app/(site)/[...slug]/page.tsx` — any published page, no deploy needed |
+| `/post`                   | `src/app/(site)/post/page.tsx` — its own route so `?page=` can 404   |
+| `/post/[slug]`            | `src/app/(site)/post/[slug]/page.tsx`                                |
+| `/reports/[slug]`         | `src/app/(site)/reports/[slug]/page.tsx`                             |
+| `/studio`                 | `src/app/(studio)/studio/[[...tool]]/page.tsx`                       |
+| `/api/*`                  | `src/app/api/`                                                       |
 
 ## Content layer
 
-Everything editorial lives behind `src/sanity`, and nothing outside that folder
-knows where content comes from. Sanity is **not wired up yet** — the package is
-not installed and the client in `src/sanity/client.ts` is still commented out —
-but types, GROQ, and repository signatures are already CMS-shaped, so switching
-over means editing repository bodies and nothing else.
+**Sanity is an implementation detail.** The application depends on
+CMS-agnostic domain models and repository contracts in
+[`src/content`](src/content/README.md); every Sanity-specific line — GROQ, the
+client, schemas, the Studio, Portable Text — is behind
+[`src/cms/sanity`](src/cms/sanity/README.md), and ESLint fails the build if one
+escapes.
 
-```
-src/sanity/
-  types/          the content contract — one page shape per document type
-  queries/        GROQ, one file per top-level fetch
-  repositories/   the seam: async functions the app calls
-  fixtures/       today's hardcoded content, TEMPORARY
+```text
+      src/app · src/components
+                 │  @/content/types · @/content/repositories
+                 ▼
+             src/content          the contract
+                 ▲
+                 │  implements
+             src/cms/sanity       the adapter
+                 ▼
+               Sanity
 ```
 
-**The rule: routes and components call repositories.** Never a fixture, a query,
-or the client directly. See [`src/sanity/README.md`](src/sanity/README.md) for
-the content model and the step-by-step switch-on.
+**The rule: routes and components import from `@/content`.** Repository
+*instances* come from `@/content/repositories`, shapes from `@/content/types`.
+Nothing outside `src/cms/sanity` and the `/studio` mount imports a CMS package,
+and nothing outside those two knows what `_type`, `_ref` or `slug.current` are.
+
+```tsx
+import { pageRepository } from "@/content/repositories";
+import type { PageSection } from "@/content/types";
+```
+
+The two boundary rules live in `eslint.config.mjs`: `src/content/domain`,
+`models` and `sections` may not name a CMS even in an `import type`, and
+`src/app`, `src/components`, `src/hooks` and `src/lib` may not reach into
+`@/cms` — with `src/app/(studio)` as the one deliberate exception, because
+the Studio *is* Sanity.
 
 ### Data flow
 
-Two paths, both ending at the same repository:
+Content is read on the server and rendered there:
 
-- **Server components** import repositories directly and render with the result
-  (`src/app/page.tsx` awaits `getHomePage()` and `getTestimonials()` in parallel).
-  This is the default — most content never reaches the client as a fetch.
-- **Client components** go through `src/hooks/use-*` → React Query → `apiGet`
-  → a route handler in `src/app/api/` → the same repository.
+- **Server components and route handlers** call a repository and render the
+  result. This is the only path that touches the CMS.
+- **Client components** take content as props from a Server Component. They
+  never fetch it, because `SANITY_API_READ_TOKEN` is server-only — an
+  `import "server-only"` in the composition root turns a mistake here into a
+  build error rather than a token in a browser bundle.
 
-The second hop exists because `SANITY_API_READ_TOKEN` is server-only, so
-repositories must stay server-side.
+The handlers under `src/app/api/` expose the same repositories as JSON for
+external callers; the site itself does not use them to render.
 
-`src/lib/api.ts` owns the fetch wrapper: a 10s timeout and an `ApiError`
-carrying `status` and `Retry-After`. It deliberately does **not** retry —
-retry policy lives in `src/components/site/query-provider.tsx` only, so the two
-layers can't multiply attempts. Cache keys are centralised in
-`src/lib/query-keys.ts`.
+### Swapping the CMS
+
+`src/content/repositories.ts` binds five contracts to five implementations,
+and `live.tsx` / `revalidation.ts` bind the other two capabilities. Those
+seven lines and a new `src/cms/<name>/` are the whole job —
+`src/app` and `src/components` do not change. See
+[`src/content/README.md`](src/content/README.md).
 
 ## Scripts
 
 ```bash
-pnpm dev      # Start the dev server
-pnpm build    # Production build
-pnpm start    # Start the production server
-pnpm lint     # Run ESLint
-pnpm commit   # Commit via Commitizen (cz-git) prompt
+pnpm dev            # Start the dev server
+pnpm cms            # Same, but prints the Studio URL
+pnpm build          # Production build
+pnpm start          # Start the production server
+pnpm lint           # Run ESLint
+pnpm typecheck      # next typegen && tsc --noEmit
+pnpm typegen        # Re-extract the Sanity schema, regenerate generated/sanity.types.ts
+pnpm schema:deploy  # Upload the schema so MCP / editor tooling can see it
+pnpm sanity <cmd>   # Any Sanity CLI command, run from src/cms/sanity
+pnpm commit         # Commit via Commitizen (cz-git) prompt
 ```
+
+**Run `pnpm typegen` after every schema or query change.** The Studio is
+embedded in the Next.js app rather than run by `sanity dev`, so there is no
+TypeGen watch mode. `generated/sanity.types.ts` is what types `sanityFetch`,
+so a projection that has drifted from its schema surfaces as a compile error
+where the mapper is called.
+
+CI (`.github/workflows/ci.yml`) runs `pnpm lint`, `pnpm typecheck` and
+`pnpm build` on every PR to `main` or `develop`, with
+`pnpm install --frozen-lockfile` as the gate on an unregenerated lockfile.
 
 ## Conventions
 
 - **File & folder naming**: kebab-case throughout `src/` and `public/`, up to
   three hyphen-separated words. `eslint-plugin-check-file` is wired up in
   `eslint.config.mjs`, but its rule set is currently empty — the convention is
-  followed by hand, not enforced.
+  followed by hand, not enforced. The CMS-boundary rules in the same file *are*
+  enforced.
 - **Component files**: one concern per file, co-located in the section folder.
   Animation logic belongs in a sibling `*.hooks.ts`, not inline in the JSX.
-- **Content shapes**: only `src/sanity/types` defines them. Components import
-  from `@/sanity/types`; they don't declare their own content interfaces.
+- **Content shapes**: only `src/content` defines them. Components import from
+  `@/content/types`; they don't declare their own content interfaces, and they
+  never import from `src/cms`.
+- **Barrels**: a `src/cms/sanity` feature folder has no `index.ts` — importing
+  by folder would put the token-carrying client on a browser bundle's import
+  graph. Import by file there.
 - **Commits**: linted with `commitlint` (conventional commits) via a Husky
   `commit-msg` hook. Use `pnpm commit` for a guided prompt.
 - **Pre-commit**: staged JS/TS files are auto-fixed with ESLint via `lint-staged`.
 - **Styling**: Tailwind CSS v4 (`src/app/globals.css`, via `@tailwindcss/postcss`).
-  The site is dark-only — `dark` is hardcoded on `<html>`.
+  The site is dark-only — `dark` is hardcoded on `<html>`. Never write Tailwind
+  arbitrary-value syntax in any file, markdown included: v4 scans the whole
+  project for class candidates, and an unresolvable URL inside one fails the build.
 - **GSAP**: `<body>` must stay a plain block box. Pin-spacing cannot grow the
   document through a flex-column body, which silently kills every pinned section.
 

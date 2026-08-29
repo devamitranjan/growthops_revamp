@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { VideoDialog } from "@/components/ui/video-dialog-portal";
-import type { CaseStudySlideData } from "@/sanity/types";
+import type { CaseStudySlideData } from "@/content/types";
 import { CaseStudySlide } from "./case-study-slide";
 
 const SLIDE_DURATION = 6000;

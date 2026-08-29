@@ -3,11 +3,10 @@ import { notFound } from "next/navigation";
 import Header from "@/components/site/header";
 import SiteFooter from "@/components/site/site-footer";
 import PostDetail from "@/components/sections/post-detail/post-detail";
-import { getArticle } from "@/sanity/repositories/article";
-import { getArticleSlugs } from "@/sanity/repositories/articles";
+import { articleRepository } from "@/content/repositories";
 
 export async function generateStaticParams() {
-  const slugs = await getArticleSlugs();
+  const slugs = await articleRepository.getSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
@@ -15,7 +14,7 @@ export async function generateMetadata(
   props: PageProps<"/post/[slug]">,
 ): Promise<Metadata> {
   const { slug } = await props.params;
-  const post = await getArticle(slug);
+  const post = await articleRepository.getBySlug(slug);
 
   if (!post) return {};
 
@@ -36,7 +35,7 @@ export default async function PostDetailPage(
   props: PageProps<"/post/[slug]">,
 ) {
   const { slug } = await props.params;
-  const post = await getArticle(slug);
+  const post = await articleRepository.getBySlug(slug);
 
   if (!post) notFound();
 

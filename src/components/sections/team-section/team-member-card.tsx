@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { TeamMember } from "@/sanity/types";
+import { TeamMember } from "@/content/types";
 
 interface TeamMemberCardProps {
   member: TeamMember;

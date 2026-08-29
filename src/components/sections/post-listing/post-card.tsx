@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { PostImage } from "@/components/ui/post-image";
-import { PostData } from "@/sanity/types";
+import { PostData } from "@/content/types";
 
 interface PostCardProps {
   post: PostData;

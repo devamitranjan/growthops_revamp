@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getReports } from "@/sanity/repositories/reports";
+import { reportRepository } from "@/content/repositories";
 
 export async function GET() {
-  return NextResponse.json(await getReports());
+  return NextResponse.json(await reportRepository.getAll());
 }

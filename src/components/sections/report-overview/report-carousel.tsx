@@ -5,7 +5,7 @@ import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { useCarouselButtons } from "@/hooks/use-carousel-buttons";
-import { ReportSlide } from "@/sanity/types";
+import { ReportSlide } from "@/content/types";
 
 interface ReportCarouselProps {
   slides: ReportSlide[];

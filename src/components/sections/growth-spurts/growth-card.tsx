@@ -3,7 +3,7 @@
 import cx from "clsx";
 import Image from "next/image";
 import { FaCircleCheck } from "react-icons/fa6";
-import { GrowthCardData } from "@/sanity/types";
+import { GrowthCardData } from "@/content/types";
 
 interface GrowthCardProps {
   card: GrowthCardData;

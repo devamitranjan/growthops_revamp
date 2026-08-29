@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 
 import { useCarouselButtons } from "@/hooks/use-carousel-buttons";
-import { ITestimonialsData } from "@/sanity/types";
+import { ITestimonialsData } from "@/content/types";
 
 const EMBLA_OPTIONS = {
   align: "center",

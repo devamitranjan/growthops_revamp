@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
 import Image from "next/image";
 import { FaAngleDown } from "react-icons/fa6";
-import { IHeroBannerData } from "@/sanity/types";
+import { IHeroBannerData } from "@/content/types";
 
 interface HeroBannerProps extends React.HTMLAttributes<HTMLDivElement> {
   data: IHeroBannerData;

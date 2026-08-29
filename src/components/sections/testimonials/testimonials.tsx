@@ -6,7 +6,7 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { TestimonialCard } from "./testimonial-card";
 import { LogoMarquee } from "./logo-marquee";
 import { useTestimonialsCarousel } from "./testimonials.hooks";
-import { ITestimonialsData } from "@/sanity/types";
+import { ITestimonialsData } from "@/content/types";
 
 interface TestimonialsProps {
   data: ITestimonialsData;

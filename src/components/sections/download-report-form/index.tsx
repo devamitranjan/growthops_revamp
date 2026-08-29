@@ -1,4 +1,4 @@
-import { getSiteSettings } from "@/sanity/repositories/site-settings";
+import { siteSettingsRepository } from "@/content/repositories";
 
 import { DownloadReportFormView } from "./download-report-form";
 
@@ -11,7 +11,7 @@ export default async function DownloadReportForm({
   fileUrl?: string;
   className?: string;
 }) {
-  const settings = await getSiteSettings();
+  const settings = await siteSettingsRepository.get();
   return (
     <DownloadReportFormView
       settings={settings}

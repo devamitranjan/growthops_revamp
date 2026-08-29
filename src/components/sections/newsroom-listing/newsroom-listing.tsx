@@ -1,4 +1,4 @@
-import type { NewsroomListingData } from "@/sanity/types";
+import type { NewsroomListingData } from "@/content/types";
 import { NewsroomCard } from "./newsroom-card";
 
 interface NewsroomListingProps {

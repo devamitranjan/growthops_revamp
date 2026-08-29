@@ -2,7 +2,7 @@
 
 import cx from "clsx";
 import Image from "next/image";
-import { ArticleData } from "@/sanity/types";
+import { ArticleData } from "@/content/types";
 
 interface ArticleCardProps {
   article: ArticleData;

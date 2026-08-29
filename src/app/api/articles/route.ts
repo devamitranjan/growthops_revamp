@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getArticles } from "@/sanity/repositories/articles";
+import { articleRepository } from "@/content/repositories";
 
 export async function GET(request: Request) {
   const params = new URL(request.url).searchParams;
@@ -18,7 +18,7 @@ export async function GET(request: Request) {
   }
 
   return NextResponse.json(
-    await getArticles(
+    await articleRepository.getListing(
       Number(pageParam),
       perPageParam === null ? undefined : Number(perPageParam),
     ),

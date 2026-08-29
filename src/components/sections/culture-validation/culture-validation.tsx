@@ -1,4 +1,4 @@
-import type { ICultureValidationData } from "@/sanity/types";
+import type { ICultureValidationData } from "@/content/types";
 
 import { CultureCard } from "./culture-card";
 

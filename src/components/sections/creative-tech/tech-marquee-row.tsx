@@ -3,7 +3,7 @@
 import Image from "next/image";
 import clsx from "clsx";
 
-import { LogoData } from "@/sanity/types";
+import { LogoData } from "@/content/types";
 
 /**
  * How many logos a belt needs before it is guaranteed to overrun the widest

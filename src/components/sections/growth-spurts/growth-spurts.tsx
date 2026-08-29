@@ -5,7 +5,7 @@ import { useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { VideoDialog } from "@/components/ui/video-dialog-portal";
-import type { GrowthCardData } from "@/sanity/types";
+import type { GrowthCardData } from "@/content/types";
 import { GrowthCard } from "./growth-card";
 import { useCarouselActive } from "@/hooks/use-carousel-active";
 

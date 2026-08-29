@@ -1,5 +1,5 @@
 import { SectionHeader } from "@/components/ui/section-header";
-import type { ServiceItem } from "@/sanity/types";
+import type { ServiceItem } from "@/content/types";
 import { ServiceCard } from "./service-card";
 
 interface ServicesGridProps {

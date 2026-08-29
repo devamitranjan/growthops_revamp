@@ -2,7 +2,7 @@
 
 import { TeamMemberCard } from "./team-member-card";
 import { useTeamRotation } from "./team-section.hooks";
-import { ITeamSectionData } from "@/sanity/types";
+import { ITeamSectionData } from "@/content/types";
 
 interface TeamSectionProps {
   data: ITeamSectionData;

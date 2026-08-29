@@ -3,7 +3,7 @@
 import clsx from "clsx";
 
 import { SectionHeader } from "@/components/ui/section-header";
-import { ICreativeTechData } from "@/sanity/types";
+import { ICreativeTechData } from "@/content/types";
 import { useTechMarquee } from "./creative-tech.hooks";
 import { TechMarqueeRow } from "./tech-marquee-row";
 

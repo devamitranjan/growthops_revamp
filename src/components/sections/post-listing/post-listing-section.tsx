@@ -1,4 +1,4 @@
-import { getArticleSlugs, getArticles } from "@/sanity/repositories/articles";
+import { articleRepository } from "@/content/repositories";
 
 import PostListing from "./post-listing";
 
@@ -20,8 +20,8 @@ export default async function PostListingSection({
   postsPerPage?: number | null;
 }) {
   const [listing, migratedSlugs] = await Promise.all([
-    getArticles(page, postsPerPage),
-    getArticleSlugs(),
+    articleRepository.getListing(page, postsPerPage),
+    articleRepository.getSlugs(),
   ]);
 
   return (

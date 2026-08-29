@@ -1,4 +1,4 @@
-import type { ArticleListing } from "@/sanity/repositories/articles";
+import type { ArticleListing } from "@/content/types";
 import { PostCard } from "./post-card";
 import { PostPagination } from "./post-pagination";
 

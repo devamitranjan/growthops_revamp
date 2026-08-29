@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { CaseStudySlideData } from "@/sanity/types";
+import { CaseStudySlideData } from "@/content/types";
 
 interface CaseStudySlideProps {
   slide: CaseStudySlideData;

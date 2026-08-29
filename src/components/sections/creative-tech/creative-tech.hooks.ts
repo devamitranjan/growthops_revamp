@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-import { TechMarqueeRowData } from "@/sanity/types";
+import { TechMarqueeRowData } from "@/content/types";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 

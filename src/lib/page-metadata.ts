@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import type { PageSeo } from "@/sanity/types";
+import type { SeoMetadata } from "@/content/types";
 
 /**
  * Metadata for a CMS-composed page.
@@ -13,7 +13,7 @@ import type { PageSeo } from "@/sanity/types";
  * default title than being retitled "Home".
  */
 export function pageMetadata(
-  page: { seo?: PageSeo },
+  page: { seo?: SeoMetadata },
   canonical: string,
   fallbackTitle?: string,
 ): Metadata {

@@ -1,5 +1,5 @@
 import type { Ref } from "react";
-import { GrowthStat } from "@/sanity/types";
+import { GrowthStat } from "@/content/types";
 
 interface GrowthStatItemProps {
   item: GrowthStat;

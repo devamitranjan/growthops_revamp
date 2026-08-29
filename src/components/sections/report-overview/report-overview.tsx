@@ -1,5 +1,5 @@
 import { ReportCarousel } from "./report-carousel";
-import { ReportOverviewData } from "@/sanity/types";
+import { ReportOverviewData } from "@/content/types";
 
 interface ReportOverviewProps {
   data: ReportOverviewData;

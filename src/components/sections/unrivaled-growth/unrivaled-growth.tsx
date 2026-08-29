@@ -2,7 +2,7 @@
 
 import { GrowthStatItem } from "./growth-stat-item";
 import { useUnrivaledGrowthAnimation } from "./unrivaled-growth.hooks";
-import { IUnrivaledGrowthData } from "@/sanity/types";
+import { IUnrivaledGrowthData } from "@/content/types";
 
 interface UnrivaledGrowthProps {
   data: IUnrivaledGrowthData;

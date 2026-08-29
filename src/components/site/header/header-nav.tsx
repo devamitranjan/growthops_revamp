@@ -7,7 +7,7 @@ import { Dialog, VisuallyHidden } from "radix-ui";
 import { NavLink } from "./nav-link";
 import { SubNavLink } from "./sub-nav-link";
 import { SubNavPanel } from "./sub-nav-panel";
-import type { NavLinkData } from "@/sanity/types";
+import type { NavLinkData } from "@/content/types";
 
 interface HeaderNavProps {
   navLinks: NavLinkData[];

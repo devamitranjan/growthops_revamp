@@ -1,9 +1,17 @@
 import dynamic from "next/dynamic";
 
-import type { PageSection } from "@/sanity/types";
+import type { PageSection } from "@/content/types";
 
 /**
- * The page builder's `_type` -> component map.
+ * The page builder's section -> component map.
+ *
+ * It switches on `section.type`, which is the *application's* name for a
+ * section — `"hero"`, not Sanity's `"heroSection"`. The translation happens
+ * once, in `src/cms/sanity/sections/section.mapper.ts`, so this file has no
+ * idea which CMS composed the page and a CMS swap does not reach it. The
+ * seventeen names below and the seventeen in that mapper's table are the two
+ * halves of one contract; `PageSection` is what holds them together, and an
+ * unhandled member is a type error rather than a blank page.
  *
  * Every section keeps its own `dynamic()` boundary and loading skeleton, the
  * same way the hand-composed home page had them: the skeletons reserve height
@@ -170,27 +178,27 @@ export function SectionRenderer({
   section: PageSection;
   context?: SectionContext;
 }) {
-  switch (section._type) {
-    case "heroSection":
+  switch (section.type) {
+    case "hero":
       return <HeroBanner data={section.hero} />;
 
-    case "servicesSection":
+    case "services":
       return <ServicesGrid services={section.services} />;
 
-    case "growthSpurtsSection":
+    case "growthSpurts":
       return <GrowthSpurts cards={section.cards} />;
 
-    case "unrivaledGrowthSection":
+    case "unrivaledGrowth":
       return (
         <UnrivaledGrowth
           data={{ title: section.title, stats: section.stats, cta: section.cta }}
         />
       );
 
-    case "caseStudySection":
+    case "caseStudy":
       return <CaseStudy slides={section.slides} />;
 
-    case "articleCardsSection":
+    case "articleCards":
       return (
         <ArticleCards
           title={section.title}
@@ -199,10 +207,10 @@ export function SectionRenderer({
         />
       );
 
-    case "testimonialsBlock":
+    case "testimonials":
       return <Testimonials data={section.data} />;
 
-    case "growthValidationSection":
+    case "growthValidation":
       return (
         <GrowthValidation
           data={{
@@ -217,14 +225,14 @@ export function SectionRenderer({
         />
       );
 
-    case "cultureValidationSection":
+    case "cultureValidation":
       return (
         <CultureValidation
           data={{ title: section.title, cards: section.cards }}
         />
       );
 
-    case "teamSection":
+    case "team":
       return (
         <TeamSection
           data={{
@@ -235,10 +243,10 @@ export function SectionRenderer({
         />
       );
 
-    case "creativeTechSection":
+    case "creativeTech":
       return <CreativeTech data={{ title: section.title, rows: section.rows }} />;
 
-    case "faqSection":
+    case "faq":
       return (
         <Faq
           data={{
@@ -250,10 +258,10 @@ export function SectionRenderer({
         />
       );
 
-    case "contactFormSection":
+    case "contactForm":
       return <ContactForm title={section.title} />;
 
-    case "postListingSection":
+    case "postListing":
       return (
         <PostListingSection
           heading={section.heading}
@@ -262,7 +270,7 @@ export function SectionRenderer({
         />
       );
 
-    case "newsroomListingSection":
+    case "newsroomListing":
       return (
         <NewsroomListing
           data={{
@@ -273,19 +281,22 @@ export function SectionRenderer({
         />
       );
 
-    case "reportOverviewSection":
+    case "reportOverview":
       return (
         <ReportOverview
           data={{ highlights: section.highlights, slides: section.slides }}
         />
       );
 
-    case "downloadReportSection":
+    case "downloadReport":
       return <DownloadReportForm title={section.title} />;
 
     default:
-      // An unknown section means the Studio is ahead of this deploy. Render
-      // nothing rather than crashing the whole page.
+      // Unreachable while the switch covers `PageSection` — a new member is a
+      // type error on this line rather than a silent gap. It still returns
+      // rather than throws, because a section a CMS adapter cannot map is
+      // dropped before it gets here (see `mapSections`), and an empty slot
+      // beats a page that will not render.
       return null;
   }
 }

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import cx from "clsx";
-import { ServiceItem } from "@/sanity/types";
+import { ServiceItem } from "@/content/types";
 
 interface ServiceCardProps {
   service: ServiceItem;

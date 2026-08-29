@@ -4,7 +4,7 @@ import { NextStudioLayout } from "next-sanity/studio";
  * Second root layout, for /studio only.
  *
  * Deliberately bare: the Studio ships its own reset and theming, and must not
- * inherit the site's fonts, Tailwind preflight, or loader wiring. Navigating
+ * inherit the site's fonts or Tailwind preflight. Navigating
  * between /studio and the site triggers a full page load, which is expected
  * with multiple root layouts and is what we want here.
  *

@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-import { IUnrivaledGrowthData } from "@/sanity/types";
+import { IUnrivaledGrowthData } from "@/content/types";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 

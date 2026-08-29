@@ -6,7 +6,7 @@ import {
   type SectionContext,
 } from "@/components/site/section-renderer";
 import SiteFooter from "@/components/site/site-footer";
-import type { PageSection } from "@/sanity/types";
+import type { PageSection } from "@/content/types";
 
 /**
  * The shell every CMS-composed page shares: header, the sections the editor
@@ -31,7 +31,7 @@ export function ComposedPage({
     <div className={clsx("body-wrapper hs-site-page page", className)}>
       <Header />
       {sections.map((section) => (
-        <SectionRenderer key={section._key} section={section} context={context} />
+        <SectionRenderer key={section.key} section={section} context={context} />
       ))}
       <SiteFooter />
     </div>

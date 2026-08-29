@@ -1,5 +1,5 @@
 import Faq from "@/components/sections/faq/faq";
-import type { FaqItemData } from "@/sanity/types";
+import type { FaqItemData } from "@/content/types";
 
 /** Sample copy so the panel can be checked before the CMS carries a section. */
 const QUESTIONS: [string, string][] = [
@@ -29,16 +29,17 @@ const QUESTIONS: [string, string][] = [
   ],
 ];
 
+/** The fixtures are the domain's own `RichText`, not a CMS payload — which is
+ *  the point of the model: a preview route can compose content by hand without
+ *  knowing how any CMS stores it. */
 const ITEMS: FaqItemData[] = QUESTIONS.map(([question, answer], index) => ({
   id: `q${index}`,
   question,
   answer: [
     {
-      _type: "block",
-      _key: `b${index}`,
-      style: "normal",
-      markDefs: [],
-      children: [{ _type: "span", _key: `s${index}`, text: answer, marks: [] }],
+      type: "paragraph",
+      key: `b${index}`,
+      spans: [{ text: answer }],
     },
   ],
 }));

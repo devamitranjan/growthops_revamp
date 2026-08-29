@@ -3,10 +3,10 @@ import { notFound } from "next/navigation";
 
 import { ComposedPage } from "@/components/site/composed-page";
 import { pageMetadata } from "@/lib/page-metadata";
-import { getReport, getReportSlugs } from "@/sanity/repositories/reports";
+import { reportRepository } from "@/content/repositories";
 
 export async function generateStaticParams() {
-  const slugs = await getReportSlugs();
+  const slugs = await reportRepository.getSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
@@ -14,7 +14,7 @@ export async function generateMetadata(
   props: PageProps<"/reports/[slug]">,
 ): Promise<Metadata> {
   const { slug } = await props.params;
-  const report = await getReport(slug);
+  const report = await reportRepository.getBySlug(slug);
 
   if (!report) return {};
 
@@ -25,7 +25,7 @@ export async function generateMetadata(
  *  hero, overview and download form are all sections on the document. */
 export default async function ReportPage(props: PageProps<"/reports/[slug]">) {
   const { slug } = await props.params;
-  const report = await getReport(slug);
+  const report = await reportRepository.getBySlug(slug);
 
   if (!report) notFound();
 

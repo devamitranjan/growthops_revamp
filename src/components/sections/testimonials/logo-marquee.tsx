@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
-import { LogoData } from "@/sanity/types";
+import { LogoData } from "@/content/types";
 
 interface LogoMarqueeProps {
   logos: LogoData[];

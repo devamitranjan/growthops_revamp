@@ -5,7 +5,7 @@ import { useCarouselButtons } from "@/hooks/use-carousel-buttons";
 import { useCarouselActive } from "@/hooks/use-carousel-active";
 import { SectionHeader } from "@/components/ui/section-header";
 import { ScrollArrowButton } from "@/components/ui/scroll-arrow-button";
-import type { ArticleData } from "@/sanity/types";
+import type { ArticleData } from "@/content/types";
 import { ArticleCard } from "./article-card";
 
 interface ArticleCardsProps {

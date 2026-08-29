@@ -1,11 +1,10 @@
 "use client";
 
-import { PortableText } from "next-sanity";
 import { FaPlus } from "react-icons/fa6";
 import { Accordion } from "radix-ui";
 
-import type { IFaqData } from "@/sanity/types";
-import { faqAnswerComponents } from "./faq-answer";
+import type { IFaqData } from "@/content/types";
+import { FaqAnswer } from "./faq-answer";
 
 interface FaqProps {
   data: IFaqData;
@@ -70,10 +69,7 @@ export default function Faq({ data }: FaqProps) {
 
                   <Accordion.Content className="accordion-content">
                     <div className="pb-6 pr-10">
-                      <PortableText
-                        value={item.answer}
-                        components={faqAnswerComponents}
-                      />
+                      <FaqAnswer answer={item.answer} />
                     </div>
                   </Accordion.Content>
                 </Accordion.Item>

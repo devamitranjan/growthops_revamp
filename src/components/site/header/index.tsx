@@ -1,4 +1,4 @@
-import { getSiteSettings } from "@/sanity/repositories/site-settings";
+import { siteSettingsRepository } from "@/content/repositories";
 
 import { HeaderNav } from "./header-nav";
 
@@ -7,7 +7,7 @@ import { HeaderNav } from "./header-nav";
  * client state, so the data is fetched here and handed to `HeaderNav`.
  */
 export default async function Header() {
-  const settings = await getSiteSettings();
+  const settings = await siteSettingsRepository.get();
 
   return (
     <HeaderNav

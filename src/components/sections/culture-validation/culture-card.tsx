@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import type { CultureCardData } from "@/sanity/types";
+import type { CultureCardData } from "@/content/types";
 
 export function CultureCard({ card }: { card: CultureCardData }) {
   const tile = (

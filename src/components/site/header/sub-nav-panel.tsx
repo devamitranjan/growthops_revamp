@@ -2,7 +2,7 @@
 
 import { FaAngleLeft } from "react-icons/fa6";
 import { SubNavLink } from "./sub-nav-link";
-import type { NavLinkData } from "@/sanity/types";
+import type { NavLinkData } from "@/content/types";
 
 interface SubNavPanelProps {
   link: NavLinkData | null;

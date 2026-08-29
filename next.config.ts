@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
   },
 
   // Dev-only. Sanity reads are `no-store` in development (see
-  // `src/sanity/tags.ts`), but the HMR cache replays *every* fetch across an
+  // `src/cms/sanity/tags.ts`), but the HMR cache replays *every* fetch across an
   // HMR refresh — `no-store` included — so a Studio edit would still not show
   // up until a full reload. Correctness beats the saved round trip locally.
   experimental: {

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { FaPause, FaPlay } from "react-icons/fa6";
 import { useAudioPlayer } from "@/hooks/use-audio-player";
 import { formatTime } from "@/lib/format-time";
-import { TestimonialData } from "@/sanity/types";
+import { TestimonialData } from "@/content/types";
 
 interface TestimonialCardProps {
   testimonial: TestimonialData;

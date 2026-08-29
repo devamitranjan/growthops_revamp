@@ -3,10 +3,10 @@ import { notFound } from "next/navigation";
 
 import { ComposedPage } from "@/components/site/composed-page";
 import { pageMetadata } from "@/lib/page-metadata";
-import { getHomePage } from "@/sanity/repositories/page";
+import { pageRepository } from "@/content/repositories";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getHomePage();
+  const page = await pageRepository.getHomePage();
 
   if (!page) return {};
 
@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const page = await getHomePage();
+  const page = await pageRepository.getHomePage();
 
   if (!page) notFound();
 

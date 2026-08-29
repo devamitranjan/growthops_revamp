@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { SectionHeader } from "@/components/ui/section-header";
-import type { GrowthValidationData } from "@/sanity/types";
+import type { GrowthValidationData } from "@/content/types";
 
 export default function GrowthValidation({
   data,

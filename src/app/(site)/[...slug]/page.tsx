@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 
 import { ComposedPage } from "@/components/site/composed-page";
 import { pageMetadata } from "@/lib/page-metadata";
-import { HOME_PAGE_SLUG, getPage, getPagePaths } from "@/sanity/repositories/page";
+import { HOME_PAGE_PATH } from "@/content/domain/page/page.repository";
+import { pageRepository } from "@/content/repositories";
 
 /**
  * Every page document that is not served by a route of its own — /contact and
@@ -12,9 +13,9 @@ import { HOME_PAGE_SLUG, getPage, getPagePaths } from "@/sanity/repositories/pag
  * no deploy.
  *
  * A catch-all rather than a single `[slug]` because a page's URL is composed:
- * the `parent` chain in `schema-types/documents/page.ts` builds the path, so a
+ * a page's ancestors compose its path, so a
  * page slugged `seo` under `services` is served here at /services/seo.
- * `repositories/page.ts` resolves the path back to a document.
+ * The `PageRepository` implementation resolves the path back to a document.
  *
  * Five *first* segments are reserved, because a page underneath one could
  * never be reached — Next resolves a static segment before this dynamic one:
@@ -33,7 +34,7 @@ import { HOME_PAGE_SLUG, getPage, getPagePaths } from "@/sanity/repositories/pag
  * hard-coded route instead of what they wrote.
  */
 const RESERVED_SEGMENTS = new Set([
-  HOME_PAGE_SLUG,
+  HOME_PAGE_PATH,
   "post",
   "reports",
   "studio",
@@ -48,7 +49,7 @@ function resolvePath(segments: string[]): string | null {
 }
 
 export async function generateStaticParams() {
-  const paths = await getPagePaths();
+  const paths = await pageRepository.getPaths();
 
   return paths
     .map((path) => path.split("/"))
@@ -63,7 +64,7 @@ export async function generateMetadata(
 
   if (!path) return {};
 
-  const page = await getPage(path);
+  const page = await pageRepository.getByPath(path);
 
   if (!page) return {};
 
@@ -75,7 +76,7 @@ export default async function DynamicPage(props: PageProps<"/[...slug]">) {
 
   if (!path) notFound();
 
-  const page = await getPage(path);
+  const page = await pageRepository.getByPath(path);
 
   if (!page) notFound();
 

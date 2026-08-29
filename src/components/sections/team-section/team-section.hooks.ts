@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import { ITeamSectionData } from "@/sanity/types";
+import { ITeamSectionData } from "@/content/types";
 
 /** How long a batch of members holds before the next one slides in. */
 const ROTATION_INTERVAL_MS = 4000;

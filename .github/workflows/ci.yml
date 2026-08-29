@@ -54,7 +54,7 @@ jobs:
       # finds no document and throws during prerender, which fails the build on
       # whichever route Next happens to reach first.
       #
-      # The project/dataset vars stay unpassed on purpose. `src/sanity/env.ts`
+      # The project/dataset vars stay unpassed on purpose. `src/cms/sanity/env.ts`
       # already defaults to the public values, and wiring `${{ vars.* }}` in was
       # actively harmful: an undefined repository variable interpolates to the
       # empty string, which is *defined*, so the `??` fallback never fires and

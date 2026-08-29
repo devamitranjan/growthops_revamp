@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Form } from "radix-ui";
 
-import type { SiteSettings } from "@/sanity/types";
+import type { SiteSettings } from "@/content/types";
 
 import { textFields } from "./contact-form.fields";
 

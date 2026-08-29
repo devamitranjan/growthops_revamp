@@ -1,5 +1,5 @@
 import { FaAngleRight } from "react-icons/fa6";
-import type { NavChild as SubNavLinkData } from "@/sanity/types";
+import type { NavChild as SubNavLinkData } from "@/content/types";
 
 interface SubNavLinkProps {
   link: SubNavLinkData;

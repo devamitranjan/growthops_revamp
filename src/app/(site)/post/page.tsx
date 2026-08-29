@@ -3,12 +3,11 @@ import { notFound } from "next/navigation";
 
 import { ComposedPage } from "@/components/site/composed-page";
 import { pageMetadata } from "@/lib/page-metadata";
-import { getTotalArticlePages } from "@/sanity/repositories/articles";
-import { getPage } from "@/sanity/repositories/page";
-import type { PageData, PageSection } from "@/sanity/types";
+import { articleRepository, pageRepository } from "@/content/repositories";
+import type { PageData, PageSection } from "@/content/types";
 
-/** The page document this route composes itself from. */
-const POST_PAGE_SLUG = "post";
+/** The page this route composes itself from, by path. */
+const POST_PAGE_PATH = "post";
 
 /** Returns null for anything that is not a real page in [1, totalPages]. */
 function parsePage(value: string | string[] | undefined, totalPages: number) {
@@ -32,7 +31,7 @@ function parsePage(value: string | string[] | undefined, totalPages: number) {
  */
 function postsPerPageOf(sections: PageSection[]) {
   const listing = sections.find(
-    (section) => section._type === "postListingSection",
+    (section) => section.type === "postListing",
   );
 
   return listing?.postsPerPage;
@@ -45,16 +44,19 @@ function postsPerPageOf(sections: PageSection[]) {
  *
  * The two reads are sequential rather than parallel because the page count now
  * depends on the section's page size, which only the document knows. `getPage`
- * is a tagged, cached read, so the second caller of the request pays nothing.
+ * is a tagged, cached read, so the second caller within the request pays
+ * nothing.
  */
 async function resolveListingPage(
   searchParams: Promise<{ page?: string | string[] }>,
 ): Promise<{ doc: PageData; page: number | null } | null> {
-  const doc = await getPage(POST_PAGE_SLUG);
+  const doc = await pageRepository.getByPath(POST_PAGE_PATH);
 
   if (!doc) return null;
 
-  const totalPages = await getTotalArticlePages(postsPerPageOf(doc.sections));
+  const totalPages = await articleRepository.getTotalPages(
+    postsPerPageOf(doc.sections),
+  );
 
   return { doc, page: parsePage((await searchParams).page, totalPages) };
 }

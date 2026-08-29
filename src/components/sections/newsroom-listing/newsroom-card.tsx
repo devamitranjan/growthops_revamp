@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { NewsroomArticle } from "@/sanity/types";
+import type { NewsroomArticle } from "@/content/types";
 
 /**
  * `publishedAt` is a date-only string, so it has to be formatted in UTC:

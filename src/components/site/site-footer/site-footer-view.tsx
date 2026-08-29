@@ -9,7 +9,7 @@ import {
   FaYoutube,
 } from "react-icons/fa6";
 
-import type { SiteSettings, SocialPlatform } from "@/sanity/types";
+import type { SiteSettings, SocialPlatform } from "@/content/types";
 
 /** The icons are components, so the platform key picks one here rather than
  *  the CMS storing markup. A platform with no entry renders no icon. */

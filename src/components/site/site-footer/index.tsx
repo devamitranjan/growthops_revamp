@@ -1,8 +1,8 @@
-import { getSiteSettings } from "@/sanity/repositories/site-settings";
+import { siteSettingsRepository } from "@/content/repositories";
 
 import { SiteFooterView } from "./site-footer-view";
 
 export default async function SiteFooter() {
-  const settings = await getSiteSettings();
+  const settings = await siteSettingsRepository.get();
   return <SiteFooterView settings={settings} />;
 }
