@@ -248,6 +248,13 @@
     line-height: 1.5rem;
     font-weight: 700;
   }
+
+  .heading-h6-bold {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+  }
+
   .heading-h2-extrabold {
     font-size: 1.5rem;
     line-height: 2rem;
@@ -365,6 +372,11 @@
     line-height: 2rem;
   }
 
+  .heading-h6-bold {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
   .heading-h2-extrabold {
     font-size: 2.5rem;
     line-height: 3rem;
@@ -440,5 +452,31 @@
 @media (prefers-reduced-motion: reduce) {
   .culture-card:hover {
     animation: none;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Content Rail                                                               */
+/* -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .content-rail-viewport {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .content-rail-viewport::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+  .content-rail-viewport {
+    overflow-x: auto;
+  }
+
+  .content-rail-track {
+    padding-right: 5rem;
   }
 }

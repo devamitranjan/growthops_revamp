@@ -102,6 +102,22 @@ export const SECTIONS_PROJECTION = `
     }
   },
 
+  _type == "contentRailSection" => {
+    title,
+    description,
+    "cards": coalesce(
+      cards[]{
+        "id": _key,
+        title,
+        description,
+        href,
+        "image": image.asset->url,
+        alt
+      },
+      []
+    )
+  },
+
   _type == "faqSection" => {
     title,
     eyebrow,

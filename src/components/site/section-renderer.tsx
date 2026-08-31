@@ -9,7 +9,7 @@ import type { PageSection } from "@/content/types";
  * section — `"hero"`, not Sanity's `"heroSection"`. The translation happens
  * once, in `src/cms/sanity/sections/section.mapper.ts`, so this file has no
  * idea which CMS composed the page and a CMS swap does not reach it. The
- * seventeen names below and the seventeen in that mapper's table are the two
+ * eighteen names below and the eighteen in that mapper's table are the two
  * halves of one contract; `PageSection` is what holds them together, and an
  * unhandled member is a type error rather than a blank page.
  *
@@ -89,6 +89,14 @@ const CultureValidation = dynamic(
   () => import("@/components/sections/culture-validation/culture-validation"),
   {
     loading: () => <div className="min-h-[600px] bg-background" />,
+    ssr: true,
+  },
+);
+
+const ContentRail = dynamic(
+  () => import("@/components/sections/content-rail"),
+  {
+    loading: () => <div className="min-h-screen bg-background" />,
     ssr: true,
   },
 );
@@ -229,6 +237,17 @@ export function SectionRenderer({
       return (
         <CultureValidation
           data={{ title: section.title, cards: section.cards }}
+        />
+      );
+
+    case "contentRail":
+      return (
+        <ContentRail
+          data={{
+            title: section.title,
+            description: section.description,
+            cards: section.cards,
+          }}
         />
       );
 

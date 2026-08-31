@@ -4,7 +4,7 @@ What the application knows about content. **No CMS appears anywhere in here**,
 and ESLint fails the build if one starts to.
 
 The point is not that the CMS is hidden for its own sake. It is that the
-seventeen sections, the article body renderer, the routes and the metadata
+eighteen sections, the article body renderer, the routes and the metadata
 builder are all things this site would still need if it moved to Contentful
 next year — and none of them should have to change when it does.
 
@@ -93,7 +93,7 @@ The work is bounded, and this is what it is:
    the two in `live.tsx` / `revalidation.ts` at whatever the new CMS offers for
    live updates and publish webhooks (`ContentLive` may legitimately render
    `null`).
-3. Model the seventeen sections in the new CMS and map its type names onto the
+3. Model the eighteen sections in the new CMS and map its type names onto the
    `PageSection` discriminants — the Sanity side does this in one table in
    `sections/section.mapper.ts`.
 4. Convert its rich text to `RichText`. This is the only conversion with real
