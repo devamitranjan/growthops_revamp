@@ -1,3 +1,5 @@
+import { RICH_TEXT_PROJECTION } from "../rich-text/rich-text.queries";
+
 /**
  * The page builder's GROQ, one conditional projection per section type.
  *
@@ -116,6 +118,11 @@ export const SECTIONS_PROJECTION = `
       },
       []
     )
+  },
+
+  _type == "richTextSection" => {
+    title,
+    content[]{${RICH_TEXT_PROJECTION}}
   },
 
   _type == "faqSection" => {

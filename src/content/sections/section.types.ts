@@ -11,6 +11,7 @@ import type {
   ICultureValidationData,
   IFaqData,
   IHeroBannerData,
+  IRichTextData,
   ITeamSectionData,
   IUnrivaledGrowthData,
   ServiceItem,
@@ -52,6 +53,7 @@ export type PageSection =
   | ({ type: "growthValidation"; key: string } & GrowthValidationData)
   | ({ type: "cultureValidation"; key: string } & ICultureValidationData)
   | ({ type: "contentRail"; key: string } & IContentRailData)
+  | ({ type: "richText"; key: string } & IRichTextData)
   | ({ type: "team"; key: string } & ITeamSectionData)
   | ({ type: "creativeTech"; key: string } & ICreativeTechData)
   | ({ type: "faq"; key: string } & IFaqData)

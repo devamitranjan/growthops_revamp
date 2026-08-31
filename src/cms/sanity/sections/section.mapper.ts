@@ -26,7 +26,7 @@ import { mapRichText } from "../rich-text/rich-text.mapper";
  * editor never sees and a migration would be painful to change; the domain
  * `type` is what `src/components/site/section-renderer.tsx` switches on. Keeping
  * them apart is what lets a Contentful adapter map *its* content-type ids onto
- * the same eighteen names without a single edit to the renderer.
+ * the same nineteen names without a single edit to the renderer.
  *
  * `satisfies` rather than a plain object so a typo, or a domain name that no
  * longer exists on `PageSection`, is a compile error here rather than a
@@ -45,6 +45,7 @@ const SECTION_TYPES = {
   teamSection: "team",
   creativeTechSection: "creativeTech",
   contentRailSection: "contentRail",
+  richTextSection: "richText",
   faqSection: "faq",
   contactFormSection: "contactForm",
   postListingSection: "postListing",
@@ -140,7 +141,7 @@ function mapSection(raw: RawSection, index: number): PageSection | null {
   // Everything the projection selected, with the two Sanity keys taken off.
   // The GROQ in `section.queries.ts` already shapes the rest to match the
   // domain — images resolved to URLs, array keys projected as `id` — so for
-  // most sections the rename is the whole translation. The three below need
+  // most sections the rename is the whole translation. The four below need
   // more than that, and say so explicitly.
   const fields: Record<string, unknown> = { ...raw };
   delete fields._type;
@@ -166,6 +167,16 @@ function mapSection(raw: RawSection, index: number): PageSection | null {
         eyebrow: optionalText(fields.eyebrow),
         items: mapFaqItems(fields.items),
         openFirst: optionalFlag(fields.openFirst),
+      };
+
+    case "richText":
+      // Portable Text in, `RichText` out — the same conversion the article
+      // body gets, because it is the same body type.
+      return {
+        type,
+        key,
+        title: optionalText(fields.title),
+        content: mapRichText(fields.content),
       };
 
     case "testimonials": {

@@ -1,42 +1,16 @@
 import cx from "clsx";
 
 import { PostImage } from "@/components/ui/post-image";
-import {
-  RichTextSpans,
-  anchorProps,
-} from "@/components/ui/rich-text-spans";
+import { RichTextSpans, anchorProps } from "@/components/ui/rich-text-spans";
 import type {
   RichText,
+  RichTextHeading,
   RichTextList,
   RichTextListItem,
   RichTextNode,
   RichTextSpan,
 } from "@/content/types";
 
-/**
- * The article body renderer.
- *
- * Takes `RichText` — the domain's own tree, already grouped and resolved by
- * whichever CMS adapter produced it — so nothing here knows what a `markDef`
- * or a `_type` is. It replaces a Portable Text component map, and the swap is
- * why the file reads as a `switch` rather than as a dictionary of overrides.
- *
- * Three behaviours from the pre-CMS block union are preserved deliberately,
- * because they carry layout meaning rather than decoration:
- *
- * - a paragraph whose every span is bold is a lead-in label, tagged
- *   `data-lead-in` so `post-detail.tsx` can collapse the margin after it;
- * - a paragraph that is nothing but one link is a call to action and takes
- *   the brand colour;
- * - the `statements` list style sets paragraph leading, where a plain bullet
- *   list renders as a tight hyphen run.
- *
- * Each node renders as a *direct* child of the container in `post-detail.tsx`
- * — there is no wrapper element — because the margin rules there are `>`
- * selectors on that container.
- */
-
-/** The ink every block of the article shares against the light panel. */
 const articleInk = "text-[#0b0d0f]";
 
 const bodyClasses = cx("text-[1rem] leading-[1.8]", articleInk);
@@ -55,16 +29,14 @@ const ctaLinkClasses = cx(
   "text-primary-pink-base hover:text-primary-pink-light",
 );
 
-/** A section heading is a quiet step above the body, not display type: it is
- *  the weight and the space above it that mark a new section, so it stays
- *  close to the copy it introduces. Deeper levels step back down towards body
- *  size so the outline still reads as a hierarchy. The weight and the ink live
- *  on the nested <strong>. */
-function headingClasses(level: 2 | 3 | 4 | 5) {
-  if (level === 2) return "mt-16 text-[1.25rem] leading-[1.5] md:mt-20";
-  if (level === 3) return "mt-12 text-[1.125rem] leading-[1.5] md:mt-14";
-  return "mt-10 text-[1rem] leading-[1.5]";
-}
+const HEADING_CLASSES: Record<RichTextHeading["level"], string> = {
+  1: "mt-16 text-3xl font-extrabold tracking-tight leading-tight md:mt-20 md:text-4xl lg:text-5xl first:mt-0",
+  2: "mt-12 text-2xl font-bold tracking-tight leading-snug md:mt-16 md:text-3xl first:mt-0",
+  3: "mt-10 text-xl font-semibold tracking-tight leading-snug md:mt-12 md:text-2xl first:mt-0",
+  4: "mt-8 text-lg font-semibold leading-normal md:mt-10 first:mt-0",
+  5: "mt-6 text-base font-medium leading-normal md:mt-8 first:mt-0",
+  6: "mt-6 text-sm font-semibold uppercase tracking-wider text-muted-foreground leading-normal md:mt-8 first:mt-0",
+};
 
 /** Emphasis renders as classed spans rather than `<strong>` / `<em>` so it
  *  carries the same utilities the copy had before it moved into a CMS. */
@@ -85,17 +57,13 @@ function Heading({
   level,
   spans,
 }: {
-  level: 2 | 3 | 4 | 5;
+  level: RichTextHeading["level"];
   spans: RichTextSpan[];
 }) {
   const Tag = `h${level}` as const;
 
-  // The authored heading is <h2><strong>…</strong></h2>: the outline level and
-  // the weight are separate statements, so the heading element carries the
-  // scale and the <strong> inside it carries the weight and the ink — pure
-  // black here rather than the body's off-black.
   return (
-    <Tag className={headingClasses(level)}>
+    <Tag className={HEADING_CLASSES[level]}>
       <strong className="font-bold text-black">
         <Spans spans={spans} />
       </strong>
@@ -123,7 +91,10 @@ function Paragraph({ spans }: { spans: RichTextSpan[] }) {
 
   if (isLabel) {
     return (
-      <p data-lead-in className={cx("mt-7 text-[1rem] leading-[1.5]", articleInk)}>
+      <p
+        data-lead-in
+        className={cx("mt-7 text-[1rem] leading-[1.5]", articleInk)}
+      >
         <Spans spans={spans} />
       </p>
     );
@@ -301,7 +272,7 @@ function Node({ node }: { node: RichTextNode }) {
   }
 }
 
-export function PostBody({ content }: { content: RichText }) {
+export function RichTextBody({ content }: { content: RichText }) {
   return (
     <>
       {content.map((node) => (

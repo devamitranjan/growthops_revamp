@@ -12,9 +12,13 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 const PINNED_MEDIA_QUERY =
   "(min-width: 768px) and (prefers-reduced-motion: no-preference)";
 
+/** Where the title comes to rest, as a fraction of the viewport height. */
+const TITLE_DOCK = 0.5;
+
 export function useContentRailScroll(cards: ContentRailCardData[]) {
   const rootRef = useRef<HTMLDivElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLUListElement>(null);
 
@@ -24,10 +28,11 @@ export function useContentRailScroll(cards: ContentRailCardData[]) {
 
       mm.add(PINNED_MEDIA_QUERY, () => {
         const pin = pinRef.current;
+        const header = headerRef.current;
         const viewport = viewportRef.current;
         const track = trackRef.current;
 
-        if (!pin || !viewport || !track) return;
+        if (!pin || !header || !viewport || !track) return;
 
         const visibleWidth = () => {
           const styles = getComputedStyle(viewport);
@@ -41,17 +46,33 @@ export function useContentRailScroll(cards: ContentRailCardData[]) {
 
         const distance = () => Math.max(1, track.scrollWidth - visibleWidth());
 
+        const dockTop = () => {
+          const headerBox = header.getBoundingClientRect();
+          const railBelowTitle =
+            pin.getBoundingClientRect().bottom -
+            (headerBox.top + headerBox.height / 2);
+
+          return Math.max(
+            0,
+            Math.min(
+              window.innerHeight * TITLE_DOCK,
+              window.innerHeight - railBelowTitle,
+            ),
+          );
+        };
+
         const tween = gsap.to(track, {
           x: () => -distance(),
           ease: "none",
           scrollTrigger: {
-            trigger: pin,
-            start: () =>
-              pin.offsetHeight >= window.innerHeight
-                ? "bottom bottom"
-                : "top top",
+            // The title is what docks, so the title is what the start is
+            // measured from — the pin then holds the whole rail with it. The
+            // cards share that start, which is what keeps their travel from
+            // beginning while the title is still rising up the screen.
+            trigger: header,
+            start: () => "center " + dockTop() + "px",
             end: () => "+=" + distance(),
-            pin: true,
+            pin,
             anticipatePin: 1,
             scrub: true,
             invalidateOnRefresh: true,
@@ -110,5 +131,5 @@ export function useContentRailScroll(cards: ContentRailCardData[]) {
     { scope: rootRef, dependencies: [cards] },
   );
 
-  return { rootRef, pinRef, viewportRef, trackRef };
+  return { rootRef, pinRef, headerRef, viewportRef, trackRef };
 }

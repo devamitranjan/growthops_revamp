@@ -1,14 +1,18 @@
 import { defineArrayMember, defineType } from "sanity";
 
 /**
- * Article body as real Portable Text.
+ * Long-form body as real Portable Text.
+ *
+ * Shared by an article's own `content` and by the `richTextSection` in the
+ * page-builder library, so what a body may contain is one decision rather than
+ * two that drift.
  *
  * `statements` is a third list style rather than a flag on the list, because
  * Portable Text has no list container to hang a flag off — lists are just runs
  * of sibling blocks sharing a `listItem`. Every list in the migrated content
  * is a bullet list, so the original `style: "bullet" + variant: "statements"`
  * maps onto it exactly. See the renderer in
- * `src/components/sections/post-detail/post-block.tsx`.
+ * `src/components/sections/rich-text/rich-text-body.tsx`.
  */
 export const postBody = defineType({
   name: "postBody",

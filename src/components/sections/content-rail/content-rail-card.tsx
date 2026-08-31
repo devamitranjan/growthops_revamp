@@ -20,7 +20,7 @@ export function ContentRailCard({ card, index }: ContentRailCardProps) {
     <li
       data-content-rail-card=""
       className={clsx(
-        "relative flex w-full flex-col",
+        "relative flex w-full max-w-full flex-col",
         "rounded-[32px] p-7 pb-5 md:p-8 md:pb-5",
         "md:w-[600px] md:shrink-0 lg:w-[780px] xl:w-[880px]",
         "md:min-h-[180px]",

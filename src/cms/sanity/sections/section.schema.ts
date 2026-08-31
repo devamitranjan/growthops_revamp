@@ -14,6 +14,7 @@ import { heroSection } from "./schemas/hero-section";
 import { newsroomListingSection } from "./schemas/newsroom-listing-section";
 import { postListingSection } from "./schemas/post-listing-section";
 import { reportOverviewSection } from "./schemas/report-overview-section";
+import { richTextSection } from "./schemas/rich-text-section";
 import { servicesSection } from "./schemas/services-section";
 import { teamSection } from "./schemas/team-section";
 import { testimonialsBlock } from "./schemas/testimonials-block";
@@ -48,6 +49,7 @@ export const sectionTypes = [
   teamSection,
   creativeTechSection,
   contentRailSection,
+  richTextSection,
   faqSection,
 
   // Sections that carry a route's own content. Nothing stops an editor putting

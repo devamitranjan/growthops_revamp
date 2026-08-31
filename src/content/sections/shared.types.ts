@@ -189,3 +189,12 @@ export interface IContentRailData {
   description?: string;
   cards: ContentRailCardData[];
 }
+
+/** A block of long-form copy on a white panel. The one section whose body is
+ *  `RichText`, and the same shape `/post/[slug]` hands its own body to. */
+export interface IRichTextData {
+  /** Optional heading above the copy. An article's body carries none — its
+   *  title belongs to the page header. */
+  title?: string;
+  content: RichText;
+}

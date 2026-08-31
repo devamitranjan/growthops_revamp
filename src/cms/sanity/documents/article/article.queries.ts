@@ -1,5 +1,7 @@
 import { defineQuery } from "next-sanity";
 
+import { RICH_TEXT_PROJECTION } from "../../rich-text/rich-text.queries";
+
 /**
  * Every read of the `article` document type — the /post listing and one
  * article's detail page. Two reads of one document type, so they live in one
@@ -40,10 +42,9 @@ export const ARTICLE_SLUGS_QUERY = defineQuery(
 /**
  * One article body as Portable Text.
  *
- * `postImage` resolves to the same flat shape the renderer used when bodies
- * were a custom block union: a URL string plus intrinsic width and height.
- * Real asset metadata wins when an image has been uploaded; the authored
- * width/height are the fallback for images still pointing at /public.
+ * The body is read through `RICH_TEXT_PROJECTION`, the same fragment the
+ * `richTextSection` uses, so an article's own copy and copy authored as a
+ * section arrive in one shape.
  */
 export const ARTICLE_QUERY = defineQuery(`*[_type == "article" && slug.current == $slug][0]{
   "slug": slug.current,
@@ -52,19 +53,7 @@ export const ARTICLE_QUERY = defineQuery(`*[_type == "article" && slug.current =
   authorName,
   publishDate,
   "featuredImage": coalesce(featuredImage.asset->url, featuredImageSrc),
-  content[]{
-    ...,
-    _type == "postImage" => {
-      _key,
-      _type,
-      alt,
-      caption,
-      "src": coalesce(image.asset->url, legacySrc),
-      "width": coalesce(image.asset->metadata.dimensions.width, width),
-      "height": coalesce(image.asset->metadata.dimensions.height, height)
-    },
-    _type == "block" => { ..., markDefs[]{ ... } }
-  }
+  content[]{${RICH_TEXT_PROJECTION}}
 }`);
 
 /** Cheap existence check for /post/[slug] — a body is what makes it in-site. */

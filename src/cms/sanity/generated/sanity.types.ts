@@ -411,6 +411,9 @@ export type PageSections = Array<
     } & ContentRailSection)
   | ({
       _key: string;
+    } & RichTextSection)
+  | ({
+      _key: string;
     } & FaqSection)
   | ({
       _key: string;
@@ -487,6 +490,12 @@ export type FaqSection = {
     } & FaqItem
   >;
   openFirst?: boolean;
+};
+
+export type RichTextSection = {
+  _type: "richTextSection";
+  title?: string;
+  content?: PostBody;
 };
 
 export type ContentRailSection = {
@@ -979,6 +988,7 @@ export type AllSanitySchemaTypes =
   | PostListingSection
   | ContactFormSection
   | FaqSection
+  | RichTextSection
   | ContentRailSection
   | CreativeTechSection
   | TeamSection
@@ -1035,7 +1045,7 @@ export type ARTICLE_SLUGS_QUERY_RESULT = Array<string | null>;
 
 // Source: documents/article/article.queries.ts
 // Variable: ARTICLE_QUERY
-// Query: *[_type == "article" && slug.current == $slug][0]{  "slug": slug.current,  category,  title,  authorName,  publishDate,  "featuredImage": coalesce(featuredImage.asset->url, featuredImageSrc),  content[]{    ...,    _type == "postImage" => {      _key,      _type,      alt,      caption,      "src": coalesce(image.asset->url, legacySrc),      "width": coalesce(image.asset->metadata.dimensions.width, width),      "height": coalesce(image.asset->metadata.dimensions.height, height)    },    _type == "block" => { ..., markDefs[]{ ... } }  }}
+// Query: *[_type == "article" && slug.current == $slug][0]{  "slug": slug.current,  category,  title,  authorName,  publishDate,  "featuredImage": coalesce(featuredImage.asset->url, featuredImageSrc),  content[]{  ...,  _type == "postImage" => {    _key,    _type,    alt,    caption,    "src": coalesce(image.asset->url, legacySrc),    "width": coalesce(image.asset->metadata.dimensions.width, width),    "height": coalesce(image.asset->metadata.dimensions.height, height)  },  _type == "block" => { ..., markDefs[]{ ... } }}}
 export type ARTICLE_QUERY_RESULT = {
   slug: string | null;
   category: string | null;
@@ -1106,7 +1116,7 @@ export type ARTICLE_EXISTS_QUERY_RESULT = boolean;
 
 // Source: documents/page/page.queries.ts
 // Variable: PAGE_QUERY
-// Query: *[_type == "page" && _id == $id][0]{  "slug": slug.current,  title,  seo{    title,    description,    "ogImage": ogImage.asset->url  },  sections[]{  _key,  _type,  _type == "heroSection" => {    hero{      tag, title, subtitle, description, videoSrc, animateSpin,      "posterSrc": coalesce(poster.asset->url, posterSrc)    }  },  _type == "servicesSection" => {    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }  },  _type == "growthSpurtsSection" => {    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }  },  _type == "unrivaledGrowthSection" => {    title,    stats[]{ "id": _key, stat, description },    cta{ label, href }  },  _type == "caseStudySection" => {    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }  },  _type == "articleCardsSection" => {    title,    sectionLink,    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }  },  _type == "testimonialsBlock" => {    "data": source->{      title,      categories,      testimonials[]{        "id": _key, category, audioSrc,        "imgSrc": image.asset->url, alt, quote, position      },      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "growthValidationSection" => {    title,    sectionLink,    eyebrow,    headline,    awards[]{ href, "image": image.asset->url, alt },    "image": image.asset->url,    imageAlt  },  _type == "cultureValidationSection" => {    title,    cards[]{ "id": _key, href, "image": image.asset->url, alt }  },  _type == "teamSection" => {    title,    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },    highlight{ value, description, cta{ label, href, target } }  },  _type == "creativeTechSection" => {    title,    rows[]{      "id": _key,      speed,      direction,      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "contentRailSection" => {    title,    description,    "cards": coalesce(      cards[]{        "id": _key,        title,        description,        href,        "image": image.asset->url,        alt      },      []    )  },  _type == "faqSection" => {    title,    eyebrow,    openFirst,    items[]{ "id": _key, question, answer }  },  _type == "contactFormSection" => {    title  },  _type == "postListingSection" => {    heading,    postsPerPage  },  _type == "newsroomListingSection" => {    heading,    readMoreLabel,    "articles": coalesce(      articles[defined(@->publishedAt)]->{        "id": _id, title, href, publishedAt, excerpt,        "imgSrc": image.asset->url, alt      },      []    )  },  _type == "reportOverviewSection" => {    "highlights": coalesce(highlights[]{ "id": _key, title }, []),    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])  },  _type == "downloadReportSection" => {    title  }}}
+// Query: *[_type == "page" && _id == $id][0]{  "slug": slug.current,  title,  seo{    title,    description,    "ogImage": ogImage.asset->url  },  sections[]{  _key,  _type,  _type == "heroSection" => {    hero{      tag, title, subtitle, description, videoSrc, animateSpin,      "posterSrc": coalesce(poster.asset->url, posterSrc)    }  },  _type == "servicesSection" => {    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }  },  _type == "growthSpurtsSection" => {    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }  },  _type == "unrivaledGrowthSection" => {    title,    stats[]{ "id": _key, stat, description },    cta{ label, href }  },  _type == "caseStudySection" => {    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }  },  _type == "articleCardsSection" => {    title,    sectionLink,    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }  },  _type == "testimonialsBlock" => {    "data": source->{      title,      categories,      testimonials[]{        "id": _key, category, audioSrc,        "imgSrc": image.asset->url, alt, quote, position      },      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "growthValidationSection" => {    title,    sectionLink,    eyebrow,    headline,    awards[]{ href, "image": image.asset->url, alt },    "image": image.asset->url,    imageAlt  },  _type == "cultureValidationSection" => {    title,    cards[]{ "id": _key, href, "image": image.asset->url, alt }  },  _type == "teamSection" => {    title,    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },    highlight{ value, description, cta{ label, href, target } }  },  _type == "creativeTechSection" => {    title,    rows[]{      "id": _key,      speed,      direction,      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "contentRailSection" => {    title,    description,    "cards": coalesce(      cards[]{        "id": _key,        title,        description,        href,        "image": image.asset->url,        alt      },      []    )  },  _type == "richTextSection" => {    title,    content[]{  ...,  _type == "postImage" => {    _key,    _type,    alt,    caption,    "src": coalesce(image.asset->url, legacySrc),    "width": coalesce(image.asset->metadata.dimensions.width, width),    "height": coalesce(image.asset->metadata.dimensions.height, height)  },  _type == "block" => { ..., markDefs[]{ ... } }}  },  _type == "faqSection" => {    title,    eyebrow,    openFirst,    items[]{ "id": _key, question, answer }  },  _type == "contactFormSection" => {    title  },  _type == "postListingSection" => {    heading,    postsPerPage  },  _type == "newsroomListingSection" => {    heading,    readMoreLabel,    "articles": coalesce(      articles[defined(@->publishedAt)]->{        "id": _id, title, href, publishedAt, excerpt,        "imgSrc": image.asset->url, alt      },      []    )  },  _type == "reportOverviewSection" => {    "highlights": coalesce(highlights[]{ "id": _key, title }, []),    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])  },  _type == "downloadReportSection" => {    title  }}}
 export type PAGE_QUERY_RESULT = {
   slug: string | null;
   title: string | null;
@@ -1304,6 +1314,65 @@ export type PAGE_QUERY_RESULT = {
       }
     | {
         _key: string;
+        _type: "richTextSection";
+        title: string | null;
+        content: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "h2" | "h3" | "h4" | "h5" | "normal";
+              listItem?: "bullet" | "number" | "statements";
+              markDefs: Array<{
+                href?: string;
+                _type: "link";
+                _key: string;
+              }> | null;
+              level?: number;
+              _type: "block";
+              _key: string;
+            }
+          | {
+              _key: string;
+              _type: "postImage";
+              image?: {
+                asset?: SanityImageAssetReference;
+                media?: unknown;
+                hotspot?: SanityImageHotspot;
+                crop?: SanityImageCrop;
+                _type: "image";
+              };
+              legacySrc?: string;
+              alt: string | null;
+              caption: string | null;
+              width: number | null;
+              height: number | null;
+              src: string | null;
+            }
+          | {
+              _key: string;
+              _type: "postQuote";
+              text?: string;
+              author?: string;
+            }
+          | {
+              _key: string;
+              _type: "postTable";
+              caption?: string;
+              hasHeader?: boolean;
+              rows?: Array<{
+                cells?: Array<string>;
+                _type: "row";
+                _key: string;
+              }>;
+            }
+        > | null;
+      }
+    | {
+        _key: string;
         _type: "servicesSection";
         services: Array<{
           href: string | null;
@@ -1385,7 +1454,7 @@ export type PAGE_INDEX_QUERY_RESULT = Array<{
 
 // Source: documents/report/report.queries.ts
 // Variable: REPORTS_QUERY
-// Query: *[_type == "report"]{  "slug": slug.current,  title,  seo{    title,    description,    "ogImage": ogImage.asset->url  },  sections[]{  _key,  _type,  _type == "heroSection" => {    hero{      tag, title, subtitle, description, videoSrc, animateSpin,      "posterSrc": coalesce(poster.asset->url, posterSrc)    }  },  _type == "servicesSection" => {    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }  },  _type == "growthSpurtsSection" => {    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }  },  _type == "unrivaledGrowthSection" => {    title,    stats[]{ "id": _key, stat, description },    cta{ label, href }  },  _type == "caseStudySection" => {    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }  },  _type == "articleCardsSection" => {    title,    sectionLink,    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }  },  _type == "testimonialsBlock" => {    "data": source->{      title,      categories,      testimonials[]{        "id": _key, category, audioSrc,        "imgSrc": image.asset->url, alt, quote, position      },      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "growthValidationSection" => {    title,    sectionLink,    eyebrow,    headline,    awards[]{ href, "image": image.asset->url, alt },    "image": image.asset->url,    imageAlt  },  _type == "cultureValidationSection" => {    title,    cards[]{ "id": _key, href, "image": image.asset->url, alt }  },  _type == "teamSection" => {    title,    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },    highlight{ value, description, cta{ label, href, target } }  },  _type == "creativeTechSection" => {    title,    rows[]{      "id": _key,      speed,      direction,      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "contentRailSection" => {    title,    description,    "cards": coalesce(      cards[]{        "id": _key,        title,        description,        href,        "image": image.asset->url,        alt      },      []    )  },  _type == "faqSection" => {    title,    eyebrow,    openFirst,    items[]{ "id": _key, question, answer }  },  _type == "contactFormSection" => {    title  },  _type == "postListingSection" => {    heading,    postsPerPage  },  _type == "newsroomListingSection" => {    heading,    readMoreLabel,    "articles": coalesce(      articles[defined(@->publishedAt)]->{        "id": _id, title, href, publishedAt, excerpt,        "imgSrc": image.asset->url, alt      },      []    )  },  _type == "reportOverviewSection" => {    "highlights": coalesce(highlights[]{ "id": _key, title }, []),    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])  },  _type == "downloadReportSection" => {    title  }}}
+// Query: *[_type == "report"]{  "slug": slug.current,  title,  seo{    title,    description,    "ogImage": ogImage.asset->url  },  sections[]{  _key,  _type,  _type == "heroSection" => {    hero{      tag, title, subtitle, description, videoSrc, animateSpin,      "posterSrc": coalesce(poster.asset->url, posterSrc)    }  },  _type == "servicesSection" => {    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }  },  _type == "growthSpurtsSection" => {    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }  },  _type == "unrivaledGrowthSection" => {    title,    stats[]{ "id": _key, stat, description },    cta{ label, href }  },  _type == "caseStudySection" => {    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }  },  _type == "articleCardsSection" => {    title,    sectionLink,    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }  },  _type == "testimonialsBlock" => {    "data": source->{      title,      categories,      testimonials[]{        "id": _key, category, audioSrc,        "imgSrc": image.asset->url, alt, quote, position      },      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "growthValidationSection" => {    title,    sectionLink,    eyebrow,    headline,    awards[]{ href, "image": image.asset->url, alt },    "image": image.asset->url,    imageAlt  },  _type == "cultureValidationSection" => {    title,    cards[]{ "id": _key, href, "image": image.asset->url, alt }  },  _type == "teamSection" => {    title,    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },    highlight{ value, description, cta{ label, href, target } }  },  _type == "creativeTechSection" => {    title,    rows[]{      "id": _key,      speed,      direction,      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "contentRailSection" => {    title,    description,    "cards": coalesce(      cards[]{        "id": _key,        title,        description,        href,        "image": image.asset->url,        alt      },      []    )  },  _type == "richTextSection" => {    title,    content[]{  ...,  _type == "postImage" => {    _key,    _type,    alt,    caption,    "src": coalesce(image.asset->url, legacySrc),    "width": coalesce(image.asset->metadata.dimensions.width, width),    "height": coalesce(image.asset->metadata.dimensions.height, height)  },  _type == "block" => { ..., markDefs[]{ ... } }}  },  _type == "faqSection" => {    title,    eyebrow,    openFirst,    items[]{ "id": _key, question, answer }  },  _type == "contactFormSection" => {    title  },  _type == "postListingSection" => {    heading,    postsPerPage  },  _type == "newsroomListingSection" => {    heading,    readMoreLabel,    "articles": coalesce(      articles[defined(@->publishedAt)]->{        "id": _id, title, href, publishedAt, excerpt,        "imgSrc": image.asset->url, alt      },      []    )  },  _type == "reportOverviewSection" => {    "highlights": coalesce(highlights[]{ "id": _key, title }, []),    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])  },  _type == "downloadReportSection" => {    title  }}}
 export type REPORTS_QUERY_RESULT = Array<{
   slug: string | null;
   title: string | null;
@@ -1583,6 +1652,65 @@ export type REPORTS_QUERY_RESULT = Array<{
       }
     | {
         _key: string;
+        _type: "richTextSection";
+        title: string | null;
+        content: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "h2" | "h3" | "h4" | "h5" | "normal";
+              listItem?: "bullet" | "number" | "statements";
+              markDefs: Array<{
+                href?: string;
+                _type: "link";
+                _key: string;
+              }> | null;
+              level?: number;
+              _type: "block";
+              _key: string;
+            }
+          | {
+              _key: string;
+              _type: "postImage";
+              image?: {
+                asset?: SanityImageAssetReference;
+                media?: unknown;
+                hotspot?: SanityImageHotspot;
+                crop?: SanityImageCrop;
+                _type: "image";
+              };
+              legacySrc?: string;
+              alt: string | null;
+              caption: string | null;
+              width: number | null;
+              height: number | null;
+              src: string | null;
+            }
+          | {
+              _key: string;
+              _type: "postQuote";
+              text?: string;
+              author?: string;
+            }
+          | {
+              _key: string;
+              _type: "postTable";
+              caption?: string;
+              hasHeader?: boolean;
+              rows?: Array<{
+                cells?: Array<string>;
+                _type: "row";
+                _key: string;
+              }>;
+            }
+        > | null;
+      }
+    | {
+        _key: string;
         _type: "servicesSection";
         services: Array<{
           href: string | null;
@@ -1655,7 +1783,7 @@ export type REPORTS_QUERY_RESULT = Array<{
 
 // Source: documents/report/report.queries.ts
 // Variable: REPORT_QUERY
-// Query: *[_type == "report" && slug.current == $slug][0]{  "slug": slug.current,  title,  seo{    title,    description,    "ogImage": ogImage.asset->url  },  sections[]{  _key,  _type,  _type == "heroSection" => {    hero{      tag, title, subtitle, description, videoSrc, animateSpin,      "posterSrc": coalesce(poster.asset->url, posterSrc)    }  },  _type == "servicesSection" => {    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }  },  _type == "growthSpurtsSection" => {    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }  },  _type == "unrivaledGrowthSection" => {    title,    stats[]{ "id": _key, stat, description },    cta{ label, href }  },  _type == "caseStudySection" => {    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }  },  _type == "articleCardsSection" => {    title,    sectionLink,    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }  },  _type == "testimonialsBlock" => {    "data": source->{      title,      categories,      testimonials[]{        "id": _key, category, audioSrc,        "imgSrc": image.asset->url, alt, quote, position      },      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "growthValidationSection" => {    title,    sectionLink,    eyebrow,    headline,    awards[]{ href, "image": image.asset->url, alt },    "image": image.asset->url,    imageAlt  },  _type == "cultureValidationSection" => {    title,    cards[]{ "id": _key, href, "image": image.asset->url, alt }  },  _type == "teamSection" => {    title,    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },    highlight{ value, description, cta{ label, href, target } }  },  _type == "creativeTechSection" => {    title,    rows[]{      "id": _key,      speed,      direction,      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "contentRailSection" => {    title,    description,    "cards": coalesce(      cards[]{        "id": _key,        title,        description,        href,        "image": image.asset->url,        alt      },      []    )  },  _type == "faqSection" => {    title,    eyebrow,    openFirst,    items[]{ "id": _key, question, answer }  },  _type == "contactFormSection" => {    title  },  _type == "postListingSection" => {    heading,    postsPerPage  },  _type == "newsroomListingSection" => {    heading,    readMoreLabel,    "articles": coalesce(      articles[defined(@->publishedAt)]->{        "id": _id, title, href, publishedAt, excerpt,        "imgSrc": image.asset->url, alt      },      []    )  },  _type == "reportOverviewSection" => {    "highlights": coalesce(highlights[]{ "id": _key, title }, []),    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])  },  _type == "downloadReportSection" => {    title  }}}
+// Query: *[_type == "report" && slug.current == $slug][0]{  "slug": slug.current,  title,  seo{    title,    description,    "ogImage": ogImage.asset->url  },  sections[]{  _key,  _type,  _type == "heroSection" => {    hero{      tag, title, subtitle, description, videoSrc, animateSpin,      "posterSrc": coalesce(poster.asset->url, posterSrc)    }  },  _type == "servicesSection" => {    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }  },  _type == "growthSpurtsSection" => {    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }  },  _type == "unrivaledGrowthSection" => {    title,    stats[]{ "id": _key, stat, description },    cta{ label, href }  },  _type == "caseStudySection" => {    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }  },  _type == "articleCardsSection" => {    title,    sectionLink,    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }  },  _type == "testimonialsBlock" => {    "data": source->{      title,      categories,      testimonials[]{        "id": _key, category, audioSrc,        "imgSrc": image.asset->url, alt, quote, position      },      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "growthValidationSection" => {    title,    sectionLink,    eyebrow,    headline,    awards[]{ href, "image": image.asset->url, alt },    "image": image.asset->url,    imageAlt  },  _type == "cultureValidationSection" => {    title,    cards[]{ "id": _key, href, "image": image.asset->url, alt }  },  _type == "teamSection" => {    title,    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },    highlight{ value, description, cta{ label, href, target } }  },  _type == "creativeTechSection" => {    title,    rows[]{      "id": _key,      speed,      direction,      logos[]{ "id": _key, "src": logo.asset->url, alt }    }  },  _type == "contentRailSection" => {    title,    description,    "cards": coalesce(      cards[]{        "id": _key,        title,        description,        href,        "image": image.asset->url,        alt      },      []    )  },  _type == "richTextSection" => {    title,    content[]{  ...,  _type == "postImage" => {    _key,    _type,    alt,    caption,    "src": coalesce(image.asset->url, legacySrc),    "width": coalesce(image.asset->metadata.dimensions.width, width),    "height": coalesce(image.asset->metadata.dimensions.height, height)  },  _type == "block" => { ..., markDefs[]{ ... } }}  },  _type == "faqSection" => {    title,    eyebrow,    openFirst,    items[]{ "id": _key, question, answer }  },  _type == "contactFormSection" => {    title  },  _type == "postListingSection" => {    heading,    postsPerPage  },  _type == "newsroomListingSection" => {    heading,    readMoreLabel,    "articles": coalesce(      articles[defined(@->publishedAt)]->{        "id": _id, title, href, publishedAt, excerpt,        "imgSrc": image.asset->url, alt      },      []    )  },  _type == "reportOverviewSection" => {    "highlights": coalesce(highlights[]{ "id": _key, title }, []),    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])  },  _type == "downloadReportSection" => {    title  }}}
 export type REPORT_QUERY_RESULT = {
   slug: string | null;
   title: string | null;
@@ -1850,6 +1978,65 @@ export type REPORT_QUERY_RESULT = {
               alt: string | null;
             }>
           | Array<never>;
+      }
+    | {
+        _key: string;
+        _type: "richTextSection";
+        title: string | null;
+        content: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "h2" | "h3" | "h4" | "h5" | "normal";
+              listItem?: "bullet" | "number" | "statements";
+              markDefs: Array<{
+                href?: string;
+                _type: "link";
+                _key: string;
+              }> | null;
+              level?: number;
+              _type: "block";
+              _key: string;
+            }
+          | {
+              _key: string;
+              _type: "postImage";
+              image?: {
+                asset?: SanityImageAssetReference;
+                media?: unknown;
+                hotspot?: SanityImageHotspot;
+                crop?: SanityImageCrop;
+                _type: "image";
+              };
+              legacySrc?: string;
+              alt: string | null;
+              caption: string | null;
+              width: number | null;
+              height: number | null;
+              src: string | null;
+            }
+          | {
+              _key: string;
+              _type: "postQuote";
+              text?: string;
+              author?: string;
+            }
+          | {
+              _key: string;
+              _type: "postTable";
+              caption?: string;
+              hasHeader?: boolean;
+              rows?: Array<{
+                cells?: Array<string>;
+                _type: "row";
+                _key: string;
+              }>;
+            }
+        > | null;
       }
     | {
         _key: string;
@@ -2104,12 +2291,12 @@ declare module "@sanity/client" {
     '*[_type == "article"] | order(order asc) [$start...$end]{\n  "slug": slug.current,\n  href,\n  "imgSrc": coalesce(featuredImage.asset->url, featuredImageSrc),\n  title,\n  subtitle,\n  authorName\n}': ARTICLES_QUERY_RESULT;
     'count(*[_type == "article"])': ARTICLES_COUNT_QUERY_RESULT;
     '*[_type == "article" && defined(slug.current) && count(content) > 0].slug.current': ARTICLE_SLUGS_QUERY_RESULT;
-    '*[_type == "article" && slug.current == $slug][0]{\n  "slug": slug.current,\n  category,\n  title,\n  authorName,\n  publishDate,\n  "featuredImage": coalesce(featuredImage.asset->url, featuredImageSrc),\n  content[]{\n    ...,\n    _type == "postImage" => {\n      _key,\n      _type,\n      alt,\n      caption,\n      "src": coalesce(image.asset->url, legacySrc),\n      "width": coalesce(image.asset->metadata.dimensions.width, width),\n      "height": coalesce(image.asset->metadata.dimensions.height, height)\n    },\n    _type == "block" => { ..., markDefs[]{ ... } }\n  }\n}': ARTICLE_QUERY_RESULT;
+    '*[_type == "article" && slug.current == $slug][0]{\n  "slug": slug.current,\n  category,\n  title,\n  authorName,\n  publishDate,\n  "featuredImage": coalesce(featuredImage.asset->url, featuredImageSrc),\n  content[]{\n  ...,\n  _type == "postImage" => {\n    _key,\n    _type,\n    alt,\n    caption,\n    "src": coalesce(image.asset->url, legacySrc),\n    "width": coalesce(image.asset->metadata.dimensions.width, width),\n    "height": coalesce(image.asset->metadata.dimensions.height, height)\n  },\n  _type == "block" => { ..., markDefs[]{ ... } }\n}\n}': ARTICLE_QUERY_RESULT;
     'count(*[_type == "article" && slug.current == $slug && count(content) > 0]) > 0': ARTICLE_EXISTS_QUERY_RESULT;
-    '*[_type == "page" && _id == $id][0]{\n  "slug": slug.current,\n  title,\n  seo{\n    title,\n    description,\n    "ogImage": ogImage.asset->url\n  },\n  sections[]{\n  _key,\n  _type,\n\n  _type == "heroSection" => {\n    hero{\n      tag, title, subtitle, description, videoSrc, animateSpin,\n      "posterSrc": coalesce(poster.asset->url, posterSrc)\n    }\n  },\n\n  _type == "servicesSection" => {\n    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }\n  },\n\n  _type == "growthSpurtsSection" => {\n    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }\n  },\n\n  _type == "unrivaledGrowthSection" => {\n    title,\n    stats[]{ "id": _key, stat, description },\n    cta{ label, href }\n  },\n\n  _type == "caseStudySection" => {\n    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }\n  },\n\n  _type == "articleCardsSection" => {\n    title,\n    sectionLink,\n    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }\n  },\n\n  _type == "testimonialsBlock" => {\n    "data": source->{\n      title,\n      categories,\n      testimonials[]{\n        "id": _key, category, audioSrc,\n        "imgSrc": image.asset->url, alt, quote, position\n      },\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "growthValidationSection" => {\n    title,\n    sectionLink,\n    eyebrow,\n    headline,\n    awards[]{ href, "image": image.asset->url, alt },\n    "image": image.asset->url,\n    imageAlt\n  },\n\n  _type == "cultureValidationSection" => {\n    title,\n    cards[]{ "id": _key, href, "image": image.asset->url, alt }\n  },\n\n  _type == "teamSection" => {\n    title,\n    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },\n    highlight{ value, description, cta{ label, href, target } }\n  },\n\n  _type == "creativeTechSection" => {\n    title,\n    rows[]{\n      "id": _key,\n      speed,\n      direction,\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "contentRailSection" => {\n    title,\n    description,\n    "cards": coalesce(\n      cards[]{\n        "id": _key,\n        title,\n        description,\n        href,\n        "image": image.asset->url,\n        alt\n      },\n      []\n    )\n  },\n\n  _type == "faqSection" => {\n    title,\n    eyebrow,\n    openFirst,\n    items[]{ "id": _key, question, answer }\n  },\n\n  _type == "contactFormSection" => {\n    title\n  },\n\n  _type == "postListingSection" => {\n    heading,\n    postsPerPage\n  },\n\n  _type == "newsroomListingSection" => {\n    heading,\n    readMoreLabel,\n    "articles": coalesce(\n      articles[defined(@->publishedAt)]->{\n        "id": _id, title, href, publishedAt, excerpt,\n        "imgSrc": image.asset->url, alt\n      },\n      []\n    )\n  },\n\n  _type == "reportOverviewSection" => {\n    "highlights": coalesce(highlights[]{ "id": _key, title }, []),\n    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])\n  },\n\n  _type == "downloadReportSection" => {\n    title\n  }\n}\n}': PAGE_QUERY_RESULT;
+    '*[_type == "page" && _id == $id][0]{\n  "slug": slug.current,\n  title,\n  seo{\n    title,\n    description,\n    "ogImage": ogImage.asset->url\n  },\n  sections[]{\n  _key,\n  _type,\n\n  _type == "heroSection" => {\n    hero{\n      tag, title, subtitle, description, videoSrc, animateSpin,\n      "posterSrc": coalesce(poster.asset->url, posterSrc)\n    }\n  },\n\n  _type == "servicesSection" => {\n    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }\n  },\n\n  _type == "growthSpurtsSection" => {\n    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }\n  },\n\n  _type == "unrivaledGrowthSection" => {\n    title,\n    stats[]{ "id": _key, stat, description },\n    cta{ label, href }\n  },\n\n  _type == "caseStudySection" => {\n    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }\n  },\n\n  _type == "articleCardsSection" => {\n    title,\n    sectionLink,\n    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }\n  },\n\n  _type == "testimonialsBlock" => {\n    "data": source->{\n      title,\n      categories,\n      testimonials[]{\n        "id": _key, category, audioSrc,\n        "imgSrc": image.asset->url, alt, quote, position\n      },\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "growthValidationSection" => {\n    title,\n    sectionLink,\n    eyebrow,\n    headline,\n    awards[]{ href, "image": image.asset->url, alt },\n    "image": image.asset->url,\n    imageAlt\n  },\n\n  _type == "cultureValidationSection" => {\n    title,\n    cards[]{ "id": _key, href, "image": image.asset->url, alt }\n  },\n\n  _type == "teamSection" => {\n    title,\n    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },\n    highlight{ value, description, cta{ label, href, target } }\n  },\n\n  _type == "creativeTechSection" => {\n    title,\n    rows[]{\n      "id": _key,\n      speed,\n      direction,\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "contentRailSection" => {\n    title,\n    description,\n    "cards": coalesce(\n      cards[]{\n        "id": _key,\n        title,\n        description,\n        href,\n        "image": image.asset->url,\n        alt\n      },\n      []\n    )\n  },\n\n  _type == "richTextSection" => {\n    title,\n    content[]{\n  ...,\n  _type == "postImage" => {\n    _key,\n    _type,\n    alt,\n    caption,\n    "src": coalesce(image.asset->url, legacySrc),\n    "width": coalesce(image.asset->metadata.dimensions.width, width),\n    "height": coalesce(image.asset->metadata.dimensions.height, height)\n  },\n  _type == "block" => { ..., markDefs[]{ ... } }\n}\n  },\n\n  _type == "faqSection" => {\n    title,\n    eyebrow,\n    openFirst,\n    items[]{ "id": _key, question, answer }\n  },\n\n  _type == "contactFormSection" => {\n    title\n  },\n\n  _type == "postListingSection" => {\n    heading,\n    postsPerPage\n  },\n\n  _type == "newsroomListingSection" => {\n    heading,\n    readMoreLabel,\n    "articles": coalesce(\n      articles[defined(@->publishedAt)]->{\n        "id": _id, title, href, publishedAt, excerpt,\n        "imgSrc": image.asset->url, alt\n      },\n      []\n    )\n  },\n\n  _type == "reportOverviewSection" => {\n    "highlights": coalesce(highlights[]{ "id": _key, title }, []),\n    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])\n  },\n\n  _type == "downloadReportSection" => {\n    title\n  }\n}\n}': PAGE_QUERY_RESULT;
     '*[_type == "page" && defined(slug.current)]{\n    _id,\n    "slug": slug.current,\n    "parentId": parent._ref\n  }': PAGE_INDEX_QUERY_RESULT;
-    '*[_type == "report"]{\n  "slug": slug.current,\n  title,\n  seo{\n    title,\n    description,\n    "ogImage": ogImage.asset->url\n  },\n  sections[]{\n  _key,\n  _type,\n\n  _type == "heroSection" => {\n    hero{\n      tag, title, subtitle, description, videoSrc, animateSpin,\n      "posterSrc": coalesce(poster.asset->url, posterSrc)\n    }\n  },\n\n  _type == "servicesSection" => {\n    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }\n  },\n\n  _type == "growthSpurtsSection" => {\n    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }\n  },\n\n  _type == "unrivaledGrowthSection" => {\n    title,\n    stats[]{ "id": _key, stat, description },\n    cta{ label, href }\n  },\n\n  _type == "caseStudySection" => {\n    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }\n  },\n\n  _type == "articleCardsSection" => {\n    title,\n    sectionLink,\n    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }\n  },\n\n  _type == "testimonialsBlock" => {\n    "data": source->{\n      title,\n      categories,\n      testimonials[]{\n        "id": _key, category, audioSrc,\n        "imgSrc": image.asset->url, alt, quote, position\n      },\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "growthValidationSection" => {\n    title,\n    sectionLink,\n    eyebrow,\n    headline,\n    awards[]{ href, "image": image.asset->url, alt },\n    "image": image.asset->url,\n    imageAlt\n  },\n\n  _type == "cultureValidationSection" => {\n    title,\n    cards[]{ "id": _key, href, "image": image.asset->url, alt }\n  },\n\n  _type == "teamSection" => {\n    title,\n    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },\n    highlight{ value, description, cta{ label, href, target } }\n  },\n\n  _type == "creativeTechSection" => {\n    title,\n    rows[]{\n      "id": _key,\n      speed,\n      direction,\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "contentRailSection" => {\n    title,\n    description,\n    "cards": coalesce(\n      cards[]{\n        "id": _key,\n        title,\n        description,\n        href,\n        "image": image.asset->url,\n        alt\n      },\n      []\n    )\n  },\n\n  _type == "faqSection" => {\n    title,\n    eyebrow,\n    openFirst,\n    items[]{ "id": _key, question, answer }\n  },\n\n  _type == "contactFormSection" => {\n    title\n  },\n\n  _type == "postListingSection" => {\n    heading,\n    postsPerPage\n  },\n\n  _type == "newsroomListingSection" => {\n    heading,\n    readMoreLabel,\n    "articles": coalesce(\n      articles[defined(@->publishedAt)]->{\n        "id": _id, title, href, publishedAt, excerpt,\n        "imgSrc": image.asset->url, alt\n      },\n      []\n    )\n  },\n\n  _type == "reportOverviewSection" => {\n    "highlights": coalesce(highlights[]{ "id": _key, title }, []),\n    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])\n  },\n\n  _type == "downloadReportSection" => {\n    title\n  }\n}\n}': REPORTS_QUERY_RESULT;
-    '*[_type == "report" && slug.current == $slug][0]{\n  "slug": slug.current,\n  title,\n  seo{\n    title,\n    description,\n    "ogImage": ogImage.asset->url\n  },\n  sections[]{\n  _key,\n  _type,\n\n  _type == "heroSection" => {\n    hero{\n      tag, title, subtitle, description, videoSrc, animateSpin,\n      "posterSrc": coalesce(poster.asset->url, posterSrc)\n    }\n  },\n\n  _type == "servicesSection" => {\n    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }\n  },\n\n  _type == "growthSpurtsSection" => {\n    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }\n  },\n\n  _type == "unrivaledGrowthSection" => {\n    title,\n    stats[]{ "id": _key, stat, description },\n    cta{ label, href }\n  },\n\n  _type == "caseStudySection" => {\n    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }\n  },\n\n  _type == "articleCardsSection" => {\n    title,\n    sectionLink,\n    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }\n  },\n\n  _type == "testimonialsBlock" => {\n    "data": source->{\n      title,\n      categories,\n      testimonials[]{\n        "id": _key, category, audioSrc,\n        "imgSrc": image.asset->url, alt, quote, position\n      },\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "growthValidationSection" => {\n    title,\n    sectionLink,\n    eyebrow,\n    headline,\n    awards[]{ href, "image": image.asset->url, alt },\n    "image": image.asset->url,\n    imageAlt\n  },\n\n  _type == "cultureValidationSection" => {\n    title,\n    cards[]{ "id": _key, href, "image": image.asset->url, alt }\n  },\n\n  _type == "teamSection" => {\n    title,\n    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },\n    highlight{ value, description, cta{ label, href, target } }\n  },\n\n  _type == "creativeTechSection" => {\n    title,\n    rows[]{\n      "id": _key,\n      speed,\n      direction,\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "contentRailSection" => {\n    title,\n    description,\n    "cards": coalesce(\n      cards[]{\n        "id": _key,\n        title,\n        description,\n        href,\n        "image": image.asset->url,\n        alt\n      },\n      []\n    )\n  },\n\n  _type == "faqSection" => {\n    title,\n    eyebrow,\n    openFirst,\n    items[]{ "id": _key, question, answer }\n  },\n\n  _type == "contactFormSection" => {\n    title\n  },\n\n  _type == "postListingSection" => {\n    heading,\n    postsPerPage\n  },\n\n  _type == "newsroomListingSection" => {\n    heading,\n    readMoreLabel,\n    "articles": coalesce(\n      articles[defined(@->publishedAt)]->{\n        "id": _id, title, href, publishedAt, excerpt,\n        "imgSrc": image.asset->url, alt\n      },\n      []\n    )\n  },\n\n  _type == "reportOverviewSection" => {\n    "highlights": coalesce(highlights[]{ "id": _key, title }, []),\n    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])\n  },\n\n  _type == "downloadReportSection" => {\n    title\n  }\n}\n}': REPORT_QUERY_RESULT;
+    '*[_type == "report"]{\n  "slug": slug.current,\n  title,\n  seo{\n    title,\n    description,\n    "ogImage": ogImage.asset->url\n  },\n  sections[]{\n  _key,\n  _type,\n\n  _type == "heroSection" => {\n    hero{\n      tag, title, subtitle, description, videoSrc, animateSpin,\n      "posterSrc": coalesce(poster.asset->url, posterSrc)\n    }\n  },\n\n  _type == "servicesSection" => {\n    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }\n  },\n\n  _type == "growthSpurtsSection" => {\n    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }\n  },\n\n  _type == "unrivaledGrowthSection" => {\n    title,\n    stats[]{ "id": _key, stat, description },\n    cta{ label, href }\n  },\n\n  _type == "caseStudySection" => {\n    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }\n  },\n\n  _type == "articleCardsSection" => {\n    title,\n    sectionLink,\n    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }\n  },\n\n  _type == "testimonialsBlock" => {\n    "data": source->{\n      title,\n      categories,\n      testimonials[]{\n        "id": _key, category, audioSrc,\n        "imgSrc": image.asset->url, alt, quote, position\n      },\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "growthValidationSection" => {\n    title,\n    sectionLink,\n    eyebrow,\n    headline,\n    awards[]{ href, "image": image.asset->url, alt },\n    "image": image.asset->url,\n    imageAlt\n  },\n\n  _type == "cultureValidationSection" => {\n    title,\n    cards[]{ "id": _key, href, "image": image.asset->url, alt }\n  },\n\n  _type == "teamSection" => {\n    title,\n    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },\n    highlight{ value, description, cta{ label, href, target } }\n  },\n\n  _type == "creativeTechSection" => {\n    title,\n    rows[]{\n      "id": _key,\n      speed,\n      direction,\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "contentRailSection" => {\n    title,\n    description,\n    "cards": coalesce(\n      cards[]{\n        "id": _key,\n        title,\n        description,\n        href,\n        "image": image.asset->url,\n        alt\n      },\n      []\n    )\n  },\n\n  _type == "richTextSection" => {\n    title,\n    content[]{\n  ...,\n  _type == "postImage" => {\n    _key,\n    _type,\n    alt,\n    caption,\n    "src": coalesce(image.asset->url, legacySrc),\n    "width": coalesce(image.asset->metadata.dimensions.width, width),\n    "height": coalesce(image.asset->metadata.dimensions.height, height)\n  },\n  _type == "block" => { ..., markDefs[]{ ... } }\n}\n  },\n\n  _type == "faqSection" => {\n    title,\n    eyebrow,\n    openFirst,\n    items[]{ "id": _key, question, answer }\n  },\n\n  _type == "contactFormSection" => {\n    title\n  },\n\n  _type == "postListingSection" => {\n    heading,\n    postsPerPage\n  },\n\n  _type == "newsroomListingSection" => {\n    heading,\n    readMoreLabel,\n    "articles": coalesce(\n      articles[defined(@->publishedAt)]->{\n        "id": _id, title, href, publishedAt, excerpt,\n        "imgSrc": image.asset->url, alt\n      },\n      []\n    )\n  },\n\n  _type == "reportOverviewSection" => {\n    "highlights": coalesce(highlights[]{ "id": _key, title }, []),\n    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])\n  },\n\n  _type == "downloadReportSection" => {\n    title\n  }\n}\n}': REPORTS_QUERY_RESULT;
+    '*[_type == "report" && slug.current == $slug][0]{\n  "slug": slug.current,\n  title,\n  seo{\n    title,\n    description,\n    "ogImage": ogImage.asset->url\n  },\n  sections[]{\n  _key,\n  _type,\n\n  _type == "heroSection" => {\n    hero{\n      tag, title, subtitle, description, videoSrc, animateSpin,\n      "posterSrc": coalesce(poster.asset->url, posterSrc)\n    }\n  },\n\n  _type == "servicesSection" => {\n    services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }\n  },\n\n  _type == "growthSpurtsSection" => {\n    cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }\n  },\n\n  _type == "unrivaledGrowthSection" => {\n    title,\n    stats[]{ "id": _key, stat, description },\n    cta{ label, href }\n  },\n\n  _type == "caseStudySection" => {\n    slides[]{ "id": _key, label, "bg": bg.asset->url, previewVideo, video }\n  },\n\n  _type == "articleCardsSection" => {\n    title,\n    sectionLink,\n    articles[]{ href, "imgSrc": image.asset->url, alt, tag, title, date }\n  },\n\n  _type == "testimonialsBlock" => {\n    "data": source->{\n      title,\n      categories,\n      testimonials[]{\n        "id": _key, category, audioSrc,\n        "imgSrc": image.asset->url, alt, quote, position\n      },\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "growthValidationSection" => {\n    title,\n    sectionLink,\n    eyebrow,\n    headline,\n    awards[]{ href, "image": image.asset->url, alt },\n    "image": image.asset->url,\n    imageAlt\n  },\n\n  _type == "cultureValidationSection" => {\n    title,\n    cards[]{ "id": _key, href, "image": image.asset->url, alt }\n  },\n\n  _type == "teamSection" => {\n    title,\n    batches[]{ members[]{ name, title, from, to, "image": image.asset->url } },\n    highlight{ value, description, cta{ label, href, target } }\n  },\n\n  _type == "creativeTechSection" => {\n    title,\n    rows[]{\n      "id": _key,\n      speed,\n      direction,\n      logos[]{ "id": _key, "src": logo.asset->url, alt }\n    }\n  },\n\n  _type == "contentRailSection" => {\n    title,\n    description,\n    "cards": coalesce(\n      cards[]{\n        "id": _key,\n        title,\n        description,\n        href,\n        "image": image.asset->url,\n        alt\n      },\n      []\n    )\n  },\n\n  _type == "richTextSection" => {\n    title,\n    content[]{\n  ...,\n  _type == "postImage" => {\n    _key,\n    _type,\n    alt,\n    caption,\n    "src": coalesce(image.asset->url, legacySrc),\n    "width": coalesce(image.asset->metadata.dimensions.width, width),\n    "height": coalesce(image.asset->metadata.dimensions.height, height)\n  },\n  _type == "block" => { ..., markDefs[]{ ... } }\n}\n  },\n\n  _type == "faqSection" => {\n    title,\n    eyebrow,\n    openFirst,\n    items[]{ "id": _key, question, answer }\n  },\n\n  _type == "contactFormSection" => {\n    title\n  },\n\n  _type == "postListingSection" => {\n    heading,\n    postsPerPage\n  },\n\n  _type == "newsroomListingSection" => {\n    heading,\n    readMoreLabel,\n    "articles": coalesce(\n      articles[defined(@->publishedAt)]->{\n        "id": _id, title, href, publishedAt, excerpt,\n        "imgSrc": image.asset->url, alt\n      },\n      []\n    )\n  },\n\n  _type == "reportOverviewSection" => {\n    "highlights": coalesce(highlights[]{ "id": _key, title }, []),\n    "slides": coalesce(slides[]{ "id": _key, "src": image.asset->url, alt }, [])\n  },\n\n  _type == "downloadReportSection" => {\n    title\n  }\n}\n}': REPORT_QUERY_RESULT;
     '*[_type == "report" && defined(slug.current)].slug.current': REPORT_SLUGS_QUERY_RESULT;
     '*[_id == "siteSettings"][0]{\n  "logo": logo.asset->url,\n  logoAlt,\n  navLinks[]{ label, href, children[]{ label, href } },\n\n  footerHeadline,\n  footerHeadlineAccent,\n  footerCta{ label, href },\n  exploreTitle,\n  exploreLinks[]{ label, href, target, rel },\n  socials[]{ platform, href, label },\n  newsletterTitle,\n  newsletterLabel,\n  newsletterPlaceholder,\n  newsletterSubmitLabel,\n  newsletterRequiredMessage,\n  newsletterInvalidMessage,\n  copyright,\n  legalLinks[]{ label, href, target, rel },\n\n  siteName,\n  siteUrl,\n  defaultTitle,\n  titleTemplate,\n  defaultDescription,\n  "ogImage": ogImage.asset->url,\n  "ogImageWidth": ogImage.asset->metadata.dimensions.width,\n  "ogImageHeight": ogImage.asset->metadata.dimensions.height,\n  ogImageAlt,\n  googleSiteVerification,\n\n  contactFieldPlaceholders[]{ value, label },\n  contactSubjectLabel,\n  contactSubjectPlaceholder,\n  contactSubjectOptions[]{ value, label },\n  contactConsentText,\n  contactConsentLinkLabel,\n  contactConsentLinkHref,\n  contactSubmitLabel,\n  contactSuccessMessage,\n  contactMessagePlaceholder,\n  contactMarketingLabel,\n  contactTermsLabel,\n  contactValidationMessages[]{ value, label },\n\n\n  reportFormTitle,\n  reportFormSubmitLabel,\n  reportFormSuccessMessage,\n  reportFormPrivacyHref,\n  reportFormMarketingLabel,\n  reportFormConsentText,\n  reportFormConsentLinkLabel,\n  reportFormFieldLabels[]{ value, label },\n  reportFormValidationMessages[]{ value, label }\n}': SITE_SETTINGS_QUERY_RESULT;
     '*[_type == "testimonialsSection"][0]{\n  title,\n  categories,\n  testimonials[]{\n    "id": _key, category, audioSrc,\n    "imgSrc": image.asset->url, alt, quote, position\n  },\n  logos[]{ "id": _key, "src": logo.asset->url, alt }\n}': TESTIMONIALS_QUERY_RESULT;

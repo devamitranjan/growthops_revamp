@@ -9,7 +9,7 @@ import type { PageSection } from "@/content/types";
  * section — `"hero"`, not Sanity's `"heroSection"`. The translation happens
  * once, in `src/cms/sanity/sections/section.mapper.ts`, so this file has no
  * idea which CMS composed the page and a CMS swap does not reach it. The
- * eighteen names below and the eighteen in that mapper's table are the two
+ * nineteen names below and the nineteen in that mapper's table are the two
  * halves of one contract; `PageSection` is what holds them together, and an
  * unhandled member is a type error rather than a blank page.
  *
@@ -97,6 +97,14 @@ const ContentRail = dynamic(
   () => import("@/components/sections/content-rail"),
   {
     loading: () => <div className="min-h-screen bg-background" />,
+    ssr: true,
+  },
+);
+
+const RichTextSection = dynamic(
+  () => import("@/components/sections/rich-text"),
+  {
+    loading: () => <div className="min-h-[600px] bg-white" />,
     ssr: true,
   },
 );
@@ -248,6 +256,13 @@ export function SectionRenderer({
             description: section.description,
             cards: section.cards,
           }}
+        />
+      );
+
+    case "richText":
+      return (
+        <RichTextSection
+          data={{ title: section.title, content: section.content }}
         />
       );
 

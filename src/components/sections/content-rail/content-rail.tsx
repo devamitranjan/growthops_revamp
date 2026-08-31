@@ -7,8 +7,8 @@ export default function ContentRail({ data }: { data: IContentRailData }) {
   if (!data.cards.length) return null;
 
   return (
-    <section className="reveal mt-[80px] bg-[#d01950] pb-16 md:mt-[100px]">
-      <div className="rounded-b-[40px] bg-white md:rounded-b-[56px]">
+    <section className="reveal relative isolate pb-16 bg-[#d01950]">
+      <div className="rounded-b-[40px] bg-white md:rounded-b-[56px] py-16">
         <ContentRailScroll cards={data.cards}>
           <SectionHeader
             title={data.title}

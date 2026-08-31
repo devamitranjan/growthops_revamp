@@ -13,16 +13,15 @@ interface ContentRailScrollProps {
 }
 
 export function ContentRailScroll({ cards, children }: ContentRailScrollProps) {
-  const { rootRef, pinRef, viewportRef, trackRef } =
+  const { rootRef, pinRef, headerRef, viewportRef, trackRef } =
     useContentRailScroll(cards);
 
   return (
     <div ref={rootRef}>
-      <div
-        ref={pinRef}
-        className="flex flex-col justify-center py-16 md:min-h-screen lg:py-[100px]"
-      >
-        <div className="generic-container">{children}</div>
+      <div ref={pinRef} className="flex flex-col">
+        <div ref={headerRef} className="generic-container">
+          {children}
+        </div>
 
         <div
           ref={viewportRef}

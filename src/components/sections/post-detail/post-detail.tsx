@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { FaAngleLeft } from "react-icons/fa6";
+import RichTextSection from "@/components/sections/rich-text/rich-text-section";
 import { PostImage } from "@/components/ui/post-image";
 import { PostDetailData } from "@/content/types";
-import { PostBody } from "./post-body";
 
 interface PostDetailProps {
   post: PostDetailData;
@@ -41,10 +41,14 @@ export default function PostDetail({ post }: PostDetailProps) {
         </div>
       </header>
 
-      {/* The body is a light panel, and the featured image straddles its top
-          edge so the artwork breaks out into the dark hero above it. flow-root
-          is what keeps that pull-up local to the image: without it the figure's
-          negative margin collapses out and drags the whole panel up with it. */}
+      {/* The body opens a white panel, and the featured image straddles its
+          top edge so the artwork breaks out into the dark hero above it.
+          flow-root is what keeps that pull-up local to the image: without it
+          the figure's negative margin collapses out and drags the whole panel
+          up with it. The image keeps its own white block rather than living
+          inside the copy, because the copy below is a `richTextSection` — the
+          same section an editor can drop on any page — and the two white blocks
+          meet seamlessly. */}
       <div className="flow-root bg-white">
         <figure className="-mt-10 px-6 md:-mt-20">
           <div className="relative mx-auto aspect-[16/9] w-full max-w-[1200px] overflow-hidden md:aspect-[2/1]">
@@ -57,21 +61,14 @@ export default function PostDetail({ post }: PostDetailProps) {
             />
           </div>
         </figure>
-
-        {/* The measure is much narrower than the artwork above it — long-form
-            copy reads at ~940px even though the image runs to 1200px. Each
-            block carries its own top margin, so the first one is pulled back
-            to keep the gap under the image predictable, and whatever follows a
-            subheading — or a bold lead-in line, which acts as one — closes
-            right up against it, with only the heading's own line box between
-            them. */}
-        <div className="mx-auto max-w-[988px] px-6 pb-32 pt-20 md:pb-40 md:pt-28 [&>*:first-child]:mt-0 [&>[data-lead-in]+*]:mt-0 [&>h2+*]:mt-0 [&>h3+*]:mt-0 [&>h4+*]:mt-0">
-          {/* `PostBody` renders each node as a direct child of this div, with
-              no wrapper of its own — which is what the `>` selectors on the
-              class list above depend on. */}
-          <PostBody content={post.content} />
-        </div>
       </div>
+
+      {/* The body itself. Rendering it through the section rather than through
+          a layout of its own is what keeps an article's copy and copy authored
+          as a `richTextSection` the same thing: one measure, one set of margin
+          rules, no drift. The article's own title lives in the dark header
+          above, so no section heading is passed. */}
+      <RichTextSection data={{ content: post.content }} />
     </article>
   );
 }
