@@ -174,3 +174,18 @@ export interface GrowthValidationData {
   image: string;
   imageAlt: string;
 }
+
+export interface ContentRailCardData {
+  id: string;
+  title: string;
+  description: string;
+  image?: string;
+  alt?: string;
+  href?: string;
+}
+
+export interface IContentRailData {
+  title: string;
+  description?: string;
+  cards: ContentRailCardData[];
+}

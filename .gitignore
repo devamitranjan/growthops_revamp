@@ -48,3 +48,4 @@ src/cms/sanity/schema.json
 
 # sanity dataset exports (local backups, never commit)
 .sanity-backups/
+cov/

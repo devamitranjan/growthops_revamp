@@ -26,7 +26,7 @@ import { mapRichText } from "../rich-text/rich-text.mapper";
  * editor never sees and a migration would be painful to change; the domain
  * `type` is what `src/components/site/section-renderer.tsx` switches on. Keeping
  * them apart is what lets a Contentful adapter map *its* content-type ids onto
- * the same seventeen names without a single edit to the renderer.
+ * the same eighteen names without a single edit to the renderer.
  *
  * `satisfies` rather than a plain object so a typo, or a domain name that no
  * longer exists on `PageSection`, is a compile error here rather than a
@@ -44,6 +44,7 @@ const SECTION_TYPES = {
   cultureValidationSection: "cultureValidation",
   teamSection: "team",
   creativeTechSection: "creativeTech",
+  contentRailSection: "contentRail",
   faqSection: "faq",
   contactFormSection: "contactForm",
   postListingSection: "postListing",
@@ -178,7 +179,7 @@ function mapSection(raw: RawSection, index: number): PageSection | null {
     }
 
     default:
-      // The remaining fourteen are a straight rename of the two Sanity keys.
+      // The remaining fifteen are a straight rename of the two Sanity keys.
       // The cast is the seam TypeGen guards from the other side: the GROQ that
       // produced `fields` is type-checked against the schema, and a projection
       // that stops matching `PageSection` shows up as a render-time gap rather

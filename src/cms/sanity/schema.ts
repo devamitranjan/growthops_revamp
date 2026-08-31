@@ -12,6 +12,7 @@ import { linkCta } from "./objects/link-cta";
 import { seo } from "./objects/seo";
 import { articleTeaser } from "./sections/objects/article-teaser";
 import { caseStudySlide } from "./sections/objects/case-study-slide";
+import { contentRailCard } from "./sections/objects/content-rail-card";
 import { cultureCard } from "./sections/objects/culture-card";
 import { faqItem } from "./sections/objects/faq-item";
 import { growthCard } from "./sections/objects/growth-card";
@@ -80,6 +81,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   growthCard,
   growthStat,
   cultureCard,
+  contentRailCard,
   linkCta,
   caseStudySlide,
   articleTeaser,

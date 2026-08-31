@@ -3,6 +3,7 @@ import { defineArrayMember } from "sanity";
 import { articleCardsSection } from "./schemas/article-cards-section";
 import { caseStudySection } from "./schemas/case-study-section";
 import { contactFormSection } from "./schemas/contact-form-section";
+import { contentRailSection } from "./schemas/content-rail-section";
 import { creativeTechSection } from "./schemas/creative-tech-section";
 import { cultureValidationSection } from "./schemas/culture-validation-section";
 import { downloadReportSection } from "./schemas/download-report-section";
@@ -46,6 +47,7 @@ export const sectionTypes = [
   cultureValidationSection,
   teamSection,
   creativeTechSection,
+  contentRailSection,
   faqSection,
 
   // Sections that carry a route's own content. Nothing stops an editor putting
