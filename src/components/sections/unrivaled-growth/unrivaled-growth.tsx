@@ -52,7 +52,7 @@ export const UnrivaledGrowth: React.FC<UnrivaledGrowthProps> = ({ data }) => {
           ))}
         </ul>
 
-        {cta ? (
+        {cta?.href ? (
           <a
             ref={ctaRef}
             href={cta.href}
