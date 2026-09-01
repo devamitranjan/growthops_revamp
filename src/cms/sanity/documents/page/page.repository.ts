@@ -2,7 +2,7 @@ import type { PageRepository } from "@/content/domain/page/page.repository";
 import { HOME_PAGE_PATH } from "@/content/domain/page/page.repository";
 import type { PageData } from "@/content/domain/page/page.types";
 import { client } from "../../client";
-import { sanityFetch } from "../../live";
+import { sanityFetch, stegaEnabled } from "../../live";
 import { documentTags, uncached } from "../../tags";
 import { buildPathIndex, mapPage } from "./page.mapper";
 import { PAGE_INDEX_QUERY, PAGE_QUERY } from "./page.queries";
@@ -20,8 +20,17 @@ import { PAGE_INDEX_QUERY, PAGE_QUERY } from "./page.queries";
  * `sanity:page` tag.
  */
 
-/** The path index, read the same way every other page read is tagged so a
- *  published slug or parent change invalidates it too. */
+/**
+ * The path index, read the same way every other page read is tagged so a
+ * published slug or parent change invalidates it too.
+ *
+ * `stega: false` is load-bearing here, not boilerplate. Every string this
+ * query returns — `_id`, `slug`, `parentId` — is used as a map key or a path
+ * segment by `buildPathIndex`, never rendered. Encoded characters would not
+ * show up wrong; they would stop matching, and a page would 404 at the URL it
+ * is published at. Same for `getPaths` below, which feeds
+ * `generateStaticParams`.
+ */
 async function getPathIndex(): Promise<Map<string, string>> {
   const { data } = await sanityFetch({
     query: PAGE_INDEX_QUERY,
@@ -48,10 +57,13 @@ async function getByPath(path: string): Promise<PageData | null> {
 
   if (!id) return null;
 
+  // The one page read whose output is rendered as prose, so the one that asks
+  // for stega — inside a preview only. `mapPage` cleans it back off the fields
+  // that are not copy; see `../../stega.ts`.
   const { data } = await sanityFetch({
     query: PAGE_QUERY,
     params: { id },
-    stega: false,
+    stega: await stegaEnabled(),
     tags: documentTags("page", "testimonialsSection", "newsroomArticle"),
   });
 

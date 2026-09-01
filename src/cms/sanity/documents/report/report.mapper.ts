@@ -1,5 +1,6 @@
 import type { ReportPageData } from "@/content/domain/report/report.types";
 import { mapSeo, mapSections } from "../../sections/section.mapper";
+import { stegaClean } from "../../stega";
 
 /** `REPORT_QUERY` / `REPORTS_QUERY`. A report is a composed page like any
  *  other, so it reads back through the same section projections and maps
@@ -15,10 +16,13 @@ interface RawReport {
   sections?: unknown;
 }
 
+/** `slug` and `title` are cleaned for the reason `mapPage` gives: the slug is
+ *  a URL segment and the title is a `<head>` fallback, so neither is a text
+ *  node anyone can click. */
 export function mapReport(row: RawReport): ReportPageData {
   return {
-    slug: row.slug ?? "",
-    title: row.title ?? "",
+    slug: stegaClean(row.slug) ?? "",
+    title: stegaClean(row.title) ?? "",
     seo: mapSeo(row.seo),
     sections: mapSections(row.sections),
   };

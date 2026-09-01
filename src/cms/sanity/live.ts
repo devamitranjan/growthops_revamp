@@ -1,4 +1,5 @@
 import { defineLive } from "next-sanity/live";
+import { draftMode } from "next/headers";
 
 import { client } from "./client";
 import { readToken } from "./token";
@@ -60,3 +61,22 @@ export const { sanityFetch, SanityLive } = defineLive({
   serverToken: readToken ?? false,
   browserToken: readToken ?? false,
 });
+
+/**
+ * Whether a read should ask for stega-encoded strings — the `stega` option at
+ * two of the ten `sanityFetch` call sites, and the reason the other eight say
+ * `false` out loud.
+ *
+ * Draft mode is the whole condition. Inside a preview, invisible edit pointers
+ * in the copy are what make click-to-edit work; outside one they are dead
+ * weight in the HTML at best, and a broken string comparison at worst. See
+ * `stega.ts` for which reads get them and what has to be cleaned back off.
+ *
+ * `sanityFetch` resolves the same answer itself when `stega` is omitted, but
+ * an omitted option sitting among eight explicit `false`s reads as an
+ * oversight rather than a decision. The extra `draftMode()` read is cached and
+ * is not a dynamic API — see above.
+ */
+export async function stegaEnabled(): Promise<boolean> {
+  return (await draftMode()).isEnabled;
+}

@@ -5,6 +5,7 @@ import type {
   PageSectionType,
 } from "@/content/sections/section.types";
 import { mapRichText } from "../rich-text/rich-text.mapper";
+import { cleanNonProse, stegaClean } from "../stega";
 
 /**
  * The page builder's translation layer: a Sanity section becomes a
@@ -17,6 +18,13 @@ import { mapRichText } from "../rich-text/rich-text.mapper";
  * This is a mapper, not a repository: pure functions over already-fetched
  * data, importing nothing but types and other mappers. That matters because it
  * means it carries no token and could be run anywhere, client included.
+ *
+ * It is also where stega stops. `PAGE_QUERY` and `REPORT_QUERY` are read with
+ * stega on while draft mode is on, so every string arriving here may carry an
+ * invisible edit pointer — which is the point for copy, and a bug for
+ * everything else. `cleanNonProse` strips it from the fields the application
+ * compares, keys and fetches rather than renders; see `../stega.ts` for the
+ * list and the reasoning.
  */
 
 /**
@@ -202,7 +210,10 @@ function mapSection(raw: RawSection, index: number): PageSection | null {
 export function mapSections(sections: unknown): PageSection[] {
   if (!Array.isArray(sections)) return [];
 
-  return sections
+  // One pass over the raw payload before anything reads it, rather than a
+  // `stegaClean` at each of the places a non-prose field is consumed: the
+  // fifteen straight-rename sections below never name their fields at all.
+  return cleanNonProse(sections)
     .map((section, index) => mapSection((section ?? {}) as RawSection, index))
     .filter((section): section is PageSection => section !== null);
 }
@@ -211,9 +222,18 @@ export function mapSections(sections: unknown): PageSection[] {
 // SEO
 // ---------------------------------------------------------------------------
 
-/** GROQ hands back `null` for an empty field; the domain's contract is
- *  optional keys, so an unfilled meta title reads as "absent" rather than
- *  "empty" and falls through to the site defaults. */
+/**
+ * GROQ hands back `null` for an empty field; the domain's contract is optional
+ * keys, so an unfilled meta title reads as "absent" rather than "empty" and
+ * falls through to the site defaults.
+ *
+ * Cleaned unconditionally, because this is the one mapper output that ends up
+ * in `<head>`. `src/lib/page-metadata.ts` turns it into `<title>` and
+ * `og:description`, and it cannot clean anything itself — `src/lib/**` may not
+ * import `@sanity/*`, by the ESLint rule that keeps the CMS behind this
+ * boundary. So metadata is read stega-free instead, and this is where that is
+ * made true.
+ */
 export function mapSeo(
   seo: {
     title?: string | null;
@@ -224,8 +244,8 @@ export function mapSeo(
   if (!seo) return undefined;
 
   return {
-    title: seo.title ?? undefined,
-    description: seo.description ?? undefined,
-    ogImage: seo.ogImage ?? undefined,
+    title: stegaClean(seo.title) ?? undefined,
+    description: stegaClean(seo.description) ?? undefined,
+    ogImage: stegaClean(seo.ogImage) ?? undefined,
   };
 }

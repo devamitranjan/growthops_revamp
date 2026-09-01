@@ -1,5 +1,6 @@
 import type { PageData } from "@/content/domain/page/page.types";
 import { mapSeo, mapSections } from "../../sections/section.mapper";
+import { stegaClean } from "../../stega";
 
 /**
  * Sanity's page projections -> `PageData`, and the page tree -> URL paths.
@@ -109,13 +110,20 @@ interface RawPage {
   sections?: unknown;
 }
 
-/** `path` is supplied by the caller rather than read: it is what the lookup
- *  resolved, and the document has no field that carries it. */
+/**
+ * `path` is supplied by the caller rather than read: it is what the lookup
+ * resolved, and the document has no field that carries it.
+ *
+ * `slug` and `title` are cleaned because neither is rendered: the slug builds
+ * URLs, and the title is only ever the fallback `<title>` for a page whose
+ * editor left the meta title empty. Nothing is lost by taking the edit pointer
+ * off them, and a `<title>` full of invisible characters is a real cost.
+ */
 export function mapPage(row: RawPage, path: string): PageData {
   return {
     path,
-    slug: row.slug ?? path,
-    title: row.title ?? "",
+    slug: stegaClean(row.slug) ?? path,
+    title: stegaClean(row.title) ?? "",
     seo: mapSeo(row.seo),
     sections: mapSections(row.sections),
   };

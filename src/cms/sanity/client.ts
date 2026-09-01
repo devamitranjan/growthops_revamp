@@ -31,6 +31,16 @@ import { readToken } from "./token";
  * cached "forever". Reads through `sanityFetch` are sent with
  * `cacheMode: "noStale"` and are expired by name on the next live event or
  * webhook, so nothing gets frozen. Do not flip this to `true` by hand.
+ *
+ * `stega.studioUrl` is what a stega'd read needs to build the edit link it
+ * encodes into each string — without it `@sanity/client` throws
+ * `config.studioUrl must be defined` rather than encoding nothing. It is the
+ * relative `/studio` because that is where the Studio is mounted in this same
+ * app, which makes it correct on localhost and on the deployed domain alike.
+ *
+ * Setting it does not turn stega on. Encoding is per fetch, and `defineLive`
+ * reconfigures this client with `stega: false`; the two reads that want it say
+ * so, and only while draft mode is on. See `stega.ts`.
  */
 export const client = createClient({
   projectId,
@@ -39,4 +49,5 @@ export const client = createClient({
   useCdn: false,
   perspective: "published",
   token: readToken,
+  stega: { studioUrl: "/studio" },
 });

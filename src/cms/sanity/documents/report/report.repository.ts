@@ -1,6 +1,6 @@
 import type { ReportRepository } from "@/content/domain/report/report.repository";
 import { client } from "../../client";
-import { sanityFetch } from "../../live";
+import { sanityFetch, stegaEnabled } from "../../live";
 import { documentTags, uncached } from "../../tags";
 import { mapReport, mapReports } from "./report.mapper";
 import {
@@ -34,11 +34,15 @@ export const sanityReportRepository: ReportRepository = {
     return mapReports(data);
   },
 
+  /** The report equivalent of `PageRepository.getByPath`: one composed
+   *  document, rendered as prose, so it is read with stega while draft mode is
+   *  on. `getAll` above is not — it answers /api/reports, and a JSON payload
+   *  has nothing to click. */
   async getBySlug(slug) {
     const { data } = await sanityFetch({
       query: REPORT_QUERY,
       params: { slug },
-      stega: false,
+      stega: await stegaEnabled(),
       tags: SECTION_TAGS,
     });
 
