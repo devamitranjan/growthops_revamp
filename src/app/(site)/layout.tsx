@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { ContentLive } from "@/content/live";
 import { siteSettingsRepository } from "@/content/repositories";
+import { ContentVisualEditing } from "@/content/visual-editing";
 
 import "../globals.css";
 
@@ -62,6 +63,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full" suppressHydrationWarning>
         {children}
         <ContentLive />
+        <ContentVisualEditing />
       </body>
     </html>
   );

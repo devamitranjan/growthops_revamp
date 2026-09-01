@@ -1,20 +1,24 @@
 import { createClient } from "next-sanity";
 
 import { apiVersion, dataset, projectId } from "./env";
+import { readToken } from "./token";
 
 /**
  * Read client for the site.
  *
  * SERVER-SIDE ONLY. This project returns an empty result set to
- * unauthenticated callers, so every read needs `SANITY_API_READ_TOKEN`, and
- * that token must never reach the browser.
+ * unauthenticated callers, so every read needs `SANITY_API_READ_TOKEN` — see
+ * `token.ts`, which is where that value is named now that `live.ts` and
+ * `draft-mode.ts` need it too. It must never reach the browser from here; the
+ * one place it is deliberately shared with the browser is `browserToken` in
+ * `live.ts`, and only while draft mode is on.
  *
  * Nothing outside `src/cms/sanity` imports this file. The callers are
- * `live.ts` and the `generateStaticParams` reads in the `.repository` files,
- * both of which are reached from Server Components and route handlers, and
- * every one of those files starts with `import "server-only"` — so a
- * `"use client"` module that reaches this one fails the build rather than
- * shipping the token. The ESLint rules in `eslint.config.mjs` stop the
+ * `live.ts`, `draft-mode.ts`, and the `generateStaticParams` reads in the
+ * `.repository` files — all reached from Server Components and route
+ * handlers, and every one of those files starts with `import "server-only"`,
+ * so a `"use client"` module that reaches this one fails the build rather
+ * than shipping the token. The ESLint rules in `eslint.config.mjs` stop the
  * application layer importing it at all.
  *
  * `useCdn: false` still applies to the direct `client.fetch` reads left in
@@ -34,5 +38,5 @@ export const client = createClient({
   apiVersion,
   useCdn: false,
   perspective: "published",
-  token: process.env.SANITY_API_READ_TOKEN,
+  token: readToken,
 });
