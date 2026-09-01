@@ -22,7 +22,7 @@ export async function generateMetadata(
 }
 
 /** A report is composed from the section library like any other page — its
- *  hero, overview and download form are all sections on the document. */
+ *  banner, overview and download form are all sections on the document. */
 export default async function ReportPage(props: PageProps<"/reports/[slug]">) {
   const { slug } = await props.params;
   const report = await reportRepository.getBySlug(slug);

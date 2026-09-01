@@ -3,7 +3,7 @@ export interface SectionRow {
   _type: string;
   title?: string;
   heading?: string;
-  heroTitle?: string;
+  bannerTitle?: string;
   /** Only on `postListingSection` — the page size its pane splits by. */
   postsPerPage?: number;
 }

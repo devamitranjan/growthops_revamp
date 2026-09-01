@@ -11,7 +11,7 @@ export const SECTIONS_QUERY = `*[_id == $id][0].sections[]{
   title,
   heading,
   postsPerPage,
-  "heroTitle": hero.title
+  "bannerTitle": banner.title
 }` as const;
 
 /**

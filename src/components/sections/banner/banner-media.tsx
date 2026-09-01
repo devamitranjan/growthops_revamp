@@ -4,7 +4,7 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-interface HeroMediaProps {
+interface BannerMediaProps {
   videoSrc?: string;
   videoType?: string;
   posterSrc: string;
@@ -22,7 +22,7 @@ const cancelIdle = (handle: number) =>
     : window.clearTimeout(handle);
 
 /**
- * The hero's background layer.
+ * The banner's background layer.
  *
  * The poster is the LCP candidate, so when there is one it gets the first
  * paint to itself: the video element is not mounted until the page has
@@ -33,11 +33,11 @@ const cancelIdle = (handle: number) =>
  *
  * With no poster there is nothing to defer to, so the video loads eagerly.
  */
-export const HeroMedia = ({
+export const BannerMedia = ({
   videoSrc,
   videoType,
   posterSrc,
-}: HeroMediaProps) => {
+}: BannerMediaProps) => {
   const deferVideo = Boolean(videoSrc && posterSrc);
   const [mountVideo, setMountVideo] = useState(!deferVideo);
   const [videoReady, setVideoReady] = useState(false);

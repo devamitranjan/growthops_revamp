@@ -33,7 +33,7 @@ import { mapRichText } from "../rich-text/rich-text.mapper";
  * section that silently stops rendering.
  */
 const SECTION_TYPES = {
-  heroSection: "hero",
+  bannerSection: "banner",
   servicesSection: "services",
   growthSpurtsSection: "growthSpurts",
   unrivaledGrowthSection: "unrivaledGrowth",

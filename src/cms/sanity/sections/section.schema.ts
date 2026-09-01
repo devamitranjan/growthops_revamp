@@ -1,6 +1,7 @@
 import { defineArrayMember } from "sanity";
 
 import { articleCardsSection } from "./schemas/article-cards-section";
+import { bannerSection } from "./schemas/banner-section";
 import { caseStudySection } from "./schemas/case-study-section";
 import { contactFormSection } from "./schemas/contact-form-section";
 import { contentRailSection } from "./schemas/content-rail-section";
@@ -10,7 +11,6 @@ import { downloadReportSection } from "./schemas/download-report-section";
 import { faqSection } from "./schemas/faq-section";
 import { growthSpurtsSection } from "./schemas/growth-spurts-section";
 import { growthValidationSection } from "./schemas/growth-validation-section";
-import { heroSection } from "./schemas/hero-section";
 import { newsroomListingSection } from "./schemas/newsroom-listing-section";
 import { postListingSection } from "./schemas/post-listing-section";
 import { reportOverviewSection } from "./schemas/report-overview-section";
@@ -37,7 +37,7 @@ import { unrivaledGrowthSection } from "./schemas/unrivaled-growth-section";
  * `testimonialsBlock`, which points at a shared document on purpose.
  */
 export const sectionTypes = [
-  heroSection,
+  bannerSection,
   servicesSection,
   growthSpurtsSection,
   unrivaledGrowthSection,

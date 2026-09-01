@@ -64,7 +64,7 @@ src/
     api/                 # Route handlers (revalidate webhook, JSON reads)
     globals.css          # Tailwind v4 entry point and design tokens
   components/
-    sections/            # Page sections (hero-banner, unrivaled-growth, ...)
+    sections/            # Page sections (banner, unrivaled-growth, ...)
     site/                # Chrome: header, site-footer, section-renderer
     ui/                  # Small shared primitives (section-header, icons, ...)
   content/               # CMS-agnostic domain layer — see src/content/README.md

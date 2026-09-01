@@ -30,8 +30,8 @@ export const SECTIONS_PROJECTION = `
   _key,
   _type,
 
-  _type == "heroSection" => {
-    hero{
+  _type == "bannerSection" => {
+    banner{
       tag, title, subtitle, description, animateSpin,
       "videoSrc": coalesce(video.asset->url, videoSrc),
       "videoType": video.asset->mimeType,

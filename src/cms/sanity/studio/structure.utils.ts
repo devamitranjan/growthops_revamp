@@ -31,7 +31,7 @@ export function getSectionLabel(
   return (
     section.title ||
     section.heading ||
-    section.heroTitle ||
+    section.bannerTitle ||
     context.schema.get(section._type)?.title ||
     section._type ||
     `Section ${index + 1}`

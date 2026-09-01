@@ -3,13 +3,13 @@ import { defineField, defineType } from "sanity";
 /**
  * A gated report landing page, served at `/reports/<slug>`.
  *
- * Composed from the same section library as every other page: the hero, the
+ * Composed from the same section library as every other page: the banner, the
  * "In this report" overview and the download form are all sections, so a
  * report can carry anything else the library offers — a FAQ, testimonials —
  * and can order them however it likes.
  *
  * `title` exists for the Studio rather than the page: it names the document in
- * lists and seeds the slug. What the page *says* is in the hero section.
+ * lists and seeds the slug. What the page *says* is in the banner section.
  */
 export const report = defineType({
   name: "report",

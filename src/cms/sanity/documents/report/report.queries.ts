@@ -3,7 +3,7 @@ import { defineQuery } from "next-sanity";
 import { SECTIONS_PROJECTION } from "../../sections/section.queries";
 
 /**
- * A report is a composed page like any other — the hero, the overview and the
+ * A report is a composed page like any other — the banner, the overview and the
  * download form are sections — so it reads back through the same projections.
  */
 const REPORT_FIELDS = `

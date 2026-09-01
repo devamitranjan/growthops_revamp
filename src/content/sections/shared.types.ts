@@ -12,7 +12,7 @@
 import type { RichText } from "@/content/models/rich-text";
 import type { LogoData } from "@/content/domain/testimonial/testimonial.types";
 
-export interface IHeroBannerData {
+export interface IBannerData {
   tag?: string;
   title: string;
   subtitle: string;

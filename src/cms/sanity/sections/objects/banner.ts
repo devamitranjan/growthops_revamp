@@ -1,9 +1,9 @@
 import { defineField, defineType } from "sanity";
 
-/** Shared by the home hero and every report landing page. */
-export const heroBanner = defineType({
-  name: "heroBanner",
-  title: "Hero banner",
+/** Shared by the home banner and every report landing page. */
+export const banner = defineType({
+  name: "banner",
+  title: "Banner",
   type: "object",
   fields: [
     defineField({

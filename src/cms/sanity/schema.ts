@@ -11,13 +11,13 @@ import { report } from "./documents/report/report.schema";
 import { linkCta } from "./objects/link-cta";
 import { seo } from "./objects/seo";
 import { articleTeaser } from "./sections/objects/article-teaser";
+import { banner } from "./sections/objects/banner";
 import { caseStudySlide } from "./sections/objects/case-study-slide";
 import { contentRailCard } from "./sections/objects/content-rail-card";
 import { cultureCard } from "./sections/objects/culture-card";
 import { faqItem } from "./sections/objects/faq-item";
 import { growthCard } from "./sections/objects/growth-card";
 import { growthStat } from "./sections/objects/growth-stat";
-import { heroBanner } from "./sections/objects/hero-banner";
 import { pageSections } from "./sections/objects/page-sections";
 import { reportHighlight } from "./sections/objects/report-highlight";
 import { reportSlide } from "./sections/objects/report-slide";
@@ -76,7 +76,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
 
   // objects
   pageSections,
-  heroBanner,
+  banner,
   serviceItem,
   growthCard,
   growthStat,

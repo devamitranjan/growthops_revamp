@@ -7,10 +7,10 @@ import type {
   GrowthCardData,
   GrowthValidationData,
   IContentRailData,
+  IBannerData,
   ICreativeTechData,
   ICultureValidationData,
   IFaqData,
-  IHeroBannerData,
   IRichTextData,
   ITeamSectionData,
   IUnrivaledGrowthData,
@@ -22,9 +22,9 @@ import type {
  * the application's own words.
  *
  * `type` is the discriminant, and it is deliberately *not* the CMS's type
- * name: Sanity calls the first one `heroSection`, and if that string reached
+ * name: Sanity calls the first one `bannerSection`, and if that string reached
  * `section-renderer.tsx` then swapping the CMS would mean either editing every
- * branch of the renderer or naming a Contentful content type `heroSection` to
+ * branch of the renderer or naming a Contentful content type `bannerSection` to
  * keep a Sanity-era string alive. The translation happens once, in
  * `src/cms/sanity/sections/section.mapper.ts`, and the table there is the only
  * place both vocabularies are written down.
@@ -37,7 +37,7 @@ import type {
  * same section on two pages shows two different sets of data.
  */
 export type PageSection =
-  | { type: "hero"; key: string; hero: IHeroBannerData }
+  | { type: "banner"; key: string; banner: IBannerData }
   | { type: "services"; key: string; services: ServiceItem[] }
   | { type: "growthSpurts"; key: string; cards: GrowthCardData[] }
   | ({ type: "unrivaledGrowth"; key: string } & IUnrivaledGrowthData)

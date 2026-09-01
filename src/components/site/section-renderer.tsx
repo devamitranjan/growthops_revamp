@@ -6,7 +6,7 @@ import type { PageSection } from "@/content/types";
  * The page builder's section -> component map.
  *
  * It switches on `section.type`, which is the *application's* name for a
- * section — `"hero"`, not Sanity's `"heroSection"`. The translation happens
+ * section — `"banner"`, not Sanity's `"bannerSection"`. The translation happens
  * once, in `src/cms/sanity/sections/section.mapper.ts`, so this file has no
  * idea which CMS composed the page and a CMS swap does not reach it. The
  * nineteen names below and the nineteen in that mapper's table are the two
@@ -18,10 +18,10 @@ import type { PageSection } from "@/content/types";
  * so the pinned GSAP sections below do not jump while a chunk loads.
  */
 
-const HeroBanner = dynamic(
+const Banner = dynamic(
   () =>
-    import("@/components/sections/hero-banner/hero-banner").then(
-      (module) => module.HeroBanner,
+    import("@/components/sections/banner/banner").then(
+      (module) => module.Banner,
     ),
   {
     loading: () => <div className="min-h-screen bg-background" />,
@@ -195,8 +195,8 @@ export function SectionRenderer({
   context?: SectionContext;
 }) {
   switch (section.type) {
-    case "hero":
-      return <HeroBanner data={section.hero} />;
+    case "banner":
+      return <Banner data={section.banner} />;
 
     case "services":
       return <ServicesGrid services={section.services} />;

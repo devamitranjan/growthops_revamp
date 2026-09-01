@@ -1,18 +1,18 @@
 import { clsx } from "clsx";
 import { FaAngleDown } from "react-icons/fa6";
-import { IHeroBannerData } from "@/content/types";
-import { HeroMedia } from "./hero-media";
+import { IBannerData } from "@/content/types";
+import { BannerMedia } from "./banner-media";
 
-interface HeroBannerProps extends React.HTMLAttributes<HTMLDivElement> {
-  data: IHeroBannerData;
+interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
+  data: IBannerData;
 }
 
-export const HeroBanner = ({ data }: HeroBannerProps) => {
+export const Banner = ({ data }: BannerProps) => {
   return (
     <div className="relative">
       <div className="relative h-screen w-full">
         <div className="absolute top-0 w-full h-full z-10 bg-gradient-to-t from-neutral-black-base to-transparent to-70%" />
-        <HeroMedia
+        <BannerMedia
           videoSrc={data?.videoSrc}
           videoType={data?.videoType}
           posterSrc={data?.posterSrc}
