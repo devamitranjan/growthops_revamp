@@ -22,6 +22,7 @@ import { pageSections } from "./sections/objects/page-sections";
 import { reportHighlight } from "./sections/objects/report-highlight";
 import { reportSlide } from "./sections/objects/report-slide";
 import { serviceItem } from "./sections/objects/service-item";
+import { serviceShowcaseItem } from "./sections/objects/service-showcase-item";
 import { teamBatch } from "./sections/objects/team-batch";
 import { teamHighlight } from "./sections/objects/team-highlight";
 import { teamMember } from "./sections/objects/team-member";
@@ -78,6 +79,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   pageSections,
   heroBanner,
   serviceItem,
+  serviceShowcaseItem,
   growthCard,
   growthStat,
   cultureCard,

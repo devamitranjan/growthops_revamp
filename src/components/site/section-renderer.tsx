@@ -37,6 +37,14 @@ const ServicesGrid = dynamic(
   },
 );
 
+const ServicesShowcase = dynamic(
+  () => import("@/components/sections/services-showcase"),
+  {
+    loading: () => <div className="min-h-[600px] bg-background" />,
+    ssr: true,
+  },
+);
+
 const GrowthSpurts = dynamic(
   () => import("@/components/sections/growth-spurts/growth-spurts"),
   {
@@ -200,6 +208,14 @@ export function SectionRenderer({
 
     case "services":
       return <ServicesGrid services={section.services} />;
+
+    case "servicesShowcase":
+  return (
+    <ServicesShowcase
+      title={section.title}
+      services={section.services}
+    />
+  );
 
     case "growthSpurts":
       return <GrowthSpurts cards={section.cards} />;

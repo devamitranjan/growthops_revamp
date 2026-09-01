@@ -43,6 +43,16 @@ export const SECTIONS_PROJECTION = `
     services[]{ href, "imgSrc": image.asset->url, alt, overlayColor }
   },
 
+  _type == "servicesShowcaseSection" => {
+  title,
+  services[]{
+    "id": _key,
+    title,
+    "imgSrc": image.asset->url,
+    alt
+  }
+},
+
   _type == "growthSpurtsSection" => {
     cards[]{ "id": _key, "imageSrc": image.asset->url, videoSrc, alt, label, description }
   },

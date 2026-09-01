@@ -16,6 +16,7 @@ import { postListingSection } from "./schemas/post-listing-section";
 import { reportOverviewSection } from "./schemas/report-overview-section";
 import { richTextSection } from "./schemas/rich-text-section";
 import { servicesSection } from "./schemas/services-section";
+import { servicesShowcaseSection } from "./schemas/services-showcase-section";
 import { teamSection } from "./schemas/team-section";
 import { testimonialsBlock } from "./schemas/testimonials-block";
 import { unrivaledGrowthSection } from "./schemas/unrivaled-growth-section";
@@ -39,6 +40,7 @@ import { unrivaledGrowthSection } from "./schemas/unrivaled-growth-section";
 export const sectionTypes = [
   heroSection,
   servicesSection,
+  servicesShowcaseSection,
   growthSpurtsSection,
   unrivaledGrowthSection,
   caseStudySection,

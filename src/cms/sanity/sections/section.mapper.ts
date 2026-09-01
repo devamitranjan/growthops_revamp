@@ -35,6 +35,7 @@ import { mapRichText } from "../rich-text/rich-text.mapper";
 const SECTION_TYPES = {
   heroSection: "hero",
   servicesSection: "services",
+  servicesShowcaseSection: "servicesShowcase",
   growthSpurtsSection: "growthSpurts",
   unrivaledGrowthSection: "unrivaledGrowth",
   caseStudySection: "caseStudy",
