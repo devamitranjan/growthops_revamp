@@ -32,7 +32,9 @@ export const SECTIONS_PROJECTION = `
 
   _type == "heroSection" => {
     hero{
-      tag, title, subtitle, description, videoSrc, animateSpin,
+      tag, title, subtitle, description, animateSpin,
+      "videoSrc": coalesce(video.asset->url, videoSrc),
+      "videoType": video.asset->mimeType,
       "posterSrc": coalesce(poster.asset->url, posterSrc)
     }
   },

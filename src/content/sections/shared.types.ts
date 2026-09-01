@@ -18,6 +18,9 @@ export interface IHeroBannerData {
   subtitle: string;
   description: string;
   videoSrc?: string;
+  /** MIME type of the uploaded video, so `<source>` can declare it. Absent for
+   *  legacy /public paths, where the response's Content-Type is enough. */
+  videoType?: string;
   posterSrc: string;
   animateSpin?: boolean;
 }

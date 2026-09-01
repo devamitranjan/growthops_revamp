@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
-import Image from "next/image";
 import { FaAngleDown } from "react-icons/fa6";
 import { IHeroBannerData } from "@/content/types";
+import { HeroMedia } from "./hero-media";
 
 interface HeroBannerProps extends React.HTMLAttributes<HTMLDivElement> {
   data: IHeroBannerData;
@@ -12,29 +12,11 @@ export const HeroBanner = ({ data }: HeroBannerProps) => {
     <div className="relative">
       <div className="relative h-screen w-full">
         <div className="absolute top-0 w-full h-full z-10 bg-gradient-to-t from-neutral-black-base to-transparent to-70%" />
-        {data?.videoSrc ? (
-          <video
-            preload="auto"
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster={data?.posterSrc}
-            className="h-screen w-full object-cover"
-          >
-            <source src={data?.videoSrc} type="video/webm" />
-            Your browser does not support the video tag.
-          </video>
-        ) : (
-          <Image
-            src={data?.posterSrc}
-            alt="Hero Banner"
-            fill
-            priority
-            className="object-cover transition duration-300 ease-out group-hover:scale-110"
-            sizes="(max-width: 768px) 100vw, 300px"
-          />
-        )}
+        <HeroMedia
+          videoSrc={data?.videoSrc}
+          videoType={data?.videoType}
+          posterSrc={data?.posterSrc}
+        />
       </div>
 
       <div className="generic-container w-full flex flex-col gap-4 md:items-center text-neutral-white-base z-20 absolute bottom-0 left-1/2 -translate-x-1/2 pb-12 md:pb-8 border-b border-neutral-white-base/20">

@@ -16,11 +16,19 @@ export const heroBanner = defineType({
     defineField({ name: "subtitle", type: "string" }),
     defineField({ name: "description", type: "text", rows: 4 }),
     defineField({
+      name: "video",
+      title: "Background video",
+      type: "file",
+      options: { accept: "video/mp4,video/webm" },
+      description:
+        "Upload the looping background clip (MP4 or WebM). It is served from Sanity's CDN, so keep it short and heavily compressed — ideally under ~10 MB.",
+    }),
+    defineField({
       name: "videoSrc",
-      title: "Background video path",
+      title: "Legacy video path",
       type: "string",
       description:
-        "Path under /public, e.g. /hero-banner/hero.webm. Video is served from the app, never from Sanity.",
+        "Fallback /public path, e.g. /hero-banner/hero.webm. Used only while no video is uploaded. Upload a video to override it.",
     }),
     defineField({
       name: "poster",
