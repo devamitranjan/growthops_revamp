@@ -187,6 +187,33 @@ CI (`.github/workflows/ci.yml`) runs `pnpm lint`, `pnpm typecheck` and
 `pnpm build` on every PR to `main` or `develop`, with
 `pnpm install --frozen-lockfile` as the gate on an unregenerated lockfile.
 
+## TypeScript
+
+Type checking runs on **TypeScript 7**, the native compiler. TS 7.0 ships
+without a JavaScript compiler API and `typescript-eslint` still needs one, so
+the two releases are installed side by side the way the TypeScript team
+[documents](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6.0):
+
+| `package.json` entry | What it is | Who uses it |
+| --- | --- | --- |
+| `@typescript/native` → `typescript@7` | The native compiler. Owns the `tsc` bin. | `pnpm typecheck` |
+| `typescript` → `@typescript/typescript6` | The TS 6.0 JS compiler API. Owns `tsc6`. | `typescript-eslint`, `next build` |
+
+TS 6.0 and TS 7.0 are the same language version, so the two agree on what type
+checks; only the implementation differs.
+
+`next build` type checks through the JS API instead of its default `tsc` CLI
+checker, because that checker looks for `typescript/bin/tsc` and the 6.0 compat
+package ships `bin/tsc6`. That is what `experimental.useTypeScriptCli: false`
+in `next.config.ts` selects.
+
+Leave the editor on its bundled TypeScript. *TypeScript: Select TypeScript
+Version → Use Workspace Version* looks for `node_modules/typescript/lib/tsserver.js`,
+which the compat package does not ship.
+
+Drop both entries for a plain `typescript` dependency once
+[typescript-eslint supports TS 7](https://github.com/typescript-eslint/typescript-eslint/issues/10940).
+
 ## Conventions
 
 - **File & folder naming**: kebab-case throughout `src/` and `public/`, up to
