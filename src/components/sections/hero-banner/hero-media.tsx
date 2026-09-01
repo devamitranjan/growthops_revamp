@@ -33,7 +33,11 @@ const cancelIdle = (handle: number) =>
  *
  * With no poster there is nothing to defer to, so the video loads eagerly.
  */
-export const HeroMedia = ({ videoSrc, videoType, posterSrc }: HeroMediaProps) => {
+export const HeroMedia = ({
+  videoSrc,
+  videoType,
+  posterSrc,
+}: HeroMediaProps) => {
   const deferVideo = Boolean(videoSrc && posterSrc);
   const [mountVideo, setMountVideo] = useState(!deferVideo);
   const [videoReady, setVideoReady] = useState(false);
@@ -65,7 +69,8 @@ export const HeroMedia = ({ videoSrc, videoType, posterSrc }: HeroMediaProps) =>
           src={posterSrc}
           alt=""
           fill
-          priority
+          preload
+          fetchPriority="high"
           sizes="100vw"
           className="object-cover"
         />
