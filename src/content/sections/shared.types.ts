@@ -114,12 +114,28 @@ export interface ITeamSectionData {
   highlight?: TeamHighlight;
 }
 
-/** One badge tile in the culture validation grid. The artwork is the whole
- *  card, so `alt` is the only text describing the award. */
+/**
+ * How a culture card presents its artwork.
+ *
+ * `badge` is the award lockup: the image fills a white circle, because the
+ * badges are printed for light backgrounds. `icon` is the flat pictogram
+ * paired with a caption, which needs the dark card showing through and so
+ * must not get the circle. Absent means `badge` — the cards published before
+ * the second style existed are all awards.
+ */
+export type CultureCardVariant = "badge" | "icon";
+
 export interface CultureCardData {
   id: string;
   image: string;
-  alt: string;
+  /** Required on a `badge`, where the artwork is the only text there is. An
+   *  `icon` card leaves it empty — its label already reads the same. */
+  alt?: string;
+  /** Defaults to `badge` when the CMS leaves it empty. */
+  variant?: CultureCardVariant;
+  /** The caption under an `icon` card. Ignored by the `badge` style, which
+   *  carries its name inside the artwork. */
+  label?: string;
   /** Optional — makes the card a link. */
   href?: string;
 }

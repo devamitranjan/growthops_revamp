@@ -87,7 +87,7 @@ export const SECTIONS_PROJECTION = `
 
   _type == "cultureValidationSection" => {
     title,
-    cards[]{ "id": _key, href, "image": image.asset->url, alt }
+    cards[]{ "id": _key, variant, label, href, "image": image.asset->url, alt }
   },
 
   _type == "teamSection" => {
