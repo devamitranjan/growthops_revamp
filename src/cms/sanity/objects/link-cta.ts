@@ -5,8 +5,8 @@ export const linkCta = defineType({
   title: "Call to action",
   type: "object",
   fields: [
-    defineField({ name: "label", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "href", title: "Link", type: "url", validation: (r) => r.required() }),
+    defineField({ name: "label", type: "string" }),
+    defineField({ name: "href", title: "Link", type: "url" }),
     defineField({
       name: "target",
       type: "string",
