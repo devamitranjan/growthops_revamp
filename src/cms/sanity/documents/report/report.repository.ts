@@ -31,7 +31,7 @@ export const sanityReportRepository: ReportRepository = {
       tags: SECTION_TAGS,
     });
 
-    return mapReports(data);
+    return mapReports(data as Parameters<typeof mapReports>[0]);
   },
 
   async getBySlug(slug) {
