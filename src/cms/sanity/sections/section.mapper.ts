@@ -26,7 +26,7 @@ import { mapRichText } from "../rich-text/rich-text.mapper";
  * editor never sees and a migration would be painful to change; the domain
  * `type` is what `src/components/site/section-renderer.tsx` switches on. Keeping
  * them apart is what lets a Contentful adapter map *its* content-type ids onto
- * the same nineteen names without a single edit to the renderer.
+ * the same twenty names without a single edit to the renderer.
  *
  * `satisfies` rather than a plain object so a typo, or a domain name that no
  * longer exists on `PageSection`, is a compile error here rather than a
@@ -52,6 +52,7 @@ const SECTION_TYPES = {
   newsroomListingSection: "newsroomListing",
   reportOverviewSection: "reportOverview",
   downloadReportSection: "downloadReport",
+  seoAuditFormSection: "seoAuditForm",
 } as const satisfies Record<string, PageSectionType>;
 
 type SanitySectionType = keyof typeof SECTION_TYPES;
@@ -180,7 +181,10 @@ function mapSection(raw: RawSection, index: number): PageSection | null {
       };
 
     case "testimonials": {
-      const data = fields.data as TestimonialsSection["data"] | null | undefined;
+      const data = fields.data as
+        | TestimonialsSection["data"]
+        | null
+        | undefined;
 
       // A dangling reference dereferences to null; a block with no quotes is
       // not a block.
@@ -212,9 +216,12 @@ export function mapSections(sections: unknown): PageSection[] {
 // ---------------------------------------------------------------------------
 
 export function mapSeo(
-  seo: {
-    jsonld?: Array<{ schema: string }>;
-  } | null | undefined,
+  seo:
+    | {
+        jsonld?: Array<{ schema: string }>;
+      }
+    | null
+    | undefined,
 ): SeoMetadata | undefined {
   if (!seo) return undefined;
 

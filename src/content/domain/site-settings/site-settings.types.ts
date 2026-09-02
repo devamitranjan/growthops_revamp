@@ -92,4 +92,15 @@ export interface SiteSettings {
   reportFormConsentLinkLabel: string;
   reportFormFieldLabels: LabelledValue[];
   reportFormValidationMessages: LabelledValue[];
+
+  seoAuditFormTitle: string;
+  seoAuditFormSubmitLabel: string;
+  seoAuditFormSuccessMessage: string;
+  seoAuditFormPrivacyHref: string;
+  seoAuditFieldPlaceholders: LabelledValue[];
+  seoAuditFieldLabels: LabelledValue[];
+  seoAuditEmailConsentLabel: string;
+  seoAuditTermsLabel: string;
+  seoAuditConsentText: string;
+  seoAuditValidationMessages: LabelledValue[];
 }
