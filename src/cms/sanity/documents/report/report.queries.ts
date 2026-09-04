@@ -10,9 +10,9 @@ const REPORT_FIELDS = `
   "slug": slug.current,
   title,
   seo{
-    title,
-    description,
-    "ogImage": ogImage.asset->url
+    jsonld[]{
+      schema
+    }
   },
   sections[]{${SECTIONS_PROJECTION}}
 `;

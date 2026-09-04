@@ -1,8 +1,6 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ComposedPage } from "@/components/site/composed-page";
-import { pageMetadata } from "@/lib/page-metadata";
 import { articleRepository, pageRepository } from "@/content/repositories";
 import type { PageData, PageSection } from "@/content/types";
 
@@ -64,28 +62,10 @@ async function resolveListingPage(
 /**
  * The article listing keeps a route of its own, unlike /contact and /newsroom,
  * because `?page=` is not something a section can decide: an out-of-range
- * number has to 404 here, before anything renders, and the canonical URL has
- * to carry the page number. Everything the page *says* still comes from the
- * `post` page document — including how many posts a page holds — and its
- * sections are as reorderable as any other.
+ * number has to 404 here, before anything renders. Everything the page *says*
+ * comes from the `post` page document — including how many posts a page holds —
+ * and its sections are as reorderable as any other.
  */
-export async function generateMetadata(
-  props: PageProps<"/post">,
-): Promise<Metadata> {
-  const resolved = await resolveListingPage(props.searchParams);
-
-  if (!resolved) return {};
-
-  const { doc, page } = resolved;
-  const suffix = page && page > 1 ? ` (Page ${page})` : "";
-  const canonical = page && page > 1 ? `/post?page=${page}` : "/post";
-
-  return {
-    ...pageMetadata(doc, canonical, doc.title),
-    title: `${doc.seo?.title || doc.title}${suffix}`,
-  };
-}
-
 export default async function PostPage(props: PageProps<"/post">) {
   const resolved = await resolveListingPage(props.searchParams);
 
@@ -95,5 +75,5 @@ export default async function PostPage(props: PageProps<"/post">) {
 
   if (page === null) notFound();
 
-  return <ComposedPage sections={doc.sections} context={{ page }} />;
+  return <ComposedPage sections={doc.sections} seo={doc.seo} context={{ page }} />;
 }

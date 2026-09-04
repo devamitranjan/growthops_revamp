@@ -211,21 +211,14 @@ export function mapSections(sections: unknown): PageSection[] {
 // SEO
 // ---------------------------------------------------------------------------
 
-/** GROQ hands back `null` for an empty field; the domain's contract is
- *  optional keys, so an unfilled meta title reads as "absent" rather than
- *  "empty" and falls through to the site defaults. */
 export function mapSeo(
   seo: {
-    title?: string | null;
-    description?: string | null;
-    ogImage?: string | null;
+    jsonld?: Array<{ schema: string }>;
   } | null | undefined,
 ): SeoMetadata | undefined {
   if (!seo) return undefined;
 
   return {
-    title: seo.title ?? undefined,
-    description: seo.description ?? undefined,
-    ogImage: seo.ogImage ?? undefined,
+    jsonld: seo.jsonld,
   };
 }

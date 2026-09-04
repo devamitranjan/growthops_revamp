@@ -8,8 +8,25 @@ export const seo = defineType({
   type: "object",
   options: { collapsible: true, collapsed: true },
   fields: [
-    defineField({ name: "title", title: "Meta title", type: "string" }),
-    defineField({ name: "description", title: "Meta description", type: "text", rows: 3 }),
-    defineField({ name: "ogImage", title: "Social share image", type: "image" }),
+    defineField({
+      name: "jsonld",
+      title: "JSON-LD Schemas",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({
+              name: "schema",
+              title: "Schema",
+              type: "string",
+              description: "Paste your JSON-LD schema here",
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+        },
+      ],
+      description: "Add structured data schemas (JSON-LD) for search engines",
+    }),
   ],
 });

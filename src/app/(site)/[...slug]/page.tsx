@@ -1,8 +1,6 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ComposedPage } from "@/components/site/composed-page";
-import { pageMetadata } from "@/lib/page-metadata";
 import { HOME_PAGE_PATH } from "@/content/domain/page/page.repository";
 import { pageRepository } from "@/content/repositories";
 
@@ -57,20 +55,6 @@ export async function generateStaticParams() {
     .map((segments) => ({ slug: segments }));
 }
 
-export async function generateMetadata(
-  props: PageProps<"/[...slug]">,
-): Promise<Metadata> {
-  const path = resolvePath((await props.params).slug);
-
-  if (!path) return {};
-
-  const page = await pageRepository.getByPath(path);
-
-  if (!page) return {};
-
-  return pageMetadata(page, `/${path}`, page.title);
-}
-
 export default async function DynamicPage(props: PageProps<"/[...slug]">) {
   const path = resolvePath((await props.params).slug);
 
@@ -80,5 +64,5 @@ export default async function DynamicPage(props: PageProps<"/[...slug]">) {
 
   if (!page) notFound();
 
-  return <ComposedPage sections={page.sections} />;
+  return <ComposedPage sections={page.sections} seo={page.seo} />;
 }

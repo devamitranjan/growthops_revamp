@@ -19,9 +19,9 @@ export const PAGE_QUERY = defineQuery(`*[_type == "page" && _id == $id][0]{
   "slug": slug.current,
   title,
   seo{
-    title,
-    description,
-    "ogImage": ogImage.asset->url
+    jsonld[]{
+      schema
+    }
   },
   sections[]{${SECTIONS_PROJECTION}}
 }`);
