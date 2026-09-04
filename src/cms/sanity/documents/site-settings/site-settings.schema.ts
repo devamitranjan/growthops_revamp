@@ -27,6 +27,7 @@ export const siteSettings = defineType({
     { name: "seo", title: "SEO defaults" },
     { name: "contact", title: "Contact form" },
     { name: "reportForm", title: "Report download form" },
+    { name: "seoAuditForm", title: "SEO Audit form" },
   ],
 
   fields: [
@@ -54,7 +55,13 @@ export const siteSettings = defineType({
     }),
 
     // ── Footer ──────────────────────────────────────────────────────────
-    defineField({ name: "footerHeadline", title: "Headline", type: "string", group: "footer", validation: (r) => r.required() }),
+    defineField({
+      name: "footerHeadline",
+      title: "Headline",
+      type: "string",
+      group: "footer",
+      validation: (r) => r.required(),
+    }),
     defineField({
       name: "footerHeadlineAccent",
       title: "Headline (gradient line)",
@@ -63,8 +70,18 @@ export const siteSettings = defineType({
       description: "Rendered underneath the headline in the brand gradient.",
       validation: (r) => r.required(),
     }),
-    defineField({ name: "footerCta", title: "Call to action", type: "linkCta", group: "footer" }),
-    defineField({ name: "exploreTitle", title: "Explore heading", type: "string", group: "footer" }),
+    defineField({
+      name: "footerCta",
+      title: "Call to action",
+      type: "linkCta",
+      group: "footer",
+    }),
+    defineField({
+      name: "exploreTitle",
+      title: "Explore heading",
+      type: "string",
+      group: "footer",
+    }),
     defineField({
       name: "exploreLinks",
       title: "Explore links",
@@ -79,12 +96,42 @@ export const siteSettings = defineType({
       of: [defineArrayMember({ type: "socialLink" })],
       group: "footer",
     }),
-    defineField({ name: "newsletterTitle", title: "Newsletter heading", type: "string", group: "footer" }),
-    defineField({ name: "newsletterLabel", title: "Newsletter field label", type: "string", group: "footer" }),
-    defineField({ name: "newsletterPlaceholder", title: "Newsletter placeholder", type: "string", group: "footer" }),
-    defineField({ name: "newsletterSubmitLabel", title: "Newsletter submit label", type: "string", group: "footer" }),
-    defineField({ name: "newsletterRequiredMessage", title: "Newsletter — empty message", type: "string", group: "footer" }),
-    defineField({ name: "newsletterInvalidMessage", title: "Newsletter — invalid message", type: "string", group: "footer" }),
+    defineField({
+      name: "newsletterTitle",
+      title: "Newsletter heading",
+      type: "string",
+      group: "footer",
+    }),
+    defineField({
+      name: "newsletterLabel",
+      title: "Newsletter field label",
+      type: "string",
+      group: "footer",
+    }),
+    defineField({
+      name: "newsletterPlaceholder",
+      title: "Newsletter placeholder",
+      type: "string",
+      group: "footer",
+    }),
+    defineField({
+      name: "newsletterSubmitLabel",
+      title: "Newsletter submit label",
+      type: "string",
+      group: "footer",
+    }),
+    defineField({
+      name: "newsletterRequiredMessage",
+      title: "Newsletter — empty message",
+      type: "string",
+      group: "footer",
+    }),
+    defineField({
+      name: "newsletterInvalidMessage",
+      title: "Newsletter — invalid message",
+      type: "string",
+      group: "footer",
+    }),
     defineField({ name: "copyright", type: "string", group: "footer" }),
     defineField({
       name: "legalLinks",
@@ -95,20 +142,65 @@ export const siteSettings = defineType({
     }),
 
     // ── SEO defaults ────────────────────────────────────────────────────
-    defineField({ name: "siteName", type: "string", group: "seo", validation: (r) => r.required() }),
-    defineField({ name: "siteUrl", title: "Site URL", type: "url", group: "seo", validation: (r) => r.required() }),
-    defineField({ name: "defaultTitle", title: "Default title", type: "string", group: "seo", validation: (r) => r.required() }),
+    defineField({
+      name: "siteName",
+      type: "string",
+      group: "seo",
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "siteUrl",
+      title: "Site URL",
+      type: "url",
+      group: "seo",
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "defaultTitle",
+      title: "Default title",
+      type: "string",
+      group: "seo",
+      validation: (r) => r.required(),
+    }),
     defineField({
       name: "titleTemplate",
       type: "string",
       group: "seo",
       description: 'Applied to every page title. Must contain "%s".',
-      validation: (r) => r.required().custom((v) => (typeof v === "string" && v.includes("%s") ? true : 'Must contain "%s"')),
+      validation: (r) =>
+        r
+          .required()
+          .custom((v) =>
+            typeof v === "string" && v.includes("%s")
+              ? true
+              : 'Must contain "%s"',
+          ),
     }),
-    defineField({ name: "defaultDescription", title: "Default description", type: "text", rows: 3, group: "seo", validation: (r) => r.required() }),
-    defineField({ name: "ogImage", title: "Default social share image", type: "image", group: "seo" }),
-    defineField({ name: "ogImageAlt", title: "Share image alternative text", type: "string", group: "seo" }),
-    defineField({ name: "googleSiteVerification", type: "string", group: "seo" }),
+    defineField({
+      name: "defaultDescription",
+      title: "Default description",
+      type: "text",
+      rows: 3,
+      group: "seo",
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "ogImage",
+      title: "Default social share image",
+      type: "image",
+      group: "seo",
+    }),
+    defineField({
+      name: "ogImageAlt",
+      title: "Share image alternative text",
+      type: "string",
+      group: "seo",
+    }),
+    defineField({
+      name: "googleSiteVerification",
+      type: "string",
+      group: "seo",
+    }),
 
     // ── Contact form ────────────────────────────────────────────────────
     // Shared form wiring, not page copy: the heading and the page's SEO belong
@@ -122,8 +214,18 @@ export const siteSettings = defineType({
       description:
         'One entry per field, where "value" is the field name (firstName, lastName, phone, email, message) and "label" is the placeholder shown.',
     }),
-    defineField({ name: "contactSubjectLabel", title: "Subject label", type: "string", group: "contact" }),
-    defineField({ name: "contactSubjectPlaceholder", title: "Subject placeholder", type: "string", group: "contact" }),
+    defineField({
+      name: "contactSubjectLabel",
+      title: "Subject label",
+      type: "string",
+      group: "contact",
+    }),
+    defineField({
+      name: "contactSubjectPlaceholder",
+      title: "Subject placeholder",
+      type: "string",
+      group: "contact",
+    }),
     defineField({
       name: "contactSubjectOptions",
       title: "Subject options",
@@ -131,14 +233,56 @@ export const siteSettings = defineType({
       of: [defineArrayMember({ type: "subjectOption" })],
       group: "contact",
     }),
-    defineField({ name: "contactConsentText", title: "Consent text", type: "text", rows: 3, group: "contact" }),
-    defineField({ name: "contactConsentLinkLabel", title: "Consent link label", type: "string", group: "contact" }),
-    defineField({ name: "contactConsentLinkHref", title: "Consent link URL", type: "string", group: "contact" }),
-    defineField({ name: "contactSubmitLabel", title: "Submit label", type: "string", group: "contact" }),
-    defineField({ name: "contactSuccessMessage", title: "Success message", type: "string", group: "contact" }),
-    defineField({ name: "contactMessagePlaceholder", title: "Message placeholder", type: "string", group: "contact" }),
-    defineField({ name: "contactMarketingLabel", title: "Marketing opt-in label", type: "string", group: "contact" }),
-    defineField({ name: "contactTermsLabel", title: "Terms label", type: "text", rows: 2, group: "contact" }),
+    defineField({
+      name: "contactConsentText",
+      title: "Consent text",
+      type: "text",
+      rows: 3,
+      group: "contact",
+    }),
+    defineField({
+      name: "contactConsentLinkLabel",
+      title: "Consent link label",
+      type: "string",
+      group: "contact",
+    }),
+    defineField({
+      name: "contactConsentLinkHref",
+      title: "Consent link URL",
+      type: "string",
+      group: "contact",
+    }),
+    defineField({
+      name: "contactSubmitLabel",
+      title: "Submit label",
+      type: "string",
+      group: "contact",
+    }),
+    defineField({
+      name: "contactSuccessMessage",
+      title: "Success message",
+      type: "string",
+      group: "contact",
+    }),
+    defineField({
+      name: "contactMessagePlaceholder",
+      title: "Message placeholder",
+      type: "string",
+      group: "contact",
+    }),
+    defineField({
+      name: "contactMarketingLabel",
+      title: "Marketing opt-in label",
+      type: "string",
+      group: "contact",
+    }),
+    defineField({
+      name: "contactTermsLabel",
+      title: "Terms label",
+      type: "text",
+      rows: 2,
+      group: "contact",
+    }),
     defineField({
       name: "contactValidationMessages",
       title: "Validation messages",
@@ -150,13 +294,49 @@ export const siteSettings = defineType({
     }),
 
     // ── Report download form ────────────────────────────────────────────
-    defineField({ name: "reportFormTitle", title: "Heading", type: "string", group: "reportForm" }),
-    defineField({ name: "reportFormSubmitLabel", title: "Submit label", type: "string", group: "reportForm" }),
-    defineField({ name: "reportFormSuccessMessage", title: "Success message", type: "string", group: "reportForm" }),
-    defineField({ name: "reportFormPrivacyHref", title: "Privacy policy URL", type: "string", group: "reportForm" }),
-    defineField({ name: "reportFormMarketingLabel", title: "Marketing opt-in label", type: "string", group: "reportForm" }),
-    defineField({ name: "reportFormConsentText", title: "Consent text", type: "text", rows: 2, group: "reportForm" }),
-    defineField({ name: "reportFormConsentLinkLabel", title: "Consent link label", type: "string", group: "reportForm" }),
+    defineField({
+      name: "reportFormTitle",
+      title: "Heading",
+      type: "string",
+      group: "reportForm",
+    }),
+    defineField({
+      name: "reportFormSubmitLabel",
+      title: "Submit label",
+      type: "string",
+      group: "reportForm",
+    }),
+    defineField({
+      name: "reportFormSuccessMessage",
+      title: "Success message",
+      type: "string",
+      group: "reportForm",
+    }),
+    defineField({
+      name: "reportFormPrivacyHref",
+      title: "Privacy policy URL",
+      type: "string",
+      group: "reportForm",
+    }),
+    defineField({
+      name: "reportFormMarketingLabel",
+      title: "Marketing opt-in label",
+      type: "string",
+      group: "reportForm",
+    }),
+    defineField({
+      name: "reportFormConsentText",
+      title: "Consent text",
+      type: "text",
+      rows: 2,
+      group: "reportForm",
+    }),
+    defineField({
+      name: "reportFormConsentLinkLabel",
+      title: "Consent link label",
+      type: "string",
+      group: "reportForm",
+    }),
     defineField({
       name: "reportFormFieldLabels",
       title: "Field labels",
@@ -173,6 +353,78 @@ export const siteSettings = defineType({
       of: [defineArrayMember({ type: "subjectOption" })],
       group: "reportForm",
       description: 'Keyed by "value": required, email, consent.',
+    }),
+
+    // ── SEO Audit form ──────────────────────────────────────────────────
+    defineField({
+      name: "seoAuditFormTitle",
+      title: "Heading",
+      type: "string",
+      group: "seoAuditForm",
+    }),
+    defineField({
+      name: "seoAuditFormSubmitLabel",
+      title: "Submit label",
+      type: "string",
+      group: "seoAuditForm",
+    }),
+    defineField({
+      name: "seoAuditFormSuccessMessage",
+      title: "Success message",
+      type: "string",
+      group: "seoAuditForm",
+    }),
+    defineField({
+      name: "seoAuditFormPrivacyHref",
+      title: "Privacy policy URL",
+      type: "string",
+      group: "seoAuditForm",
+    }),
+    defineField({
+      name: "seoAuditFieldPlaceholders",
+      title: "Field placeholders",
+      type: "array",
+      of: [defineArrayMember({ type: "subjectOption" })],
+      group: "seoAuditForm",
+      description:
+        'One entry per field, where "value" is the field name (firstName, lastName, phone, workEmail, companyWebsite, adBudget) and "label" is the placeholder shown.',
+    }),
+    defineField({
+      name: "seoAuditFieldLabels",
+      title: "Field labels",
+      type: "array",
+      of: [defineArrayMember({ type: "subjectOption" })],
+      group: "seoAuditForm",
+      description:
+        'Keyed by "value": agencyTypeLabel, companyWebsiteLabel, adBudgetLabel. The field wiring stays in code.',
+    }),
+    defineField({
+      name: "seoAuditEmailConsentLabel",
+      title: "Email consent label",
+      type: "string",
+      group: "seoAuditForm",
+    }),
+    defineField({
+      name: "seoAuditTermsLabel",
+      title: "Terms label",
+      type: "text",
+      rows: 2,
+      group: "seoAuditForm",
+    }),
+    defineField({
+      name: "seoAuditConsentText",
+      title: "Privacy consent text",
+      type: "text",
+      rows: 2,
+      group: "seoAuditForm",
+    }),
+    defineField({
+      name: "seoAuditValidationMessages",
+      title: "Validation messages",
+      type: "array",
+      of: [defineArrayMember({ type: "subjectOption" })],
+      group: "seoAuditForm",
+      description: 'Keyed by "value": required, email, terms.',
     }),
   ],
 

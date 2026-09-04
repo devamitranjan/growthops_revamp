@@ -68,7 +68,8 @@ export type PageSection =
     }
   | ({ type: "newsroomListing"; key: string } & NewsroomListingData)
   | ({ type: "reportOverview"; key: string } & ReportOverviewData)
-  | { type: "downloadReport"; key: string; title?: string };
+  | { type: "downloadReport"; key: string; title?: string }
+  | { type: "seoAuditForm"; key: string; title?: string };
 
 /** The discriminants above, as a type — what a renderer keys its component map
  *  on, and what a CMS adapter has to be able to produce. */

@@ -9,7 +9,7 @@ import type { PageSection } from "@/content/types";
  * section — `"hero"`, not Sanity's `"heroSection"`. The translation happens
  * once, in `src/cms/sanity/sections/section.mapper.ts`, so this file has no
  * idea which CMS composed the page and a CMS swap does not reach it. The
- * nineteen names below and the nineteen in that mapper's table are the two
+ * twenty names below and the twenty in that mapper's table are the two
  * halves of one contract; `PageSection` is what holds them together, and an
  * unhandled member is a type error rather than a blank page.
  *
@@ -130,10 +130,13 @@ const Faq = dynamic(() => import("@/components/sections/faq"), {
   ssr: true,
 });
 
-const ContactForm = dynamic(() => import("@/components/sections/contact-form"), {
-  loading: () => <div className="min-h-screen bg-background" />,
-  ssr: true,
-});
+const ContactForm = dynamic(
+  () => import("@/components/sections/contact-form"),
+  {
+    loading: () => <div className="min-h-screen bg-background" />,
+    ssr: true,
+  },
+);
 
 const PostListingSection = dynamic(
   () =>
@@ -167,6 +170,14 @@ const ReportOverview = dynamic(
 
 const DownloadReportForm = dynamic(
   () => import("@/components/sections/download-report-form"),
+  {
+    loading: () => <div className="min-h-[600px] bg-background" />,
+    ssr: true,
+  },
+);
+
+const SeoAuditForm = dynamic(
+  () => import("@/components/sections/seo-audit-form"),
   {
     loading: () => <div className="min-h-[600px] bg-background" />,
     ssr: true,
@@ -207,7 +218,11 @@ export function SectionRenderer({
     case "unrivaledGrowth":
       return (
         <UnrivaledGrowth
-          data={{ title: section.title, stats: section.stats, cta: section.cta }}
+          data={{
+            title: section.title,
+            stats: section.stats,
+            cta: section.cta,
+          }}
         />
       );
 
@@ -278,7 +293,9 @@ export function SectionRenderer({
       );
 
     case "creativeTech":
-      return <CreativeTech data={{ title: section.title, rows: section.rows }} />;
+      return (
+        <CreativeTech data={{ title: section.title, rows: section.rows }} />
+      );
 
     case "faq":
       return (
@@ -324,6 +341,9 @@ export function SectionRenderer({
 
     case "downloadReport":
       return <DownloadReportForm title={section.title} />;
+
+    case "seoAuditForm":
+      return <SeoAuditForm title={section.title} />;
 
     default:
       // Unreachable while the switch covers `PageSection` — a new member is a

@@ -162,5 +162,9 @@ export const SECTIONS_PROJECTION = `
 
   _type == "downloadReportSection" => {
     title
+  },
+
+  _type == "seoAuditFormSection" => {
+    title
   }
 `;

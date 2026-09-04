@@ -15,6 +15,7 @@ import { newsroomListingSection } from "./schemas/newsroom-listing-section";
 import { postListingSection } from "./schemas/post-listing-section";
 import { reportOverviewSection } from "./schemas/report-overview-section";
 import { richTextSection } from "./schemas/rich-text-section";
+import { seoAuditFormSection } from "./schemas/seo-audit-form-section";
 import { servicesSection } from "./schemas/services-section";
 import { teamSection } from "./schemas/team-section";
 import { testimonialsBlock } from "./schemas/testimonials-block";
@@ -60,6 +61,7 @@ export const sectionTypes = [
   newsroomListingSection,
   reportOverviewSection,
   downloadReportSection,
+  seoAuditFormSection,
 ];
 
 /** The same list as array members, for any field that holds sections. */

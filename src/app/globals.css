@@ -480,3 +480,40 @@
     padding-right: 5rem;
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/* Content Rail                                                               */
+/* -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .content-rail-viewport {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .content-rail-viewport::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+  .content-rail-viewport {
+    overflow-x: auto;
+  }
+
+  .content-rail-track {
+    padding-right: 5rem;
+  }
+}
+
+@keyframes serviceFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
