@@ -125,6 +125,14 @@ const CreativeTech = dynamic(
   },
 );
 
+const GoodCompany = dynamic(
+  () => import("@/components/sections/good-company"),
+  {
+    loading: () => <div className="min-h-[500px] bg-background" />,
+    ssr: true,
+  },
+);
+
 const Faq = dynamic(() => import("@/components/sections/faq"), {
   loading: () => <div className="min-h-[500px] bg-background" />,
   ssr: true,
@@ -303,6 +311,18 @@ export function SectionRenderer({
     case "creativeTech":
       return (
         <CreativeTech data={{ title: section.title, rows: section.rows }} />
+      );
+
+    case "goodCompany":
+      return (
+        <GoodCompany
+          data={{
+            eyebrow: section.eyebrow,
+            title: section.title,
+            description: section.description,
+            logos: section.logos,
+          }}
+        />
       );
 
     case "faq":

@@ -8,6 +8,7 @@ import { creativeTechSection } from "./schemas/creative-tech-section";
 import { cultureValidationSection } from "./schemas/culture-validation-section";
 import { downloadReportSection } from "./schemas/download-report-section";
 import { faqSection } from "./schemas/faq-section";
+import { goodCompanySection } from "./schemas/good-company-section";
 import { growthSpurtsSection } from "./schemas/growth-spurts-section";
 import { growthValidationSection } from "./schemas/growth-validation-section";
 import { heroSection } from "./schemas/hero-section";
@@ -58,6 +59,7 @@ export const sectionTypes = [
   articleCardsSection,
   testimonialsBlock,
   growthValidationSection,
+  goodCompanySection,
   cultureValidationSection,
   teamSection,
   creativeTechSection,

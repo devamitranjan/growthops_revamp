@@ -45,6 +45,7 @@ const SECTION_TYPES = {
   articleCardsSection: "articleCards",
   testimonialsBlock: "testimonials",
   growthValidationSection: "growthValidation",
+  goodCompanySection: "goodCompany",
   cultureValidationSection: "cultureValidation",
   teamSection: "team",
   creativeTechSection: "creativeTech",

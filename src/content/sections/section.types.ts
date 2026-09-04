@@ -10,6 +10,7 @@ import type {
   ICreativeTechData,
   ICultureValidationData,
   IFaqData,
+  IGoodCompanyData,
   IHeroBannerData,
   IRichTextData,
   ITeamSectionData,
@@ -58,6 +59,7 @@ export type PageSection =
   | ({ type: "richText"; key: string; enabled?: boolean } & IRichTextData)
   | ({ type: "team"; key: string; enabled?: boolean } & ITeamSectionData)
   | ({ type: "creativeTech"; key: string; enabled?: boolean } & ICreativeTechData)
+  | ({ type: "goodCompany"; key: string; enabled?: boolean } & IGoodCompanyData)
   | ({ type: "faq"; key: string; enabled?: boolean } & IFaqData)
   | { type: "contactForm"; key: string; title: string; enabled?: boolean }
   | {

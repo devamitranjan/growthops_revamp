@@ -86,6 +86,20 @@ export const SECTIONS_PROJECTION = `
     imageAlt
   },
 
+  _type == "goodCompanySection" => {
+    eyebrow,
+    title,
+    description,
+    logos[]{
+      "id": _key,
+      "primary": { "src": primary.logo.asset->url, "alt": primary.alt },
+      "secondary": select(
+        defined(secondary.logo) => { "src": secondary.logo.asset->url, "alt": secondary.alt },
+        null
+      )
+    }
+  },
+
   _type == "cultureValidationSection" => {
     title,
     cards[]{ "id": _key, variant, label, href, "image": image.asset->url, alt }

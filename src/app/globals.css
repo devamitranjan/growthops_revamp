@@ -517,3 +517,36 @@
     transform: translateY(-8px);
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/* Good Company                                                               */
+/* -------------------------------------------------------------------------- */
+@keyframes good-company-crossfade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer components {
+  /* Two logos stacked in the same slot; each ping-pongs opacity in and out
+     of view, offset in phase and duration so the wall never syncs up. */
+  .good-company-logo__img {
+    animation: good-company-crossfade linear infinite alternate;
+  }
+  .good-company-logo__img--alt {
+    animation-direction: alternate-reverse;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .good-company-logo__img {
+    animation: none;
+    opacity: 1;
+  }
+  .good-company-logo__img--alt {
+    display: none;
+  }
+}

@@ -171,6 +171,23 @@ export interface ICreativeTechData {
   rows: TechMarqueeRowData[];
 }
 
+/** One grid slot: two logos sharing the same position, cross-fading between
+ *  each other. `secondary` is absent only for a trailing odd logo out. */
+export interface LogoPairData {
+  id: string;
+  primary: Omit<LogoData, "id">;
+  secondary?: Omit<LogoData, "id">;
+}
+
+export interface IGoodCompanyData {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  /** Each slot holds a pair of logos that cross-fade in place; slots are
+   *  staggered by position so the grid never all fades in sync. */
+  logos: LogoPairData[];
+}
+
 /** One row of the FAQ accordion. */
 export interface FaqItemData {
   id: string;
