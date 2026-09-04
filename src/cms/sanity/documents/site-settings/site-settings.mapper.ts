@@ -109,6 +109,17 @@ interface RawSiteSettings {
   reportFormConsentLinkLabel?: string | null;
   reportFormFieldLabels?: readonly RawLabelled[] | null;
   reportFormValidationMessages?: readonly RawLabelled[] | null;
+
+  seoAuditFormTitle?: string | null;
+  seoAuditFormSubmitLabel?: string | null;
+  seoAuditFormSuccessMessage?: string | null;
+  seoAuditFormPrivacyHref?: string | null;
+  seoAuditFieldPlaceholders?: readonly RawLabelled[] | null;
+  seoAuditFieldLabels?: readonly RawLabelled[] | null;
+  seoAuditEmailConsentLabel?: string | null;
+  seoAuditTermsLabel?: string | null;
+  seoAuditConsentText?: string | null;
+  seoAuditValidationMessages?: readonly RawLabelled[] | null;
 }
 
 /** Copy that is rendered: absent reads as empty. */
@@ -122,7 +133,10 @@ const number = (value: number | null | undefined) => value ?? undefined;
 
 const labelled = (rows: readonly RawLabelled[] | null | undefined) =>
   (rows ?? []).map(
-    (row): LabelledValue => ({ value: text(row.value), label: text(row.label) }),
+    (row): LabelledValue => ({
+      value: text(row.value),
+      label: text(row.label),
+    }),
   );
 
 const links = (rows: readonly RawFooterLink[] | null | undefined) =>
@@ -236,5 +250,16 @@ export function mapSiteSettings(row: RawSiteSettings): SiteSettings {
     reportFormConsentLinkLabel: text(row.reportFormConsentLinkLabel),
     reportFormFieldLabels: labelled(row.reportFormFieldLabels),
     reportFormValidationMessages: labelled(row.reportFormValidationMessages),
+
+    seoAuditFormTitle: text(row.seoAuditFormTitle),
+    seoAuditFormSubmitLabel: text(row.seoAuditFormSubmitLabel),
+    seoAuditFormSuccessMessage: text(row.seoAuditFormSuccessMessage),
+    seoAuditFormPrivacyHref: text(row.seoAuditFormPrivacyHref),
+    seoAuditFieldPlaceholders: labelled(row.seoAuditFieldPlaceholders),
+    seoAuditFieldLabels: labelled(row.seoAuditFieldLabels),
+    seoAuditEmailConsentLabel: text(row.seoAuditEmailConsentLabel),
+    seoAuditTermsLabel: text(row.seoAuditTermsLabel),
+    seoAuditConsentText: text(row.seoAuditConsentText),
+    seoAuditValidationMessages: labelled(row.seoAuditValidationMessages),
   };
 }
