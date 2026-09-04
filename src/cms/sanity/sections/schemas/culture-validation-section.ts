@@ -1,10 +1,14 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 export const cultureValidationSection = defineType({
   name: "cultureValidationSection",
   title: "Culture validation",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({
       name: "title",
       title: "Section heading",
@@ -22,8 +26,8 @@ export const cultureValidationSection = defineType({
     }),
   ],
   preview: {
-    select: { title: "title", count: "cards.length", media: "cards.0.image" },
-    prepare: ({ title, count, media }) => ({
+    select: { title: "title", count: "cards.length", media: "cards.0.image", enabled: "enabled" },
+    prepare: ({ title, count, media, enabled }) => ({
       title: title ?? "Culture validation",
       subtitle: `${count ?? 0} cards`,
       media,

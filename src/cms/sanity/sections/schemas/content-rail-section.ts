@@ -1,10 +1,14 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 export const contentRailSection = defineType({
   name: "contentRailSection",
   title: "Content rail",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({
       name: "title",
       title: "Section heading",
@@ -31,8 +35,8 @@ export const contentRailSection = defineType({
     }),
   ],
   preview: {
-    select: { title: "title", count: "cards.length" },
-    prepare: ({ title, count }) => ({
+    select: { title: "title", count: "cards.length", enabled: "enabled" },
+    prepare: ({ title, count, enabled }) => ({
       title: title ?? "Content rail",
       subtitle: `${count ?? 0} cards`,
     }),

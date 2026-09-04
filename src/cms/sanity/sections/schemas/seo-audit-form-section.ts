@@ -1,5 +1,8 @@
 import { defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 /**
  * The SEO Audit form.
  *
@@ -12,6 +15,7 @@ export const seoAuditFormSection = defineType({
   title: "SEO Audit form",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({
       name: "title",
       title: "Heading",
@@ -21,8 +25,8 @@ export const seoAuditFormSection = defineType({
     }),
   ],
   preview: {
-    select: { title: "title" },
-    prepare: ({ title }) => ({
+    select: { title: "title", enabled: "enabled" },
+    prepare: ({ title, enabled }) => ({
       title: title ?? "SEO Audit form",
       subtitle: "SEO Audit form",
     }),

@@ -1,10 +1,14 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 export const articleCardsSection = defineType({
   name: "articleCardsSection",
   title: "Article cards",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({ name: "title", title: "Section heading", type: "string", validation: (r) => r.required() }),
     defineField({ name: "sectionLink", title: "Section heading link", type: "url" }),
     defineField({
@@ -15,7 +19,7 @@ export const articleCardsSection = defineType({
     }),
   ],
   preview: {
-    select: { title: "title", count: "articles.length" },
-    prepare: ({ title, count }) => ({ title: title ?? "Article cards", subtitle: `${count ?? 0} teasers` }),
+    select: { title: "title", count: "articles.length", enabled: "enabled" },
+    prepare: ({ title, count, enabled }) => ({ title: title ?? "Article cards", subtitle: `${count ?? 0} teasers` }),
   },
 });

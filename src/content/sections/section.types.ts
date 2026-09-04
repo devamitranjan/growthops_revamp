@@ -15,6 +15,7 @@ import type {
   ITeamSectionData,
   IUnrivaledGrowthData,
   ServiceItem,
+  WorkCaseStudyItem,
 } from "./shared.types";
 
 /**
@@ -37,27 +38,28 @@ import type {
  * same section on two pages shows two different sets of data.
  */
 export type PageSection =
-  | { type: "hero"; key: string; hero: IHeroBannerData }
-  | { type: "services"; key: string; services: ServiceItem[] }
-  | { type: "growthSpurts"; key: string; cards: GrowthCardData[] }
-  | ({ type: "unrivaledGrowth"; key: string } & IUnrivaledGrowthData)
-  | { type: "caseStudy"; key: string; slides: CaseStudySlideData[] }
+  | { type: "hero"; key: string; hero: IHeroBannerData; enabled?: boolean }
+  | { type: "services"; key: string; services: ServiceItem[]; enabled?: boolean }
+  | { type: "growthSpurts"; key: string; cards: GrowthCardData[]; enabled?: boolean }
+  | ({ type: "unrivaledGrowth"; key: string; enabled?: boolean } & IUnrivaledGrowthData)
+  | { type: "caseStudy"; key: string; slides: CaseStudySlideData[]; enabled?: boolean }
   | {
       type: "articleCards";
       key: string;
       title: string;
       sectionLink?: string;
       articles: ArticleData[];
+      enabled?: boolean;
     }
-  | { type: "testimonials"; key: string; data: ITestimonialsData }
-  | ({ type: "growthValidation"; key: string } & GrowthValidationData)
-  | ({ type: "cultureValidation"; key: string } & ICultureValidationData)
-  | ({ type: "contentRail"; key: string } & IContentRailData)
-  | ({ type: "richText"; key: string } & IRichTextData)
-  | ({ type: "team"; key: string } & ITeamSectionData)
-  | ({ type: "creativeTech"; key: string } & ICreativeTechData)
-  | ({ type: "faq"; key: string } & IFaqData)
-  | { type: "contactForm"; key: string; title: string }
+  | { type: "testimonials"; key: string; data: ITestimonialsData; enabled?: boolean }
+  | ({ type: "growthValidation"; key: string; enabled?: boolean } & GrowthValidationData)
+  | ({ type: "cultureValidation"; key: string; enabled?: boolean } & ICultureValidationData)
+  | ({ type: "contentRail"; key: string; enabled?: boolean } & IContentRailData)
+  | ({ type: "richText"; key: string; enabled?: boolean } & IRichTextData)
+  | ({ type: "team"; key: string; enabled?: boolean } & ITeamSectionData)
+  | ({ type: "creativeTech"; key: string; enabled?: boolean } & ICreativeTechData)
+  | ({ type: "faq"; key: string; enabled?: boolean } & IFaqData)
+  | { type: "contactForm"; key: string; title: string; enabled?: boolean }
   | {
       type: "postListing";
       key: string;
@@ -65,11 +67,22 @@ export type PageSection =
       /** How many cards one page shows. Absent on sections published before
        *  the field existed, which fall back to `DEFAULT_POSTS_PER_PAGE`. */
       postsPerPage?: number | null;
+      enabled?: boolean;
     }
-  | ({ type: "newsroomListing"; key: string } & NewsroomListingData)
-  | ({ type: "reportOverview"; key: string } & ReportOverviewData)
-  | { type: "downloadReport"; key: string; title?: string }
-  | { type: "seoAuditForm"; key: string; title?: string };
+  | ({ type: "newsroomListing"; key: string; enabled?: boolean } & NewsroomListingData)
+  | ({ type: "reportOverview"; key: string; enabled?: boolean } & ReportOverviewData)
+  | { type: "downloadReport"; key: string; title?: string; enabled?: boolean }
+  | { type: "seoAuditForm"; key: string; title?: string; enabled?: boolean }
+  | {
+      type: "workCaseStudies";
+      key: string;
+      categories?: string[];
+      /** How many items one page shows. Absent on sections published before
+       *  the field existed, which fall back to a default. */
+      itemsPerPage?: number | null;
+      items: WorkCaseStudyItem[];
+      enabled?: boolean;
+    };
 
 /** The discriminants above, as a type — what a renderer keys its component map
  *  on, and what a CMS adapter has to be able to produce. */

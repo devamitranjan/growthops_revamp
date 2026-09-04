@@ -29,6 +29,7 @@ import { RICH_TEXT_PROJECTION } from "../rich-text/rich-text.queries";
 export const SECTIONS_PROJECTION = `
   _key,
   _type,
+  "enabled": coalesce(enabled, true),
 
   _type == "heroSection" => {
     hero{
@@ -166,5 +167,19 @@ export const SECTIONS_PROJECTION = `
 
   _type == "seoAuditFormSection" => {
     title
+  },
+
+  _type == "workCaseStudiesSection" => {
+    categories,
+    itemsPerPage,
+    "items": coalesce(items[defined(@->)]->{
+      "id": _id,
+      title,
+      description,
+      "image": image.asset->url,
+      alt,
+      category,
+      href
+    }, [])
   }
 `;

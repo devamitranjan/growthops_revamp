@@ -20,6 +20,18 @@ import { servicesSection } from "./schemas/services-section";
 import { teamSection } from "./schemas/team-section";
 import { testimonialsBlock } from "./schemas/testimonials-block";
 import { unrivaledGrowthSection } from "./schemas/unrivaled-growth-section";
+import { workCaseStudiesSection } from "./schemas/work-case-studies-section";
+
+/**
+ * Custom preview component to show visibility status in the section list.
+ */
+export const sectionPreviewHelper = {
+  select: { enabled: "enabled", title: "title" },
+  prepare: ({ enabled }: { enabled?: boolean; title?: string }) => {
+    const status = enabled === false ? " (hidden)" : "";
+    return { subtitle: `${enabled === false ? "🙈 Hidden" : "👁️ Visible"}${status}` };
+  },
+};
 
 /**
  * The section library — every block an editor can drop into a page.
@@ -52,6 +64,7 @@ export const sectionTypes = [
   contentRailSection,
   richTextSection,
   faqSection,
+  workCaseStudiesSection,
 
   // Sections that carry a route's own content. Nothing stops an editor putting
   // one on another page — the contact form on an about page is a reasonable

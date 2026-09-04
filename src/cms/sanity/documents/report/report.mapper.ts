@@ -8,7 +8,7 @@ interface RawReport {
   slug?: string | null;
   title?: string | null;
   seo?: {
-    jsonld?: Array<{ schema: string }>;
+    jsonld?: Array<{ schema: string | null }> | null;
   } | null;
   sections?: unknown;
 }
@@ -22,6 +22,8 @@ export function mapReport(row: RawReport): ReportPageData {
   };
 }
 
-export function mapReports(rows: readonly RawReport[] | null): ReportPageData[] {
+export function mapReports(
+  rows: readonly RawReport[] | null,
+): ReportPageData[] {
   return (rows ?? []).map(mapReport);
 }

@@ -49,6 +49,16 @@ export interface CaseStudySlideData {
   video?: string;
 }
 
+export interface WorkCaseStudyItem {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  alt: string;
+  category: string;
+  href?: string;
+}
+
 /** The article teasers on the home page — a lighter shape than the full
  *  `PostData` the /post listing uses. */
 export interface ArticleData {

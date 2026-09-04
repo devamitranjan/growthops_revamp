@@ -8,6 +8,7 @@ import { apiVersion } from "../env";
 import { sectionTypes } from "../sections/section.schema";
 import { resolvePostsPerPage } from "@/content/domain/article/article.pagination";
 import { PostOrderPane } from "./post-order-pane";
+import { WorkCaseStudiesOrderPane } from "./work-case-studies-order-pane";
 import {
   COMPOSED_TYPES,
   PINNED_PAGES,
@@ -89,6 +90,20 @@ function composedDocumentChild(
                 type,
                 title: label,
                 postsPerPage: section.postsPerPage,
+              }),
+            );
+          }
+
+          // Work case studies section: inline items organized by pages.
+          if (section._type === "workCaseStudiesSection") {
+            return item.child(
+              workCaseStudiesChild(S, context, {
+                id,
+                type,
+                title: label,
+                sectionKey: section._key,
+                itemsPerPage: section.itemsPerPage,
+                items: section.items,
               }),
             );
           }
@@ -188,6 +203,100 @@ function postListingChild(
                 // The listing's own order, not the list's default of newest
                 // first — the point of the pane is the order /post renders.
                 .defaultOrdering([{ field: "order", direction: "asc" }]),
+            );
+        }),
+      ]);
+  };
+}
+
+/**
+ * The work case studies section's pane: the form, then the actual case study
+ * documents referenced by the section, grouped by the page size.
+ */
+function workCaseStudiesChild(
+  S: StructureBuilder,
+  context: StructureResolverContext,
+  {
+    id,
+    type,
+    title,
+    sectionKey,
+    itemsPerPage = 6,
+    items = [],
+  }: {
+    id: string;
+    type: string;
+    title: string;
+    sectionKey: string;
+    itemsPerPage?: number;
+    items?: Array<{
+      _key?: string;
+      _ref?: string;
+      _type?: string;
+      id?: string;
+      title?: string;
+      category?: string;
+    }>;
+  },
+) {
+  return async () => {
+    const itemIds = (items ?? [])
+      .map((item) => item.id)
+      .filter((id): id is string => Boolean(id));
+
+    const pageCount = Math.ceil(itemIds.length / (itemsPerPage ?? 6));
+
+    return S.list()
+      .title(title)
+      .id("work-case-studies")
+      .items([
+        S.listItem()
+          .id("settings")
+          .title("Section settings")
+          .child(S.document().schemaType(type).documentId(id).title(title)),
+
+        S.listItem()
+          .id("reorder")
+          .title("Reorder case studies")
+          .child(
+            S.component(WorkCaseStudiesOrderPane)
+              .id("work-case-studies-order")
+              .title(`Reorder case studies · ${title}`)
+              .options({
+                documentId: id,
+                sectionKey,
+                items,
+                itemsPerPage,
+              }),
+          ),
+
+        S.divider().title(
+          itemIds.length
+            ? `${itemIds.length} case studies · ${itemsPerPage} per page`
+            : "No case studies yet",
+        ),
+
+        ...Array.from({ length: pageCount }, (_, index) => {
+          const start = index * (itemsPerPage ?? 6);
+          const pageIds = itemIds.slice(start, start + (itemsPerPage ?? 6));
+          const pageTitle = `Page ${index + 1} · items ${start + 1}–${
+            start + pageIds.length
+          }`;
+
+          return S.listItem()
+            .id(`page-${index + 1}`)
+            .title(pageTitle)
+            .child(
+              S.documentList()
+                .id(`work-case-studies-page-${index + 1}`)
+                .title(pageTitle)
+                .apiVersion(apiVersion)
+                .filter("_id in $ids || _id in $draftIds")
+                .params({
+                  ids: pageIds,
+                  draftIds: pageIds.map((pageId) => `drafts.${pageId}`),
+                })
+                .defaultOrdering([{ field: "_updatedAt", direction: "desc" }]),
             );
         }),
       ]);

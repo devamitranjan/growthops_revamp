@@ -1,5 +1,8 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 /**
  * "In This Report": the numbered list of what a report covers, beside a
  * carousel of its pages.
@@ -12,6 +15,7 @@ export const reportOverviewSection = defineType({
   title: "Report overview",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({
       name: "highlights",
       title: "In this report",
@@ -26,8 +30,8 @@ export const reportOverviewSection = defineType({
     }),
   ],
   preview: {
-    select: { count: "highlights.length", media: "slides.0.image" },
-    prepare: ({ count, media }) => ({
+    select: { count: "highlights.length", media: "slides.0.image", enabled: "enabled" },
+    prepare: ({ count, media, enabled }) => ({
       title: "Report overview",
       subtitle: `${count ?? 0} highlights`,
       media,

@@ -26,6 +26,7 @@ import { teamBatch } from "./sections/objects/team-batch";
 import { teamHighlight } from "./sections/objects/team-highlight";
 import { teamMember } from "./sections/objects/team-member";
 import { techMarqueeRow } from "./sections/objects/tech-marquee-row";
+import { workCaseStudy } from "./documents/work-case-study/work-case-study.schema";
 import { sectionTypes } from "./sections/section.schema";
 import { footerLink } from "./documents/site-settings/objects/footer-link";
 import { navChild, navLink } from "./documents/site-settings/objects/nav-link";
@@ -70,6 +71,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   newsroomArticle,
   testimonialsSection,
   siteSettings,
+  workCaseStudy,
 
   // page-builder sections
   ...sectionTypes,

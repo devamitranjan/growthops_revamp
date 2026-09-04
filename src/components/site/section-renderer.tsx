@@ -184,6 +184,14 @@ const SeoAuditForm = dynamic(
   },
 );
 
+const WorkCaseStudies = dynamic(
+  () => import("@/components/sections/work-case-studies"),
+  {
+    loading: () => <div className="min-h-[600px] bg-background" />,
+    ssr: true,
+  },
+);
+
 /**
  * What a section can need from the request rather than from the CMS.
  *
@@ -344,6 +352,15 @@ export function SectionRenderer({
 
     case "seoAuditForm":
       return <SeoAuditForm title={section.title} />;
+
+    case "workCaseStudies":
+      return (
+        <WorkCaseStudies
+          items={section.items}
+          categories={section.categories}
+          itemsPerPage={section.itemsPerPage}
+        />
+      );
 
     default:
       // Unreachable while the switch covers `PageSection` — a new member is a

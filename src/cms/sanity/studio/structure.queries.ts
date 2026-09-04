@@ -11,6 +11,19 @@ export const SECTIONS_QUERY = `*[_id == $id][0].sections[]{
   title,
   heading,
   postsPerPage,
+  itemsPerPage,
+  items[]{
+    _key,
+    _ref,
+    _type,
+    "id": _ref,
+    "title": @->title,
+    "description": @->description,
+    "category": @->category,
+    "alt": @->alt,
+    "image": @->image.asset->url,
+    "href": @->href
+  },
   "heroTitle": hero.title
 }` as const;
 

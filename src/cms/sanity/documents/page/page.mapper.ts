@@ -102,7 +102,7 @@ interface RawPage {
   slug?: string | null;
   title?: string | null;
   seo?: {
-    jsonld?: Array<{ schema: string }>;
+    jsonld?: Array<{ schema: string | null }> | null;
   } | null;
   sections?: unknown;
 }

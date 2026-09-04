@@ -1,5 +1,8 @@
 import { defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 /**
  * The gated download form at the foot of a report.
  *
@@ -14,6 +17,7 @@ export const downloadReportSection = defineType({
   title: "Report download form",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({
       name: "title",
       title: "Heading",
@@ -23,8 +27,8 @@ export const downloadReportSection = defineType({
     }),
   ],
   preview: {
-    select: { title: "title" },
-    prepare: ({ title }) => ({
+    select: { title: "title", enabled: "enabled" },
+    prepare: ({ title, enabled }) => ({
       title: title ?? "Report download form",
       subtitle: "Report download form",
     }),

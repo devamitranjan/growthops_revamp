@@ -1,10 +1,14 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 export const creativeTechSection = defineType({
   name: "creativeTechSection",
   title: "Creative technologies",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({
       name: "title",
       type: "string",
@@ -21,8 +25,8 @@ export const creativeTechSection = defineType({
     }),
   ],
   preview: {
-    select: { title: "title", count: "rows.length" },
-    prepare: ({ title, count }) => ({
+    select: { title: "title", count: "rows.length", enabled: "enabled" },
+    prepare: ({ title, count, enabled }) => ({
       title: title ?? "Creative technologies",
       subtitle: `${count ?? 0} rows`,
     }),

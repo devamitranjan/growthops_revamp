@@ -1,10 +1,14 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 export const growthValidationSection = defineType({
   name: "growthValidationSection",
   title: "Growth validation",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({ name: "title", title: "Section heading", type: "string", validation: (r) => r.required() }),
     defineField({ name: "sectionLink", title: "Section heading link", type: "url" }),
     defineField({
@@ -34,6 +38,11 @@ export const growthValidationSection = defineType({
     defineField({ name: "imageAlt", title: "Feature image alternative text", type: "string", validation: (r) => r.required() }),
   ],
   preview: {
-    select: { title: "title", subtitle: "headline", media: "image" },
+    select: { title: "title", subtitle: "headline", media: "image", enabled: "enabled" },
+    prepare: ({ title, subtitle, media, enabled }) => ({
+      title,
+      subtitle: subtitle,
+      media,
+    }),
   },
 });

@@ -1,5 +1,8 @@
 import { defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 /**
  * The contact form.
  *
@@ -15,6 +18,7 @@ export const contactFormSection = defineType({
   title: "Contact form",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({
       name: "title",
       title: "Heading",
@@ -24,8 +28,8 @@ export const contactFormSection = defineType({
     }),
   ],
   preview: {
-    select: { title: "title" },
-    prepare: ({ title }) => ({
+    select: { title: "title", enabled: "enabled" },
+    prepare: ({ title, enabled }) => ({
       title: title ?? "Contact form",
       subtitle: "Contact form",
     }),

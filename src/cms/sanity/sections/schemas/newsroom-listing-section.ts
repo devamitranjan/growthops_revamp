@@ -1,5 +1,8 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 /**
  * The press-coverage grid, as seen at /newsroom.
  *
@@ -15,6 +18,7 @@ export const newsroomListingSection = defineType({
   title: "Newsroom listing",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({
       name: "heading",
       title: "Heading",
@@ -44,10 +48,10 @@ export const newsroomListingSection = defineType({
     }),
   ],
   preview: {
-    select: { title: "heading", count: "articles.length" },
-    prepare: ({ title, count }) => ({
+    select: { title: "heading", count: "articles.length", enabled: "enabled" },
+    prepare: ({ title, count, enabled }) => ({
       title: title ?? "Newsroom listing",
-      subtitle: count ? `${count} articles` : "No articles on the page",
+      subtitle: `${count ? `${count} articles` : "No articles on the page"}`,
     }),
   },
 });

@@ -1,5 +1,7 @@
 import { defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
 import {
   DEFAULT_POSTS_PER_PAGE,
   MAX_POSTS_PER_PAGE,
@@ -19,6 +21,7 @@ export const postListingSection = defineType({
   title: "Article listing",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({
       name: "heading",
       title: "Heading",
@@ -42,8 +45,8 @@ export const postListingSection = defineType({
     }),
   ],
   preview: {
-    select: { title: "heading", postsPerPage: "postsPerPage" },
-    prepare: ({ title, postsPerPage }) => ({
+    select: { title: "heading", postsPerPage: "postsPerPage", enabled: "enabled" },
+    prepare: ({ title, postsPerPage, enabled }) => ({
       title: title ?? "Article listing",
       subtitle: `Article listing · ${postsPerPage ?? DEFAULT_POSTS_PER_PAGE} per page`,
     }),

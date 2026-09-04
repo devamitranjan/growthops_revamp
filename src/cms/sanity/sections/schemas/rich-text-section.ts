@@ -1,5 +1,8 @@
 import { defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 /**
  * A block of long-form copy, on white.
  *
@@ -18,6 +21,7 @@ export const richTextSection = defineType({
   title: "Rich text",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({
       name: "title",
       title: "Section heading",
@@ -33,8 +37,8 @@ export const richTextSection = defineType({
     }),
   ],
   preview: {
-    select: { title: "title", content: "content" },
-    prepare: ({ title, content }) => {
+    select: { title: "title", content: "content", enabled: "enabled" },
+    prepare: ({ title, content, enabled }) => {
       // Portable Text has no plain-text field, so the first block's spans are
       // the only thing that can stand in for one in the list.
       const first = Array.isArray(content) ? content[0] : undefined;
@@ -46,7 +50,7 @@ export const richTextSection = defineType({
 
       return {
         title: title || excerpt || "Rich text",
-        subtitle: title && excerpt ? excerpt : "Rich text",
+        subtitle: `${title && excerpt ? excerpt : "Rich text"}`,
       };
     },
   },

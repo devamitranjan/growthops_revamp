@@ -1,5 +1,8 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 /**
  * The question-and-answer panel: a headline on the left, an accordion of
  * questions on the right.
@@ -12,6 +15,7 @@ export const faqSection = defineType({
   title: "Questions & answers",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({
       name: "title",
       title: "Section heading",
@@ -40,8 +44,8 @@ export const faqSection = defineType({
     }),
   ],
   preview: {
-    select: { title: "title", count: "items.length" },
-    prepare: ({ title, count }) => ({
+    select: { title: "title", count: "items.length", enabled: "enabled" },
+    prepare: ({ title, count, enabled }) => ({
       title: title ?? "Questions & answers",
       subtitle: `${count ?? 0} questions`,
     }),

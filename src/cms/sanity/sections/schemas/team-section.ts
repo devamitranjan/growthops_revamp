@@ -1,10 +1,14 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 export const teamSection = defineType({
   name: "teamSection",
   title: "Team",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({ name: "title", type: "string", validation: (r) => r.required() }),
     defineField({
       name: "batches",
@@ -23,7 +27,7 @@ export const teamSection = defineType({
     defineField({ name: "highlight", type: "teamHighlight", description: "Trailing card. Leave empty to end the grid after the members." }),
   ],
   preview: {
-    select: { title: "title", count: "batches.length" },
-    prepare: ({ title, count }) => ({ title: title ?? "Team", subtitle: `${count ?? 0} batches` }),
+    select: { title: "title", count: "batches.length", enabled: "enabled" },
+    prepare: ({ title, count, enabled }) => ({ title: title ?? "Team", subtitle: `${count ?? 0} batches` }),
   },
 });

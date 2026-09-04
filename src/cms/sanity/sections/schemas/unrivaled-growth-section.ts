@@ -1,10 +1,14 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { sectionVisibilityField } from "../section-visibility-field";
+import { sectionPreviewHelper } from "../section.schema";
+
 export const unrivaledGrowthSection = defineType({
   name: "unrivaledGrowthSection",
   title: "Unrivaled growth",
   type: "object",
   fields: [
+    sectionVisibilityField,
     defineField({ name: "title", type: "string", validation: (r) => r.required() }),
     defineField({
       name: "stats",
@@ -19,7 +23,7 @@ export const unrivaledGrowthSection = defineType({
     }),
   ],
   preview: {
-    select: { title: "title", count: "stats.length" },
-    prepare: ({ title, count }) => ({ title: title ?? "Unrivaled growth", subtitle: `${count ?? 0} stats` }),
+    select: { title: "title", count: "stats.length", enabled: "enabled" },
+    prepare: ({ title, count, enabled }) => ({ title: title ?? "Unrivaled growth", subtitle: `${count ?? 0} stats` }),
   },
 });

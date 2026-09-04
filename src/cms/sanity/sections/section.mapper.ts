@@ -1,5 +1,9 @@
 import type { SeoMetadata } from "@/content/models/seo";
-import type { IFaqData, TeamMember } from "@/content/sections/shared.types";
+import type {
+  IFaqData,
+  TeamMember,
+  WorkCaseStudyItem,
+} from "@/content/sections/shared.types";
 import type {
   PageSection,
   PageSectionType,
@@ -53,6 +57,7 @@ const SECTION_TYPES = {
   reportOverviewSection: "reportOverview",
   downloadReportSection: "downloadReport",
   seoAuditFormSection: "seoAuditForm",
+  workCaseStudiesSection: "workCaseStudies",
 } as const satisfies Record<string, PageSectionType>;
 
 type SanitySectionType = keyof typeof SECTION_TYPES;
@@ -119,6 +124,15 @@ function mapFaqItems(items: unknown): IFaqData["items"] {
   });
 }
 
+function mapWorkCaseStudyItems(items: unknown): WorkCaseStudyItem[] {
+  if (!Array.isArray(items)) return [];
+
+  return items.filter(
+    (item): item is WorkCaseStudyItem =>
+      item !== null && typeof item === "object" && "href" in item,
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Sections
 // ---------------------------------------------------------------------------
@@ -126,15 +140,18 @@ function mapFaqItems(items: unknown): IFaqData["items"] {
 /**
  * One section, or `null` where there is nothing renderable.
  *
- * Two things produce a `null`, and both are states the CMS can genuinely be
+ * Three things produce a `null`, and all are states the CMS can genuinely be
  * in. A `_type` this deploy does not know means the Studio is ahead of the
  * build — an editor added a section that ships next release. A testimonials
  * block whose reference no longer resolves means the shared document was
- * deleted out from under it. Dropping the section costs an empty slot on one
- * page; letting either through costs the page.
+ * deleted out from under it. A section with `enabled: false` is intentionally
+ * hidden. Dropping disabled sections costs an empty slot on one page; letting
+ * them through costs the page's layout.
  */
 function mapSection(raw: RawSection, index: number): PageSection | null {
   if (!isKnownSection(raw._type)) return null;
+
+  if (raw.enabled === false) return null;
 
   const type = SECTION_TYPES[raw._type];
   const key = raw._key ?? `${type}-${index}`;
@@ -147,6 +164,7 @@ function mapSection(raw: RawSection, index: number): PageSection | null {
   const fields: Record<string, unknown> = { ...raw };
   delete fields._type;
   delete fields._key;
+  delete fields.enabled;
 
   switch (type) {
     case "team":
@@ -193,6 +211,22 @@ function mapSection(raw: RawSection, index: number): PageSection | null {
       return { type, key, data };
     }
 
+    case "workCaseStudies":
+      return {
+        type,
+        key,
+        categories: Array.isArray(fields.categories)
+          ? fields.categories.filter(
+              (category): category is string => typeof category === "string",
+            )
+          : undefined,
+        itemsPerPage:
+          typeof fields.itemsPerPage === "number"
+            ? fields.itemsPerPage
+            : undefined,
+        items: mapWorkCaseStudyItems(fields.items),
+      };
+
     default:
       // The remaining fifteen are a straight rename of the two Sanity keys.
       // The cast is the seam TypeGen guards from the other side: the GROQ that
@@ -218,7 +252,7 @@ export function mapSections(sections: unknown): PageSection[] {
 export function mapSeo(
   seo:
     | {
-        jsonld?: Array<{ schema: string }>;
+        jsonld?: Array<{ schema: string | null }> | null;
       }
     | null
     | undefined,
@@ -226,6 +260,8 @@ export function mapSeo(
   if (!seo) return undefined;
 
   return {
-    jsonld: seo.jsonld,
+    jsonld: seo.jsonld?.filter(
+      (entry): entry is { schema: string } => typeof entry.schema === "string",
+    ),
   };
 }
