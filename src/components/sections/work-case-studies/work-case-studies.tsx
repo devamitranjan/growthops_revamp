@@ -97,7 +97,7 @@ export default function WorkCaseStudies({
             <button
               type="button"
               onClick={() => setVisibleCount((count) => count + pageSize)}
-              className="flex aspect-square w-44 items-center justify-center rounded-full bg-white px-8 text-center body1-bold text-neutral-black-base transition-transform duration-300 hover:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-pink-base md:w-56"
+              className="flex aspect-square w-20 items-center justify-center rounded-full bg-white px-2 text-center body2-bold text-neutral-black-base transition-colors duration-300 hover:bg-primary-pink-base focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-pink-base md:w-28"
             >
               VIEW MORE
             </button>
