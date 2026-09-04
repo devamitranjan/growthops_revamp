@@ -1,7 +1,5 @@
-import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { ContentLive } from "@/content/live";
-import { siteSettingsRepository } from "@/content/repositories";
 
 import "../globals.css";
 
@@ -10,46 +8,6 @@ const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
-
-export async function generateMetadata(): Promise<Metadata> {
-  const s = await siteSettingsRepository.get();
-
-  const images = s.ogImage
-    ? [
-        {
-          url: s.ogImage,
-          width: s.ogImageWidth,
-          height: s.ogImageHeight,
-          alt: s.ogImageAlt,
-        },
-      ]
-    : undefined;
-
-  return {
-    metadataBase: new URL(s.siteUrl),
-    title: { default: s.defaultTitle, template: s.titleTemplate },
-    description: s.defaultDescription,
-    icons: { shortcut: "/logo-min.ico" },
-    alternates: { canonical: "/" },
-    openGraph: {
-      type: "website",
-      url: s.siteUrl,
-      siteName: s.siteName,
-      title: s.defaultTitle,
-      description: s.defaultDescription,
-      images,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: s.defaultTitle,
-      description: s.defaultDescription,
-      images: s.ogImage ? [s.ogImage] : undefined,
-    },
-    verification: s.googleSiteVerification
-      ? { google: s.googleSiteVerification }
-      : undefined,
-  };
-}
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
