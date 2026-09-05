@@ -25,7 +25,6 @@ export default function GoodCompany({ data }: GoodCompanyProps) {
               {data.description}
             </p>
           </div>
-
           <div className="md:w-3/5 lg:w-2/3">
             <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 md:grid-cols-4 md:gap-x-10 md:gap-y-14">
               {data.logos.map((slot, index) => (
