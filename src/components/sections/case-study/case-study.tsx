@@ -47,10 +47,7 @@ export default function CaseStudy({ slides }: CaseStudyProps) {
     const updateProgress = (currentTime: number) => {
       const elapsed = currentTime - startTime;
 
-      const currentProgress = Math.min(
-        (elapsed / SLIDE_DURATION) * 100,
-        100,
-      );
+      const currentProgress = Math.min((elapsed / SLIDE_DURATION) * 100, 100);
 
       setProgress(currentProgress);
 
@@ -137,10 +134,7 @@ export default function CaseStudy({ slides }: CaseStudyProps) {
 
         <div className="relative z-10 generic-container h-full w-full">
           <div className="flex h-full flex-col justify-center">
-            <div
-              key={activeSlide.id}
-              className="w-full md:w-1/2"
-            >
+            <div key={activeSlide.id} className="w-full md:w-1/2">
               <div className="content-wrapper flex flex-col">
                 <p className="body2-semibold md:body1-semibold mb-2">
                   Unforgettable Digital Experience
@@ -173,9 +167,7 @@ export default function CaseStudy({ slides }: CaseStudyProps) {
                     key={slide.id}
                     slide={slide}
                     isActive={index === activeIndex}
-                    progress={
-                      index === activeIndex ? progress : 0
-                    }
+                    progress={index === activeIndex ? progress : 0}
                     onClick={() => handleCardClick(index)}
                   />
                 ))}
@@ -188,6 +180,7 @@ export default function CaseStudy({ slides }: CaseStudyProps) {
       <VideoDialog
         open={isVideoOpen}
         title={`${activeSlide.label} video`}
+        videoSrc={activeSlide.video}
         onOpenChange={setIsVideoOpen}
       />
     </section>
