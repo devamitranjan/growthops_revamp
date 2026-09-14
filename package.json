@@ -48,10 +48,10 @@
     "commitizen": "^4.3.2",
     "cz-git": "^1.14.0",
     "eslint": "^9",
-    "eslint-config-next": "16.3.4",
+    "eslint-config-next": "16.3.5",
     "eslint-plugin-check-file": "^3.3.2",
     "husky": "^9.1.7",
-    "lint-staged": "^17.4.1",
+    "lint-staged": "^17.5.1",
     "tailwindcss": "^4",
     "typescript": "npm:@typescript/typescript6@^6.0.2"
   },
